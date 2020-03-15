@@ -1,10 +1,14 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const Visit = sequelize.define('Visit', {
-    id_visit: DataTypes.INTEGER,
+  const tbl_visits = sequelize.define('tbl_visits', {
+    id_visit: {
+      type: DataTypes.INTEGER,
+      primaryKey: true
+    },
     img_store: DataTypes.STRING,
     img_fixture_in: DataTypes.STRING,
     img_fixture_out: DataTypes.STRING,
+    fixture_type_id: DataTypes.INTEGER,
     visit_date: DataTypes.DATE,
     user_id: DataTypes.INTEGER,
     store_code: DataTypes.STRING,
@@ -31,14 +35,16 @@ module.exports = (sequelize, DataTypes) => {
     assistants_name: DataTypes.STRING,
     q1: DataTypes.BOOLEAN,
     q2: DataTypes.BOOLEAN,
-    q3: DataTypes.BOOLEAN
+    q3: DataTypes.BOOLEAN,
+    q4: DataTypes.BOOLEAN
   }, {});
-  Visit.removeAttribute('id');
+  tbl_visits.removeAttribute('id');
 
-  Visit.associate = function (models) {
+  tbl_visits.associate = function (models) {
     // associations can be defined here
-    Visit.belongsTo(models.User, { foreignKey: 'user_id' })
-    // Visit.belongsTo(models.Store)
+    tbl_visits.belongsTo(models.tbl_users, { foreignKey: 'user_id' })
+    tbl_visits.belongsTo(models.tbl_stores, {foreignKey: 'store_code'})
+    tbl_visits.belongsTo(models.tbl_fixture_types, {foreignKey: 'fixture_type_id'})
   };
-  return Visit;
+  return tbl_visits;
 };

@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Visits', {
+    return queryInterface.createTable('tbl_visits', {
       id_visit: {
         allowNull: false,
         autoIncrement: true,
@@ -16,6 +16,9 @@ module.exports = {
       },
       img_fixture_out: {
         type: Sequelize.STRING(255)
+      },
+      fixture_type_id: {
+        type: Sequelize.INTEGER(11)
       },
       visit_date: {
         type: Sequelize.DATE
@@ -98,6 +101,9 @@ module.exports = {
       q3: {
         type: Sequelize.BOOLEAN
       },
+      q4: {
+        type: Sequelize.BOOLEAN
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
@@ -109,6 +115,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Visits');
+    return queryInterface.dropTable('tbl_visits');
   }
 };

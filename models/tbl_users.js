@@ -1,6 +1,6 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const User = sequelize.define('User', {
+  const tbl_users = sequelize.define('tbl_users', {
     nik: DataTypes.STRING,
     name: DataTypes.STRING,
     email: DataTypes.STRING,
@@ -8,11 +8,10 @@ module.exports = (sequelize, DataTypes) => {
     role_id: DataTypes.INTEGER,
     login_date: DataTypes.DATE
   }, {});
-  User.associate = function (models) {
+  tbl_users.associate = function (models) {
     // // associations can be defined here
-    User.hasMany(models.Visit, { foreignKey: 'user_id' })
-    User.belongsTo(models.Role, { foreignKey: 'role_id' })
-
+    tbl_users.hasMany(models.tbl_visits, { foreignKey: 'user_id' })
+    tbl_users.belongsTo(models.tbl_roles, { foreignKey: 'role_id' })
   };
-  return User;
+  return tbl_users;
 };

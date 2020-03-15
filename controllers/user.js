@@ -1,9 +1,9 @@
-const { user } = require('../models')
+const { tbl_users, tbl_roles } = require('../models')
 const { compare, hash } = require('../helpers/bcrypt')
 const { sign } = require('../helpers/jwt')
 const { checkPass } = require('../helpers/checkPassword')
 
-class userController {
+class user {
   static async signup(req, res) {
     try {
       if (checkPass(req.body.password)) {
@@ -14,51 +14,155 @@ class userController {
           password: hash(req.body.password),
           role_id: req.body.role || 2,
         }
-        let createUser = await user.create(newUser)
 
-        let dataReturn = await user.findByPk(createUser.null, { exclude: ['password'] })
-        console.log("MASUK")
-        res.status(201).json({ message: "Success", dataReturn })
+        await tbl_users.create(newUser)
+
+        let dataReturn = await tbl_users.findOne({
+          where: { nik: req.body.nik },
+          attributes: {
+            exclude: ['password', 'createdAt', 'updatedAt', 'role_id', 'login_date']
+          }
+        })
+
+        res.status(201).json({ message: "Success", data: dataReturn })
       } else {
         throw "password format invalid"
       }
     } catch (err) {
-      if (err === "password format invalid") res.status(400).json({ message: "Format password invalid" })
       console.log(err)
+      if (err === "password format invalid") res.status(400).json({ message: "Format password invalid" })
+      else if (err.message === "Validation error") res.status(400).json({ message: "NIK/Email must bu unique" })
+      else res.status(500).json({ message: "Error", err })
     }
-    // let newUser = {
-    //   name: req.body.name,
-    //   email: req.body.email,
-    //   password: req.body.password
-    // }
-    // modelUser.create(newUser)
-    //   .then(data => {
-    //     res.status(201).json(data)
-    //   })
-    //   .catch(err => {
-    //     res.status(500).json({ err })
-    //   })
   }
 
-  // static signin(req, res) {
-  //   modelUser.findOne({ email: req.body.email })
-  //     .then(userFound => {
-  //       if (userFound) {
-  //         if (compare(req.body.password, userFound.password)) {
-  //           let token = sign({ _id: userFound._id, name: userFound.name, email: userFound.email })
-  //           res.status(200).json({ token, userId: userFound._id, userName: userFound.name })
-  //         } else {
-  //           res.status(400).json({ msg: "Bad request" })
-  //         }
-  //       } else {
-  //         res.status(400).json({ msg: "Bad request" })
-  //       }
-  //     })
-  //     .catch(err => {
-  //       res.status(500).json(err)
-  //     })
-  // }
+  static async signin(req, res) {
+    try {
+      let userData = await tbl_users.findOne({ email: req.body.email })
 
+      if (userData) {
+        if (compare(req.body.password, userData.password)) {
+          await tbl_users.update({ login_date: new Date() }, { where: { id: userData.id } })
+
+          let token = sign({ id: userData.id, name: userData.name, email: userData.email })
+
+          res.status(200).json({
+            token,
+            user_id: userData.id,
+            name: userData.name
+          })
+        } else {
+          throw "bad request"
+        }
+      } else {
+        throw "bad request"
+      }
+    } catch (err) {
+      console.log(err)
+      if (err === "bad request") res.status(400).json({ message: "Bad request" })
+      else res.status(500).json({ message: "Error", err })
+    }
+  }
+
+  static async findAll(req, res) {
+    try {
+      let allUsers = await tbl_users.findAll({
+        include: [{
+          model: tbl_roles,
+          attributes: {
+            exclude: ['createdAt', 'updatedAt']
+          }
+        }],
+        attributes: {
+          exclude: ['password', 'createdAt', 'updatedAt']
+        }
+      })
+
+      res.status(200).json({ message: "Success", total_data: allUsers.length, data: allUsers })
+    } catch (err) {
+      console.log(err)
+      if (err === "bad request") res.status(400).json({ message: "Bad request" })
+      else res.status(500).json({ message: "Error", err })
+    }
+  }
+
+  static async findOne(req, res) {
+    try {
+      let allUsers = await tbl_users.findByPk(req.params.id, {
+        include: [{
+          model: tbl_roles,
+          attributes: {
+            exclude: ['createdAt', 'updatedAt']
+          }
+        }],
+        attributes: {
+          exclude: ['password', 'createdAt', 'updatedAt']
+        }
+      })
+
+      if (allUsers) res.status(200).json({ message: "Success", data: allUsers })
+      else throw "bad request"
+    } catch (err) {
+      console.log(err)
+      if (err === "bad request") res.status(400).json({ message: "Bad request" })
+      else res.status(500).json({ message: "Error", err })
+    }
+  }
+
+  static async update(req, res) {
+    try {
+      let statusPassword = true
+
+      if (req.body.password) statusPassword = checkPass(req.body.password)
+
+
+      if (statusPassword) {
+        let newUser = {
+          name: req.body.name,
+          email: req.body.email,
+          role_id: req.body.role,
+        }
+        if (req.body.password) newUser.password = hash(req.body.password)
+
+        await tbl_users.update(newUser, { where: { id: req.params.id } })
+
+        let dataReturn = await tbl_users.findByPk(req.params.id, {
+          attributes: {
+            exclude: ['password', 'createdAt', 'updatedAt', 'role_id', 'login_date']
+          },
+          include: [{
+            model: tbl_roles,
+            attributes: {
+              exclude: ['createdAt', 'updatedAt']
+            }
+          }]
+        })
+
+        if (dataReturn) res.status(200).json({ message: "Success", data: dataReturn })
+        else throw "bad request"
+      } else {
+        throw "password format invalid"
+      }
+    } catch (err) {
+      console.log(err)
+      if (err === "password format invalid") res.status(400).json({ message: "Format password invalid" })
+      else if (err === "bad request") res.status(400).json({ message: "Bad request" })
+      else res.status(500).json({ message: "Error", err })
+    }
+  }
+
+  static async delete(req, res) {
+    try {
+      let deleteUser = await tbl_users.destroy({ where: { id: req.params.id } })
+
+      if (deleteUser) res.status(200).json({ message: "Success", id_deleted: req.params.id })
+      else throw "bad request"
+    } catch (err) {
+      console.log(err)
+      if (err === "bad request") res.status(400).json({ message: "Bad request" })
+      else res.status(500).json({ message: "Error", err })
+    }
+  }
 }
 
-module.exports = userController
+module.exports = user

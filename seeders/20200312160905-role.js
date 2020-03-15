@@ -2,7 +2,7 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.bulkInsert('Roles', [{
+    return queryInterface.bulkInsert('tbl_roles', [{
       role: 'Admin',
       createdAt: new Date(),
       updatedAt: new Date()
@@ -14,7 +14,7 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-   return queryInterface.bulkDelete('Roles', null, {});
+   return queryInterface.bulkDelete('tbl_roles', null, {});
 
   }
 };
