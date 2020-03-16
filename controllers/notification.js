@@ -1,11 +1,10 @@
-const { tbl_notification } = require('../models')
+const { tbl_notifications } = require('../models')
 
 class notification {
   static async findAll(req, res) {
+    console.log(req.user_id)
     try {
-      let allNotification
-
-      allNotification = await tbl_notification.findAll({
+      let allNotification = await tbl_notifications.findAll({
         where: { user_id: req.user_id },
         attributes: {
           exclude: ['createdAt', 'updatedAt']
