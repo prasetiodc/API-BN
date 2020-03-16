@@ -1,4 +1,4 @@
-const { tbl_uploads, tbl_category_uploads, tbl_retailers } = require('../models')
+const { tbl_uploads, tbl_category_uploads, tbl_retailers, tbl_notifications, tbl_users } = require('../models')
 
 class upload {
   static async create(req, res) {
@@ -25,6 +25,20 @@ class upload {
       })
 
       res.status(201).json({ message: "Success", data: dataReturn })
+
+      let allUser = await tbl_users.findAll()
+console.log(allUser)
+      allUser.forEach(async el => {
+        let newData = {
+          message: `Ada file ${req.body.category_upload_id} baru`,
+          path_file: req.file.path,
+          user_id: el.id,
+          read: 0
+        }
+        await tbl_notifications.create(newData)
+      })
+      req.user_id
+
     } catch (err) {
       console.log(err)
       if (err === "bad request") res.status(400).json({ message: "Bad request" })

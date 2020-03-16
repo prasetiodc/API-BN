@@ -9,6 +9,7 @@ const dashboard = require('./dashboard')
 const dc = require('./dc')
 const fixtureType = require('./fixtureType')
 const upload = require('./upload')
+const notification = require('./notification')
 
 
 router.get('/', (req, res) => res.send("WELCOME TO API BLACKHAWK NETWORK"))
@@ -23,5 +24,6 @@ router.use('/dashboard', dashboard)
 router.use('/dc', dc)
 router.use('/fixture-type', fixtureType)
 router.use('/upload', upload)
+router.use('/notification', notification)
 
 module.exports = router

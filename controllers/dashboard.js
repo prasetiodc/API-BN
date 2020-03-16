@@ -144,12 +144,8 @@ class dashboard {
           dataInstockCompliance.push(element)
         }
         // for diagram 7
-        if (Number(element.q1) === 1 || Number(element.q2) === 1) {
-          if (Number(element.q1) === 1) {
-            counterActivationKnowHow++
-          } else if (Number(element.q2) === 1) {
-            counterActivationKnowHow++
-          }
+        if (Number(element.q1) === 1) {
+          counterActivationKnowHow++
           dataActivationKnowHow.push(element)
         }
         // for diagram 8
@@ -210,7 +206,7 @@ class dashboard {
       }
       //for diagram 7
       let activationKnowHow = {
-        persen: ((counterActivationKnowHow / 2) / allDataVisit.length) * 100,
+        persen: (counterActivationKnowHow / allDataVisit.length) * 100,
         dataActivationKnowHow
       }
       // for diagram 8
