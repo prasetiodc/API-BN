@@ -705,9 +705,9 @@
 
 ## **Visit Route**
 
-- **Create A Visit Type**
+- **Create A Visit**
   - URL:
-    - `POST /fixture-type`
+    - `POST /visit`
   - Header:
     - `token`: `<Token>`, required,
   - Body:
@@ -720,6 +720,8 @@
           `File`, `img_fixture_out`,
         }
       ]
+    - `fixture_type_id_1`: `Integer`,
+    - `fixture_type_id_2`: `Integer`,
     - `visit_date`: `Date`,
     - `store_code`: `String`,
     - `entry_fixture_comp`: `Boolean`,
@@ -746,7 +748,21 @@
     - `q1`: `Boolean`,
     - `q2`: `Boolean`,
     - `q3`: `Boolean`,
-    - `q4`: `Boolean`
+    - `q4`: `Boolean`,
+    - `entry_remaining_google50k`: `Integer`,
+    - `entry_remaining_google100k`: `Integer`,
+    - `entry_remaining_google150k`: `Integer`,
+    - `entry_remaining_google300k`: `Integer`,
+    - `entry_remaining_google500k`: `Integer`,
+    - `entry_remaining_spotify1m`: `Integer`,
+    - `entry_remaining_spotify3m`: `Integer`,
+    - `exit_remaining_google50k`: `Integer`,
+    - `exit_remaining_google100k`: `Integer`,
+    - `exit_remaining_google150k`: `Integer`,
+    - `exit_remaining_google300k`: `Integer`,
+    - `exit_remaining_google500k`: `Integer`,
+    - `exit_remaining_spotify1m`: `Integer`,
+    - `exit_remaining_spotify3m`: `Integer`
   - Expected response :
     - Success (status: `201`)
       ```json
@@ -784,17 +800,47 @@
             "q2": "...",
             "q3": "...",
             "q4": "...",
-            "tbl_fixture_type": {
+            "entry_remaining_google50k" : "...",
+            "entry_remaining_google100k" : "...",
+            "entry_remaining_google150k" : "...",
+            "entry_remaining_google300k" : "...",
+            "entry_remaining_google500k" : "...",
+            "entry_remaining_spotify1m" : "...",
+            "entry_remaining_spotify3m" : "...",
+            "exit_remaining_google50k" : "...",
+            "exit_remaining_google100k" : "...",
+            "exit_remaining_google150k" : "...",
+            "exit_remaining_google300k" : "...",
+            "exit_remaining_google500k" : "...",
+            "exit_remaining_spotify1m" : "...",
+            "exit_remaining_spotify3m" : "...",
+            "tbl_visit_fixture": {
               "id": "...",
-              "fixture_type": "...",
-              "google_50k": "...",
-              "google_100k": "...",
-              "google_150k": "...",
-              "google_300k": "...",
-              "google_500k": "...",
-              "spotify_1m": "...",
-              "spotify_3m": "..."
-            },
+              "fixture_type_id_1": "...",
+              "fixture_type_id_2": "...",
+              "fixtureType1": {
+                "id": "...",
+                "fixture_type": "...",
+                "google_50k": "...",
+                "google_100k": "...",
+                "google_150k": "...",
+                "google_300k": "...",
+                "google_500k": "...",
+                "spotify_1m": "...",
+                "spotify_3m": "..."
+              },
+              "fixtureType2": {
+                "id": "...",
+                "fixture_type": "...",
+                "google_50k": "...",
+                "google_100k": "...",
+                "google_150k": "...",
+                "google_300k": "...",
+                "google_500k": "...",
+                "spotify_1m": "...",
+                "spotify_3m": "..."
+              },
+            }, 
             "tbl_store": {
               "store_code": "...",
               "store_name": "...",
@@ -864,7 +910,25 @@
               "q2": "...",
               "q3": "...",
               "q4": "...",
-              "tbl_fixture_type": {
+              "entry_remaining_google50k" : "...",
+              "entry_remaining_google100k" : "...",
+              "entry_remaining_google150k" : "...",
+              "entry_remaining_google300k" : "...",
+              "entry_remaining_google500k" : "...",
+              "entry_remaining_spotify1m" : "...",
+              "entry_remaining_spotify3m" : "...",
+              "exit_remaining_google50k" : "...",
+              "exit_remaining_google100k" : "...",
+              "exit_remaining_google150k" : "...",
+              "exit_remaining_google300k" : "...",
+              "exit_remaining_google500k" : "...",
+              "exit_remaining_spotify1m" : "...",
+              "exit_remaining_spotify3m" : "...",
+              "tbl_visit_fixture": {
+              "id": "...",
+              "fixture_type_id_1": "...",
+              "fixture_type_id_2": "...",
+              "fixtureType1": {
                 "id": "...",
                 "fixture_type": "...",
                 "google_50k": "...",
@@ -875,6 +939,18 @@
                 "spotify_1m": "...",
                 "spotify_3m": "..."
               },
+              "fixtureType2": {
+                "id": "...",
+                "fixture_type": "...",
+                "google_50k": "...",
+                "google_100k": "...",
+                "google_150k": "...",
+                "google_300k": "...",
+                "google_500k": "...",
+                "spotify_1m": "...",
+                "spotify_3m": "..."
+              },
+            }, 
               "tbl_store": {
                 "store_code": "...",
                 "store_name": "...",
@@ -944,17 +1020,47 @@
             "q2": "...",
             "q3": "...",
             "q4": "...",
-            "tbl_fixture_type": {
+            "entry_remaining_google50k" : "...",
+            "entry_remaining_google100k" : "...",
+            "entry_remaining_google150k" : "...",
+            "entry_remaining_google300k" : "...",
+            "entry_remaining_google500k" : "...",
+            "entry_remaining_spotify1m" : "...",
+            "entry_remaining_spotify3m" : "...",
+            "exit_remaining_google50k" : "...",
+            "exit_remaining_google100k" : "...",
+            "exit_remaining_google150k" : "...",
+            "exit_remaining_google300k" : "...",
+            "exit_remaining_google500k" : "...",
+            "exit_remaining_spotify1m" : "...",
+            "exit_remaining_spotify3m" : "...",
+            "tbl_visit_fixture": {
               "id": "...",
-              "fixture_type": "...",
-              "google_50k": "...",
-              "google_100k": "...",
-              "google_150k": "...",
-              "google_300k": "...",
-              "google_500k": "...",
-              "spotify_1m": "...",
-              "spotify_3m": "..."
-            },
+              "fixture_type_id_1": "...",
+              "fixture_type_id_2": "...",
+              "fixtureType1": {
+                "id": "...",
+                "fixture_type": "...",
+                "google_50k": "...",
+                "google_100k": "...",
+                "google_150k": "...",
+                "google_300k": "...",
+                "google_500k": "...",
+                "spotify_1m": "...",
+                "spotify_3m": "..."
+              },
+              "fixtureType2": {
+                "id": "...",
+                "fixture_type": "...",
+                "google_50k": "...",
+                "google_100k": "...",
+                "google_150k": "...",
+                "google_300k": "...",
+                "google_500k": "...",
+                "spotify_1m": "...",
+                "spotify_3m": "..."
+              },
+            }, 
             "tbl_store": {
               "store_code": "...",
               "store_name": "...",
@@ -1021,7 +1127,21 @@
     - `q1`: `Boolean`,
     - `q2`: `Boolean`,
     - `q3`: `Boolean`,
-    - `q4`: `Boolean`
+    - `q4`: `Boolean`,
+    - `entry_remaining_google50k`: `Integer`,
+    - `entry_remaining_google100k`: `Integer`,
+    - `entry_remaining_google150k`: `Integer`,
+    - `entry_remaining_google300k`: `Integer`,
+    - `entry_remaining_google500k`: `Integer`,
+    - `entry_remaining_spotify1m`: `Integer`,
+    - `entry_remaining_spotify3m`: `Integer`,
+    - `exit_remaining_google50k`: `Integer`,
+    - `exit_remaining_google100k`: `Integer`,
+    - `exit_remaining_google150k`: `Integer`,
+    - `exit_remaining_google300k`: `Integer`,
+    - `exit_remaining_google500k`: `Integer`,
+    - `exit_remaining_spotify1m`: `Integer`,
+    - `exit_remaining_spotify3m`: `Integer`
   - Expected response :
     - Success (status: `200`)
       ```json
@@ -1059,17 +1179,47 @@
             "q2": "...",
             "q3": "...",
             "q4": "...",
-            "tbl_fixture_type": {
+            "entry_remaining_google50k" : "...",
+            "entry_remaining_google100k" : "...",
+            "entry_remaining_google150k" : "...",
+            "entry_remaining_google300k" : "...",
+            "entry_remaining_google500k" : "...",
+            "entry_remaining_spotify1m" : "...",
+            "entry_remaining_spotify3m" : "...",
+            "exit_remaining_google50k" : "...",
+            "exit_remaining_google100k" : "...",
+            "exit_remaining_google150k" : "...",
+            "exit_remaining_google300k" : "...",
+            "exit_remaining_google500k" : "...",
+            "exit_remaining_spotify1m" : "...",
+            "exit_remaining_spotify3m" : "...",
+            "tbl_visit_fixture": {
               "id": "...",
-              "fixture_type": "...",
-              "google_50k": "...",
-              "google_100k": "...",
-              "google_150k": "...",
-              "google_300k": "...",
-              "google_500k": "...",
-              "spotify_1m": "...",
-              "spotify_3m": "..."
-            },
+              "fixture_type_id_1": "...",
+              "fixture_type_id_2": "...",
+              "fixtureType1": {
+                "id": "...",
+                "fixture_type": "...",
+                "google_50k": "...",
+                "google_100k": "...",
+                "google_150k": "...",
+                "google_300k": "...",
+                "google_500k": "...",
+                "spotify_1m": "...",
+                "spotify_3m": "..."
+              },
+              "fixtureType2": {
+                "id": "...",
+                "fixture_type": "...",
+                "google_50k": "...",
+                "google_100k": "...",
+                "google_150k": "...",
+                "google_300k": "...",
+                "google_500k": "...",
+                "spotify_1m": "...",
+                "spotify_3m": "..."
+              },
+            },            
             "tbl_store": {
               "store_code": "...",
               "store_name": "...",

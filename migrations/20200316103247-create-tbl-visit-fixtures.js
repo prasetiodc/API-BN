@@ -8,9 +8,6 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER(11)
       },
-      visit_id: {
-        type: Sequelize.INTEGER(11)
-      },
       fixture_type_id_1: {
         type: Sequelize.INTEGER(11)
       },
