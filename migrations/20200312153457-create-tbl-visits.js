@@ -38,6 +38,12 @@ module.exports = {
       entry_pog_comp: {
         type: Sequelize.BOOLEAN
       },
+      entry_pop_pic_1: {
+        type: Sequelize.BOOLEAN
+      },
+      entry_pop_pic_2: {
+        type: Sequelize.BOOLEAN
+      },
       entry_google50k: {
         type: Sequelize.BOOLEAN
       },
@@ -66,6 +72,12 @@ module.exports = {
         type: Sequelize.BOOLEAN
       },
       exit_pog_comp: {
+        type: Sequelize.BOOLEAN
+      },
+      exit_pop_pic_1: {
+        type: Sequelize.BOOLEAN
+      },
+      exit_pop_pic_2: {
         type: Sequelize.BOOLEAN
       },
       exit_google50k: {

@@ -50,6 +50,8 @@ class visit {
           entry_fixture_comp: req.body.entry_fixture_comp,
           entry_peg_comp: req.body.entry_peg_comp,
           entry_pog_comp: req.body.entry_pog_comp,
+          entry_pop_pic_1: req.body.entry_pop_pic_1,
+          entry_pop_pic_2: req.body.entry_pop_pic_2,
           entry_google50k: req.body.entry_google50k,
           entry_google100k: req.body.entry_google100k,
           entry_google150k: req.body.entry_google150k,
@@ -60,6 +62,8 @@ class visit {
           exit_fixture_comp: req.body.exit_fixture_comp,
           exit_peg_comp: req.body.exit_peg_comp,
           exit_pog_comp: req.body.exit_pog_comp,
+          exit_pop_pic_1: req.body.exit_pop_pic_1,
+          exit_pop_pic_2: req.body.exit_pop_pic_2,
           exit_google50k: req.body.exit_google50k,
           exit_google100k: req.body.exit_google100k,
           exit_google150k: req.body.exit_google150k,
@@ -91,6 +95,7 @@ class visit {
 
         let dataReturn = await tbl_visits.findOne({
           where: { id_visit: createVisit.null },
+          order: ['visit_id','DESC'],
           attributes: {
             exclude: ['createdAt', 'updatedAt']
           },
@@ -296,6 +301,8 @@ class visit {
           entry_fixture_comp: req.body.entry_fixture_comp,
           entry_peg_comp: req.body.entry_peg_comp,
           entry_pog_comp: req.body.entry_pog_comp,
+          entry_pop_pic_1: req.body.entry_pop_pic_1,
+          exit_pop_pic_2: req.body.exit_pop_pic_2,
           entry_google50k: req.body.entry_google50k,
           entry_google100k: req.body.entry_google100k,
           entry_google150k: req.body.entry_google150k,
@@ -306,6 +313,8 @@ class visit {
           exit_fixture_comp: req.body.exit_fixture_comp,
           exit_peg_comp: req.body.exit_peg_comp,
           exit_pog_comp: req.body.exit_pog_comp,
+          entry_pop_pic_2: req.body.entry_pop_pic_2,
+          exit_pop_pic_1: req.body.exit_pop_pic_1,
           exit_google50k: req.body.exit_google50k,
           exit_google100k: req.body.exit_google100k,
           exit_google150k: req.body.exit_google150k,

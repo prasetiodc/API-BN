@@ -1,4 +1,4 @@
-const { tbl_visits, tbl_stores, tbl_users, tbl_retailers, tbl_dcs, tbl_fixture_types } = require('../models')
+const { tbl_visits, tbl_stores, tbl_users, tbl_retailers, tbl_dcs, tbl_fixture_types, tbl_visit_fixtures } = require('../models')
 const Op = require('sequelize').Op
 
 class report {
@@ -40,11 +40,23 @@ class report {
           ['visit_date', 'ASC'],
         ],
         include: [{
-          required: true,
-          model: tbl_fixture_types,
+          model: tbl_visit_fixtures,
           attributes: {
             exclude: ['createdAt', 'updatedAt']
           },
+          include: [{
+            model: tbl_fixture_types,
+            as: "fixtureType1",
+            attributes: {
+              exclude: ['createdAt', 'updatedAt']
+            },
+          }, {
+            model: tbl_fixture_types,
+            as: "fixtureType2",
+            attributes: {
+              exclude: ['createdAt', 'updatedAt']
+            },
+          }]
         }, {
           required: true,
           model: tbl_users,
@@ -98,8 +110,8 @@ class report {
             "Google 500k (Entry)": Number(visit.entry_google500k) === 1 ? "Yes" : "No",
             "Spotify 1 Month (Entry)": Number(visit.entry_spotify1M) === 1 ? "Yes" : "No",
             "Spotify 3 Month (Entry)": Number(visit.entry_spotify3M) === 1 ? "Yes" : "No",
-            // "POP Pic 1 (Entry")
-            // "POP Pic 2 (Entry")
+            "POP Pic 1 (Entry)": Number(visit.entry_pop_pic_1) === 1 ? "Yes" : "No",
+            "POP Pic 2 (Entry)": Number(visit.entry_pop_pic_2) === 1 ? "Yes" : "No",
             "Picture (Exit)": Number(visit.img_fixture_out) === 1 ? "Yes" : "No",
             "Fixture Compliance (Exit)": Number(visit.exit_fixture_comp) === 1 ? "Yes" : "No",
             "PEG Compliance (Exit)": Number(visit.exit_peg_comp) === 1 ? "Yes" : "No",
@@ -111,13 +123,13 @@ class report {
             "Google 500k (Exit)": Number(visit.exit_google500k) === 1 ? "Yes" : "No",
             "Spotify 1 Month (Exit)": Number(visit.exit_spotify1M) === 1 ? "Yes" : "No",
             "Spotify 3 Month (Exit)": Number(visit.exit_spotify3M) === 1 ? "Yes" : "No",
-            // POP Pic 1 (exit)
-            // POP Pic 2 (exit)
+            "POP Pic 1 (Exit)": Number(visit.exit_pop_pic_1) === 1 ? "Yes" : "No",
+            "POP Pic 2 (Exit)": Number(visit.exit_pop_pic_2) === 1 ? "Yes" : "No",
             "Shop Assistants Name": visit.assistants_name,
             "Does the staff know how to activate Gift cards?": Number(visit.q1) === 1 ? "Yes" : "No",
             "Does the staff know how to activate POR?": Number(visit.q2) === 1 ? "Yes" : "No",
             "Does the staff know how to handle customer complaints about Gift card redemption?": Number(visit.q3) === 1 ? "Yes" : "No",
-            "Does the staff know about existing promotions for each gift cards? ": Number(visit.q4) === 1 ? "Yes" : "No",
+            "Does the staff know about existing promotions for each gift cards?": Number(visit.q4) === 1 ? "Yes" : "No",
           }
           dataReturn.push(newObj)
         });

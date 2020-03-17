@@ -1,4 +1,4 @@
-const { tbl_visits, tbl_stores, tbl_users, tbl_retailers, tbl_dcs, tbl_fixture_types } = require('../models')
+const { tbl_visits, tbl_stores, tbl_users, tbl_retailers, tbl_dcs, tbl_fixture_types, tbl_visit_fixtures } = require('../models')
 const Op = require('sequelize').Op
 
 class galery {
@@ -57,12 +57,23 @@ class galery {
             ['visit_date', 'ASC'],
           ],
           include: [{
-            required: true,
-            model: tbl_fixture_types,
-            where: conditionInTblFictureType,
+            model: tbl_visit_fixtures,
             attributes: {
               exclude: ['createdAt', 'updatedAt']
             },
+            include: [{
+              model: tbl_fixture_types,
+              as: "fixtureType1",
+              attributes: {
+                exclude: ['createdAt', 'updatedAt']
+              },
+            }, {
+              model: tbl_fixture_types,
+              as: "fixtureType2",
+              attributes: {
+                exclude: ['createdAt', 'updatedAt']
+              },
+            }]
           }, {
             required: true,
             model: tbl_users,
@@ -94,10 +105,23 @@ class galery {
         allDataVisit = await tbl_visits.findAll({
           attributes: ['id_visit', 'img_store', 'img_fixture_in', 'img_fixture_out', 'visit_date'],
           include: [{
-            model: tbl_fixture_types,
+            model: tbl_visit_fixtures,
             attributes: {
               exclude: ['createdAt', 'updatedAt']
             },
+            include: [{
+              model: tbl_fixture_types,
+              as: "fixtureType1",
+              attributes: {
+                exclude: ['createdAt', 'updatedAt']
+              },
+            }, {
+              model: tbl_fixture_types,
+              as: "fixtureType2",
+              attributes: {
+                exclude: ['createdAt', 'updatedAt']
+              },
+            }]
           }, {
             model: tbl_users,
             attributes: ['id', 'name']
