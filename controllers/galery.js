@@ -5,19 +5,14 @@ class galery {
   static async findAll(req, res) {
     try {
       let allDataVisit
-      if (req.query) {
-        let conditionInTblVisit = {}
-        let conditionInTblStore = {}
-        let conditionInTblRetailer = {}
-        let conditionInTblUser = {}
-        let conditionInTblDC = {}
-        let conditionInTblFictureType = {}
+      if (req.query.month || req.query.brand || req.query.retailer || req.query.store || req.query.md || req.query.dc || req.query.fixture) {
+        let conditionInTblVisit = {}, conditionInTblStore = {}, conditionInTblRetailer = {}, conditionInTblUser = {}, conditionInTblDC = {}, conditionInTblFixtureType = {}
 
-        // Filter supervisior
+        // Filter supervisior not yet
         if (req.query.month) conditionInTblVisit.visit_date = {
           [Op.and]: {
-            [Op.gte]: `${new Date().getFullYear()}-${req.query.month}-01`,
-            [Op.lte]: `${new Date().getFullYear()}-${Number(req.query.month) + 1}-01`
+            [Op.gte]: new Date(`${new Date().getFullYear()}-${req.query.month}-01`),
+            [Op.lte]: new Date(`${new Date().getFullYear()}-${Number(req.query.month) + 1}-01`)
           }
         }
         if (req.query.brand) {
@@ -44,11 +39,18 @@ class galery {
           }
 
         }
-        if (req.query.retailer) conditionInTblRetailer.id = req.query.retailer
+        if (req.query.retailer) conditionInTblRetailer.id = Number(req.query.retailer)
         if (req.query.store) conditionInTblStore.store_code = req.query.store
-        if (req.query.md) conditionInTblUser.id = req.query.md
-        if (req.query.dc) conditionInTblDC.id = req.query.dc
-        if (req.query.fixture) conditionInTblFictureType.id = req.query.fixture
+        if (req.query.md) conditionInTblUser.id = Number(req.query.md)
+        if (req.query.dc) conditionInTblDC.id = Number(req.query.dc)
+        if (req.query.fixture) {
+          conditionInTblFixtureType = {
+            [Op.or]: [
+              {fixture_type_id_1 : Number(req.query.fixture)},
+              {fixture_type_id_2 : Number(req.query.fixture)},
+            ]
+          }
+        }
 
         allDataVisit = await tbl_visits.findAll({
           where: conditionInTblVisit,
@@ -58,9 +60,7 @@ class galery {
           ],
           include: [{
             model: tbl_visit_fixtures,
-            attributes: {
-              exclude: ['createdAt', 'updatedAt']
-            },
+            where: conditionInTblFixtureType,           
             include: [{
               model: tbl_fixture_types,
               as: "fixtureType1",
@@ -73,26 +73,25 @@ class galery {
               attributes: {
                 exclude: ['createdAt', 'updatedAt']
               },
-            }]
+            }],
+            attributes: {
+              exclude: ['createdAt', 'updatedAt']
+            }
           }, {
-            required: true,
             model: tbl_users,
             where: conditionInTblUser,
             attributes: ['id', 'name']
           }, {
-            required: true,
             model: tbl_stores,
             where: conditionInTblStore,
             attributes: ['store_code', 'store_name'],
             include: [{
-              required: true,
               model: tbl_dcs,
               where: conditionInTblDC,
               attributes: {
                 exclude: ['createdAt', 'updatedAt']
               },
             }, {
-              required: true,
               model: tbl_retailers,
               where: conditionInTblRetailer,
               attributes: {

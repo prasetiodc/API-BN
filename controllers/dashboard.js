@@ -6,10 +6,10 @@ class dashboard {
     try {
       let allDataVisit
       console.log(req.query)
-      if (req.query.month) {
-        let conditionInTblVisit = {}, conditionInTblStore = {}, conditionInTblRetailer = {}, conditionInTblUser = {}, conditionInTblDC = {}, conditionInTblFixtureType1 = {}, conditionInTblFixtureType2 = {}
+      if (req.query.month || req.query.brand || req.query.retailer || req.query.store || req.query.md || req.query.dc || req.query.fixture) {
+        let conditionInTblVisit = {}, conditionInTblStore = {}, conditionInTblRetailer = {}, conditionInTblUser = {}, conditionInTblDC = {}, conditionInTblFixtureType = {}
 
-        // Filter supervisior
+        // Filter supervisior not yet
         if (req.query.month) conditionInTblVisit.visit_date = {
           [Op.and]: {
             [Op.gte]: new Date(`${new Date().getFullYear()}-${req.query.month}-01`),
@@ -45,17 +45,13 @@ class dashboard {
         if (req.query.md) conditionInTblUser.id = Number(req.query.md)
         if (req.query.dc) conditionInTblDC.id = Number(req.query.dc)
         if (req.query.fixture) {
-          conditionInTblFixtureType1.fixture_type_id_1 = Number(req.query.fixture)
-          conditionInTblFixtureType2.fixture_type_id_2 = Number(req.query.fixture)
+          conditionInTblFixtureType = {
+            [Op.or]: [
+              { fixture_type_id_1: Number(req.query.fixture) },
+              { fixture_type_id_2: Number(req.query.fixture) },
+            ]
+          }
         }
-
-        console.log("conditionInTblVisit", conditionInTblVisit)
-        console.log("conditionInTblStore", conditionInTblStore)
-        console.log("conditionInTblRetailer", conditionInTblRetailer)
-        console.log("conditionInTblUser", conditionInTblUser)
-        console.log("conditionInTblDC", conditionInTblDC)
-        console.log("conditionInTblFixtureType1", conditionInTblFixtureType1)
-        console.log("conditionInTblFixtureType2", conditionInTblFixtureType2)
 
         allDataVisit = await tbl_visits.findAll({
           where: conditionInTblVisit,
@@ -67,12 +63,7 @@ class dashboard {
           ],
           include: [{
             model: tbl_visit_fixtures,
-            where: {
-              [Op.or]: [
-                conditionInTblFixtureType1,
-                conditionInTblFixtureType2
-              ]
-            },
+            where: conditionInTblFixtureType,
             include: [{
               model: tbl_fixture_types,
               as: "fixtureType1",
@@ -100,17 +91,21 @@ class dashboard {
             include: [{
               model: tbl_dcs,
               where: conditionInTblDC,
-              exclude: ['createdAt', 'updatedAt']
+              attributes: {
+                exclude: ['createdAt', 'updatedAt']
+              },
             }, {
               model: tbl_retailers,
               where: conditionInTblRetailer,
-              exclude: ['createdAt', 'updatedAt']
+              attributes: {
+                exclude: ['createdAt', 'updatedAt']
+              },
             }]
           }]
         })
-
-
       } else {
+        console.log("MASUK 2")
+
         allDataVisit = await tbl_visits.findAll({
           attributes: {
             exclude: ['createdAt', 'updatedAt']
@@ -141,10 +136,14 @@ class dashboard {
             attributes: ['store_code', 'store_name'],
             include: [{
               model: tbl_dcs,
-              exclude: ['createdAt', 'updatedAt']
+              // attributes: {
+              // exclude: ['createdAt', 'updatedAt']
+              // },
             }, {
               model: tbl_retailers,
-              exclude: ['createdAt', 'updatedAt']
+              // attributes: {
+              //   exclude: ['createdAt', 'updatedAt']
+              // },
             }]
           }]
         })
@@ -154,7 +153,7 @@ class dashboard {
 
       let counterEntryFixComp = 0, counterExitFixComp = 0, dataFixComp = [], counterEntryPOGComp = 0, counterExitPOGComp = 0, dataPOGComp = [], counterPromotionAwareness = 0, dataPromotionAwareness = [], counterComplaintHandling = 0, dataComplaintHandling = [], counterActivationKnowHow = 0, dataActivationKnowHow = [], counterEntryInstockCompliance = 0, counterExitInstockCompliance = 0, dataInstockCompliance = [], counterEntryPODCompliance = 0, counterExitPODCompliance = 0, dataPODCompliance = [], counterEntryPOPCompliance = 0, counterExitPOPCompliance = 0, dataPOPCompliance = []
 
-      allDataVisit.forEach(element => {
+      allDataVisit && allDataVisit.forEach(element => {
         // for diagram 2
         if (Number(element.entry_fixture_comp) === 1 || Number(element.exit_fixture_comp) === 1) {
           if (Number(element.entry_fixture_comp) === 1) counterEntryFixComp++
