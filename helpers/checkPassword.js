@@ -5,7 +5,7 @@ module.exports = {
     const regexAtLeastOneCapital = /[A-Z]/
     const regexAtLeastOneSymbol = /[$-/:-?{-~!"^_`\[\]]/
     let statusPassword = true
-console.log(password)
+    
     if (password.length < 6 || !regexAtLeastOneNumber.test(password) || !regexAtLeastOneSmall.test(password) || !regexAtLeastOneCapital.test(password) || regexAtLeastOneSymbol.test(password)) {
       statusPassword = false
     }

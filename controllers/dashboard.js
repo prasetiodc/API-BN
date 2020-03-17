@@ -5,7 +5,6 @@ class dashboard {
   static async findAll(req, res) {
     try {
       let allDataVisit
-      console.log(req.query)
       if (req.query.month || req.query.brand || req.query.retailer || req.query.store || req.query.md || req.query.dc || req.query.fixture) {
         let conditionInTblVisit = {}, conditionInTblStore = {}, conditionInTblRetailer = {}, conditionInTblUser = {}, conditionInTblDC = {}, conditionInTblFixtureType = {}
 
@@ -104,8 +103,6 @@ class dashboard {
           }]
         })
       } else {
-        console.log("MASUK 2")
-
         allDataVisit = await tbl_visits.findAll({
           attributes: {
             exclude: ['createdAt', 'updatedAt']

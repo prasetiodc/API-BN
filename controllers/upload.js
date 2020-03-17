@@ -27,10 +27,10 @@ class upload {
       res.status(201).json({ message: "Success", data: dataReturn })
 
       let allUser = await tbl_users.findAll()
-console.log(allUser)
+      
       allUser.forEach(async el => {
         let newData = {
-          message: `Ada file ${req.body.category_upload_id} baru`,
+          message: `Ada file ${dataReturn.tbl_category_upload.category} baru`,
           path_file: req.file.path,
           user_id: el.id,
           read: 0
