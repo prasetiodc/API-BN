@@ -95,9 +95,6 @@ class visit {
 
         let dataReturn = await tbl_visits.findOne({
           where: { id_visit: createVisit.null },
-          order: [
-            ['id_visit', 'DESC']
-          ],
           attributes: {
             exclude: ['createdAt', 'updatedAt']
           },
