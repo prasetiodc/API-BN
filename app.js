@@ -10,7 +10,7 @@ let app = express()
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 app.use(cors())
-app.use('/file', express.static('uploads'))
+app.use('/uploads', express.static('uploads'))
 app.use(morgan('dev'))
 
 app.use('/', route)
