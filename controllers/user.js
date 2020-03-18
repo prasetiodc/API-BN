@@ -26,14 +26,14 @@ class user {
       res.status(201).json({ message: "Success", data: dataReturn })
     } catch (err) {
       console.log(err)
-      if (err.message === "Validation error") res.status(400).json({ message: "NIK/Email must bu unique" })
+      if (err.message === "Validation error") res.status(400).json({ message: "NIK/Email must be unique" })
       else res.status(500).json({ message: "Error", err })
     }
   }
 
   static async signin(req, res) {
     try {
-      let userData = await tbl_users.findOne({ email: req.body.email })
+      let userData = await tbl_users.findOne({ where: { email: req.body.email } })
 
       if (userData) {
         if (compare(req.body.password, userData.password)) {
@@ -48,14 +48,15 @@ class user {
             role_id: userData.role_id
           })
         } else {
-          throw "bad request"
+          throw "not found"
         }
       } else {
         throw "bad request"
       }
     } catch (err) {
       console.log(err)
-      if (err === "bad request") res.status(400).json({ message: "Bad request" })
+      if (err === "not found") res.status(404).json({ message: "Not found" })
+      else if (err === "bad request") res.status(400).json({ message: "Bad request" })
       else res.status(500).json({ message: "Error", err })
     }
   }
