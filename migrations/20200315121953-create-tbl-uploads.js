@@ -17,6 +17,9 @@ module.exports = {
       retailer_id: {
         type: Sequelize.INTEGER(11)
       },
+      information: {
+        type: Sequelize.STRING(50)
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

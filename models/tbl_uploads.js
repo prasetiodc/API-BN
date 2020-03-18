@@ -2,8 +2,9 @@
 module.exports = (sequelize, DataTypes) => {
   const tbl_uploads = sequelize.define('tbl_uploads', {
     path: DataTypes.STRING,
-    category_upload_id: DataTypes.STRING,
-    retailer_id: DataTypes.INTEGER
+    category_upload_id: DataTypes.INTEGER,
+    retailer_id: DataTypes.INTEGER,
+    information: DataTypes.STRING,
   }, {});
   tbl_uploads.associate = function (models) {
     // associations can be defined here
