@@ -1,37 +1,32 @@
 const { tbl_users, tbl_roles } = require('../models')
 const { compare, hash } = require('../helpers/bcrypt')
 const { sign } = require('../helpers/jwt')
-const { checkPass } = require('../helpers/checkPassword')
 
 class user {
   static async signup(req, res) {
     try {
-      if (checkPass(req.body.password)) {
-        let newUser = {
-          nik: req.body.nik,
-          name: req.body.name,
-          email: req.body.email,
-          password: hash(req.body.password),
-          role_id: req.body.role || 2,
-        }
 
-        await tbl_users.create(newUser)
-
-        let dataReturn = await tbl_users.findOne({
-          where: { nik: req.body.nik },
-          attributes: {
-            exclude: ['password', 'createdAt', 'updatedAt', 'role_id', 'login_date']
-          }
-        })
-
-        res.status(201).json({ message: "Success", data: dataReturn })
-      } else {
-        throw "password format invalid"
+      let newUser = {
+        nik: req.body.nik,
+        name: req.body.name,
+        email: req.body.email,
+        password: hash(req.body.password),
+        role_id: req.body.role || 2,
       }
+
+      await tbl_users.create(newUser)
+
+      let dataReturn = await tbl_users.findOne({
+        where: { nik: req.body.nik },
+        attributes: {
+          exclude: ['password', 'createdAt', 'updatedAt', 'role_id', 'login_date']
+        }
+      })
+
+      res.status(201).json({ message: "Success", data: dataReturn })
     } catch (err) {
       console.log(err)
-      if (err === "password format invalid") res.status(400).json({ message: "Format password invalid" })
-      else if (err.message === "Validation error") res.status(400).json({ message: "NIK/Email must bu unique" })
+      if (err.message === "Validation error") res.status(400).json({ message: "NIK/Email must bu unique" })
       else res.status(500).json({ message: "Error", err })
     }
   }
@@ -49,7 +44,8 @@ class user {
           res.status(200).json({
             token,
             user_id: userData.id,
-            name: userData.name
+            name: userData.name,
+            role_id: userData.role_id
           })
         } else {
           throw "bad request"
@@ -111,42 +107,33 @@ class user {
 
   static async update(req, res) {
     try {
-      let statusPassword = true
-
-      if (req.body.password) statusPassword = checkPass(req.body.password)
-
-
-      if (statusPassword) {
-        let newUser = {
-          name: req.body.name,
-          email: req.body.email,
-          role_id: req.body.role,
-        }
-        if (req.body.password) newUser.password = hash(req.body.password)
-
-        await tbl_users.update(newUser, { where: { id: req.params.id } })
-
-        let dataReturn = await tbl_users.findByPk(req.params.id, {
-          attributes: {
-            exclude: ['password', 'createdAt', 'updatedAt', 'role_id', 'login_date']
-          },
-          include: [{
-            model: tbl_roles,
-            attributes: {
-              exclude: ['createdAt', 'updatedAt']
-            }
-          }]
-        })
-
-        if (dataReturn) res.status(200).json({ message: "Success", data: dataReturn })
-        else throw "bad request"
-      } else {
-        throw "password format invalid"
+      let newUser = {
+        name: req.body.name,
+        email: req.body.email,
+        role_id: req.body.role
       }
+
+      if (req.body.password) newUser.password = hash(req.body.password)
+
+      await tbl_users.update(newUser, { where: { id: req.params.id } })
+
+      let dataReturn = await tbl_users.findByPk(req.params.id, {
+        attributes: {
+          exclude: ['password', 'createdAt', 'updatedAt', 'role_id', 'login_date']
+        },
+        include: [{
+          model: tbl_roles,
+          attributes: {
+            exclude: ['createdAt', 'updatedAt']
+          }
+        }]
+      })
+
+      if (dataReturn) res.status(200).json({ message: "Success", data: dataReturn })
+      else throw "bad request"
     } catch (err) {
       console.log(err)
-      if (err === "password format invalid") res.status(400).json({ message: "Format password invalid" })
-      else if (err === "bad request") res.status(400).json({ message: "Bad request" })
+      if (err === "bad request") res.status(400).json({ message: "Bad request" })
       else res.status(500).json({ message: "Error", err })
     }
   }

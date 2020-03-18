@@ -84,7 +84,7 @@ class galery {
           }, {
             model: tbl_stores,
             where: conditionInTblStore,
-            attributes: ['store_code', 'store_name'],
+            attributes: ['store_code', 'store_name', 'city'],
             include: [{
               model: tbl_dcs,
               where: conditionInTblDC,
@@ -126,7 +126,7 @@ class galery {
             attributes: ['id', 'name']
           }, {
             model: tbl_stores,
-            attributes: ['store_code', 'store_name'],
+            attributes: ['store_code', 'store_name', 'city'],
             include: [{
               model: tbl_dcs,
               attributes: {

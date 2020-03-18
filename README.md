@@ -40,7 +40,8 @@
           "data": {
             "token": "...",
             "user_id": "...",
-            "name": "..."
+            "name": "...",
+            "role_id": "..."
           }
         }
       ```
@@ -1405,6 +1406,7 @@
               "tbl_store": {
                   "store_code": "...",
                   "store_name": "...",
+                  "city": "...",
                   "tbl_dc": {
                       "id": "...",
                       "DC_name": "...",
