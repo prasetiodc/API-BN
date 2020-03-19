@@ -6,8 +6,8 @@ class upload {
       let POP_promotion_1, POP_promotion_2
 
       if (req.files.length != 0) {
-        POP_promotion_1 = req.files.find(el => el.originalname === 'promotion_1')
-        POP_promotion_2 = req.files.find(el => el.originalname === 'promotion_2')
+        POP_promotion_1 = req.files.find(el => el.originalname === 'promotion_1' || el.originalname === 'promotion_1.jpg' || el.originalname === 'promotion_1.png')
+        POP_promotion_2 = req.files.find(el => el.originalname === 'promotion_2' || el.originalname === 'promotion_2.jpg' || el.originalname === 'promotion_2.png')
       }
 
       if (req.body.category_upload_id === 3) { //UPLOAD POP IDN

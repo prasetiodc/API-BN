@@ -7,9 +7,9 @@ class visit {
     let img_store, img_fixture_in, img_fixture_out
 
     if (req.files.length != 0) {
-      img_store = req.files.find(el => el.originalname === 'img_store')
-      img_fixture_in = req.files.find(el => el.originalname === 'img_fixture_in')
-      img_fixture_out = req.files.find(el => el.originalname === 'img_fixture_out')
+      img_store = req.files.find(el => el.originalname === 'img_store' || el.originalname === 'img_store.jpg' || el.originalname === 'img_store.png')
+      img_fixture_in = req.files.find(el => el.originalname === 'img_fixture_in' || el.originalname === 'img_fixture_in.jpg' || el.originalname === 'img_fixture_in.png')
+      img_fixture_out = req.files.find(el => el.originalname === 'img_fixture_out' || el.originalname === 'img_fixture_out.jpg' || el.originalname === 'img_fixture_out.png')
     }
 
     try {

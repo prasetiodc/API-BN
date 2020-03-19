@@ -1581,7 +1581,14 @@
   - Header:
     - `token`: `<Token>`, required
   - Body:
-    - `file` : `Integer`,
+    - `files` : `File`, ( JIKA UPLOAD FILE SELAIN FILE POP UNTUK IDM )
+    - `files`: [ ( JIKA UPLOAD FILE POP UNTUK IDM )
+        {
+          `File`, `promotion_1`,
+        }, {
+          `File`, `promotion_2`,
+        }
+      ]
     - `category_upload_id` : `Integer`,
     - `retailer_id` : `Integer`
   - Expected response :
