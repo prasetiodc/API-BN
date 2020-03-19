@@ -163,34 +163,10 @@ class dashboard {
           if (Number(element.exit_pog_comp) === 1) counterExitPOGComp++
           dataPOGComp.push(element)
         }
-        //for diagram 4
-        if (element.tbl_visit_fixture) {
-          let pembagi = 0, tempEntry = 0, tempExit = 0
-          if (element.tbl_visit_fixture.fixtureType1 !== null) {
-            pembagi += (Number(element.tbl_visit_fixture.fixtureType1.google_50k) +
-              Number(element.tbl_visit_fixture.fixtureType1.google_100k) +
-              Number(element.tbl_visit_fixture.fixtureType1.google_150k) +
-              Number(element.tbl_visit_fixture.fixtureType1.google_300k) +
-              Number(element.tbl_visit_fixture.fixtureType1.google_500k) +
-              Number(element.tbl_visit_fixture.fixtureType1.spotify_1m) +
-              Number(element.tbl_visit_fixture.fixtureType1.spotify_3m))
-          }
-          if (element.tbl_visit_fixture.fixtureType2 !== null) {
-            pembagi += (Number(element.tbl_visit_fixture.fixtureType2.google_50k) +
-              Number(element.tbl_visit_fixture.fixtureType2.google_100k) +
-              Number(element.tbl_visit_fixture.fixtureType2.google_150k) +
-              Number(element.tbl_visit_fixture.fixtureType2.google_300k) +
-              Number(element.tbl_visit_fixture.fixtureType2.google_500k) +
-              Number(element.tbl_visit_fixture.fixtureType2.spotify_1m) +
-              Number(element.tbl_visit_fixture.fixtureType2.spotify_3m))
-          }
-
-          tempEntry = Number(element.entry_remaining_google50k) + Number(element.entry_remaining_google100k) + Number(element.entry_remaining_google150k) + Number(element.entry_remaining_google300k) + Number(element.entry_remaining_google500k) + Number(element.entry_remaining_spotify1m) + Number(element.entry_remaining_spotify3m)
-
-          tempExit = Number(element.exit_remaining_google50k) + Number(element.exit_remaining_google100k) + Number(element.exit_remaining_google150k) + Number(element.exit_remaining_google300k) + Number(element.exit_remaining_google500k) + Number(element.exit_remaining_spotify1m) + Number(element.exit_remaining_spotify3m)
-
-          counterEntryPODCompliance += (tempEntry / pembagi)
-          counterExitPODCompliance += (tempExit / pembagi)
+        //for diagram 4 
+        if (Number(element.entry_peg_comp) === 1 || Number(element.exit_peg_comp) === 1) {
+          if (Number(element.entry_peg_comp) === 1) counterEntryPODCompliance++
+          if (Number(element.exit_peg_comp) === 1) counterExitPODCompliance++
           dataPODCompliance.push(element)
         }
         //for diagram 5
@@ -220,11 +196,34 @@ class dashboard {
         }
         // for diagram 6
         if (Number(element.entry_google50k) === 1 || Number(element.entry_google100k) === 1 || Number(element.entry_google150k) === 1 || Number(element.entry_google300k) === 1 || Number(element.entry_google500k) === 1 || Number(element.entry_spotify1M) === 1 || Number(element.entry_spotify3M) === 1 || Number(element.exit_google50k) === 1 || Number(element.exit_google100k) === 1 || Number(element.exit_google150k) === 1 || Number(element.exit_google300k) === 1 || Number(element.exit_google500k) === 1 || Number(element.exit_spotify1M) === 1 || Number(element.exit_spotify3M) === 1) {
-          if (Number(element.entry_google50k) === 1 || Number(element.entry_google100k) === 1 || Number(element.entry_google150k) === 1 || Number(element.entry_google300k) === 1 || Number(element.entry_google500k) === 1 || Number(element.entry_spotify1M) === 1 || Number(element.entry_spotify3M) === 1) {
-            counterEntryInstockCompliance++
+
+          if (req.query.brand) {
+            if (req.query.brand.toLowerCase() === 'google') {
+              if (Number(element.entry_google50k) === 1 || Number(element.entry_google100k) === 1 || Number(element.entry_google150k) === 1 || Number(element.entry_google300k) === 1 || Number(element.entry_google500k) === 1) {
+                counterEntryInstockCompliance++
+              }
+
+              if (Number(element.exit_google50k) === 1 || Number(element.exit_google100k) === 1 || Number(element.exit_google150k) === 1 || Number(element.exit_google300k) === 1 || Number(element.exit_google500k) === 1) {
+                counterEntryInstockCompliance++
+              }
+
+            } else if (req.query.brand.toLowerCase() === 'spotify') {
+              if (Number(element.entry_spotify1M) === 1 || Number(element.entry_spotify3M) === 1) {
+                counterEntryInstockCompliance++
+              } else if (Number(element.exit_spotify1M) === 1 || Number(element.exit_spotify3M) === 1) {
+                counterExitInstockCompliance++
+              }
+            }
           } else {
-            counterExitInstockCompliance++
+            if (Number(element.entry_google50k) === 1 || Number(element.entry_google100k) === 1 || Number(element.entry_google150k) === 1 || Number(element.entry_google300k) === 1 || Number(element.entry_google500k) === 1 || Number(element.entry_spotify1M) === 1 || Number(element.entry_spotify3M) === 1) {
+              counterEntryInstockCompliance++
+            } else {
+              counterExitInstockCompliance++
+            }
           }
+
+
+
           dataInstockCompliance.push(element)
         }
         // for diagram 7
@@ -278,13 +277,13 @@ class dashboard {
       // for diagram 6
       let instockCompliance
       if (req.query.brand) {
-        if (req.query.brand === 'Google') {
+        if (req.query.brand.toLowerCase() === 'google') {
           instockCompliance = {
             entryInstockCompliance: (counterEntryInstockCompliance / (allDataVisit.length * 5)) * 100,
             exitInstockCompliance: (counterExitInstockCompliance / (allDataVisit.length * 5)) * 100,
             dataInstockCompliance
           }
-        } else if (req.query.brand === 'Spotify') {
+        } else if (req.query.brand.toLowerCase() === 'spotify') {
           instockCompliance = {
             entryInstockCompliance: (counterEntryInstockCompliance / (allDataVisit.length * 2)) * 100,
             exitInstockCompliance: (counterExitInstockCompliance / (allDataVisit.length * 2)) * 100,

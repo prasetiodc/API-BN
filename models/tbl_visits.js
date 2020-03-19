@@ -40,21 +40,7 @@ module.exports = (sequelize, DataTypes) => {
     q1: DataTypes.BOOLEAN,
     q2: DataTypes.BOOLEAN,
     q3: DataTypes.BOOLEAN,
-    q4: DataTypes.BOOLEAN,
-    entry_remaining_google50k: DataTypes.INTEGER,
-    entry_remaining_google100k: DataTypes.INTEGER,
-    entry_remaining_google150k: DataTypes.INTEGER,
-    entry_remaining_google300k: DataTypes.INTEGER,
-    entry_remaining_google500k: DataTypes.INTEGER,
-    entry_remaining_spotify1m: DataTypes.INTEGER,
-    entry_remaining_spotify3m: DataTypes.INTEGER,
-    exit_remaining_google50k: DataTypes.INTEGER,
-    exit_remaining_google100k: DataTypes.INTEGER,
-    exit_remaining_google150k: DataTypes.INTEGER,
-    exit_remaining_google300k: DataTypes.INTEGER,
-    exit_remaining_google500k: DataTypes.INTEGER,
-    exit_remaining_spotify1m: DataTypes.INTEGER,
-    exit_remaining_spotify3m: DataTypes.INTEGER
+    q4: DataTypes.BOOLEAN
   }, {});
   tbl_visits.removeAttribute('id');
 

@@ -75,21 +75,7 @@ class visit {
           q1: req.body.q1,
           q2: req.body.q2,
           q3: req.body.q3,
-          q4: req.body.q4,
-          entry_remaining_google50k: req.body.entry_remaining_google50k,
-          entry_remaining_google100k: req.body.entry_remaining_google100k,
-          entry_remaining_google150k: req.body.entry_remaining_google150k,
-          entry_remaining_google300k: req.body.entry_remaining_google300k,
-          entry_remaining_google500k: req.body.entry_remaining_google500k,
-          entry_remaining_spotify1m: req.body.entry_remaining_spotify1m,
-          entry_remaining_spotify3m: req.body.entry_remaining_spotify3m,
-          exit_remaining_google50k: req.body.exit_remaining_google50k,
-          exit_remaining_google100k: req.body.exit_remaining_google100k,
-          exit_remaining_google150k: req.body.exit_remaining_google150k,
-          exit_remaining_google300k: req.body.exit_remaining_google300k,
-          exit_remaining_google500k: req.body.exit_remaining_google500k,
-          exit_remaining_spotify1m: req.body.exit_remaining_spotify1m,
-          exit_remaining_spotify3m: req.body.exit_remaining_spotify3m
+          q4: req.body.q4
         }
         let createVisit = await tbl_visits.create(newData)
 
@@ -325,21 +311,7 @@ class visit {
           q1: req.body.q1,
           q2: req.body.q2,
           q3: req.body.q3,
-          q4: req.body.q4,
-          entry_remaining_google50k: req.body.entry_remaining_google50k,
-          entry_remaining_google100k: req.body.entry_remaining_google100k,
-          entry_remaining_google150k: req.body.entry_remaining_google150k,
-          entry_remaining_google300k: req.body.entry_remaining_google300k,
-          entry_remaining_google500k: req.body.entry_remaining_google500k,
-          entry_remaining_spotify1m: req.body.entry_remaining_spotify1m,
-          entry_remaining_spotify3m: req.body.entry_remaining_spotify3m,
-          exit_remaining_google50k: req.body.exit_remaining_google50k,
-          exit_remaining_google100k: req.body.exit_remaining_google100k,
-          exit_remaining_google150k: req.body.exit_remaining_google150k,
-          exit_remaining_google300k: req.body.exit_remaining_google300k,
-          exit_remaining_google500k: req.body.exit_remaining_google500k,
-          exit_remaining_spotify1m: req.body.exit_remaining_spotify1m,
-          exit_remaining_spotify3m: req.body.exit_remaining_spotify3m
+          q4: req.body.q4
         }
         await tbl_visits.update(newData, { where: { visit_id: req.params.id } })
 

@@ -116,48 +116,6 @@ module.exports = {
       q4: {
         type: Sequelize.BOOLEAN
       },
-      entry_remaining_google50k: {
-        type: Sequelize.INTEGER(10)
-      },
-      entry_remaining_google100k: {
-        type: Sequelize.INTEGER(10)
-      },
-      entry_remaining_google150k: {
-        type: Sequelize.INTEGER(10)
-      },
-      entry_remaining_google300k: {
-        type: Sequelize.INTEGER(10)
-      },
-      entry_remaining_google500k: {
-        type: Sequelize.INTEGER(10)
-      },
-      entry_remaining_spotify1m: {
-        type: Sequelize.INTEGER(10)
-      },
-      entry_remaining_spotify3m: {
-        type: Sequelize.INTEGER(10)
-      },
-      exit_remaining_google50k: {
-        type: Sequelize.INTEGER(10)
-      },
-      exit_remaining_google100k: {
-        type: Sequelize.INTEGER(10)
-      },
-      exit_remaining_google150k: {
-        type: Sequelize.INTEGER(10)
-      },
-      exit_remaining_google300k: {
-        type: Sequelize.INTEGER(10)
-      },
-      exit_remaining_google500k: {
-        type: Sequelize.INTEGER(10)
-      },
-      exit_remaining_spotify1m: {
-        type: Sequelize.INTEGER(10)
-      },
-      exit_remaining_spotify3m: {
-        type: Sequelize.INTEGER(10)
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
