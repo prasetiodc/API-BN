@@ -6,6 +6,7 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true
     },
     store_name: DataTypes.STRING,
+    md_id: DataTypes.INTEGER,
     retailer_id: DataTypes.INTEGER,
     dc_id: DataTypes.INTEGER,
     address: DataTypes.STRING,
@@ -20,6 +21,7 @@ module.exports = (sequelize, DataTypes) => {
     tbl_stores.hasMany(models.tbl_visits, {foreignKey: 'store_code'})
     tbl_stores.belongsTo(models.tbl_retailers, { foreignKey: 'retailer_id' })
     tbl_stores.belongsTo(models.tbl_dcs, { foreignKey: 'dc_id' })
+    tbl_stores.belongsTo(models.tbl_users, { foreignKey: 'md_id' })
   };
   return tbl_stores;
 };

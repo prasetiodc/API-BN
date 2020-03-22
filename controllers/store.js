@@ -6,6 +6,7 @@ class store {
       let newData = {
         store_code: req.body.store_code,
         store_name: req.body.store_name,
+        md_id: req.body.md_id,
         retailer_id: req.body.retailer_id,
         dc_id: req.body.dc_id,
         address: req.body.address,
@@ -23,6 +24,11 @@ class store {
           exclude: ['createdAt', 'updatedAt']
         },
         include: [{
+          model: tbl_users,
+          attributes: {
+            exclude: ['createdAt', 'updatedAt']
+          },
+        },{
           model: tbl_dcs,
           attributes: {
             exclude: ['createdAt', 'updatedAt']
@@ -47,6 +53,11 @@ class store {
     try {
       let allStore = await tbl_stores.findAll({
         include: [{
+          model: tbl_users,
+          attributes: {
+            exclude: ['createdAt', 'updatedAt']
+          },
+        },{
           model: tbl_dcs,
           attributes: {
             exclude: ['createdAt', 'updatedAt']
@@ -72,6 +83,11 @@ class store {
     try {
       let store = await tbl_stores.findByPk(req.params.id, {
         include: [{
+          model: tbl_users,
+          attributes: {
+            exclude: ['createdAt', 'updatedAt']
+          },
+        },{
           model: tbl_dcs,
           attributes: {
             exclude: ['createdAt', 'updatedAt']
@@ -103,6 +119,7 @@ class store {
       let newData = {
         store_code: req.body.store_code,
         store_name: req.body.store_name,
+        md_id: req.body.md_id,
         retailer_id: req.body.retailer_id,
         dc_id: req.body.dc_id,
         address: req.body.address,
@@ -120,6 +137,11 @@ class store {
 
       let dataReturn = await tbl_stores.findByPk(req.params.id, {
         include: [{
+          model: tbl_users,
+          attributes: {
+            exclude: ['createdAt', 'updatedAt']
+          },
+        },{
           model: tbl_dcs,
           attributes: {
             exclude: ['createdAt', 'updatedAt']

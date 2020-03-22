@@ -10,6 +10,9 @@ module.exports = {
       store_name: {
         type: Sequelize.STRING(50)
       },
+      md_id: {
+        type: Sequelize.INTEGER(11)
+      },
       retailer_id: {
         type: Sequelize.INTEGER(11)
       },
