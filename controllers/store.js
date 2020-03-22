@@ -1,4 +1,4 @@
-const { tbl_stores, tbl_retailers, tbl_dcs } = require('../models')
+const { tbl_stores, tbl_retailers, tbl_dcs, tbl_users } = require('../models')
 
 class store {
   static async create(req, res) {
