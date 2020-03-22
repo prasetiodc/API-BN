@@ -137,7 +137,7 @@ class visit {
     try {
       let allVisit = await tbl_visits.findAll({
         order: [
-          ['visit_date', 'ASC'],
+          ['visit_date', 'DESC'],
         ],
         include: [{
           model: tbl_visit_fixtures,
