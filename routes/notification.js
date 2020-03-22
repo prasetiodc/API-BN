@@ -4,5 +4,6 @@ const { authentication } = require('../middlewares/auth')
 
 router.use(authentication)
 router.get('/', notificationController.findAll)
+router.put('/:id', notificationController.update)
 
 module.exports = router
