@@ -753,21 +753,7 @@
     - `q1`: `Boolean`,
     - `q2`: `Boolean`,
     - `q3`: `Boolean`,
-    - `q4`: `Boolean`,
-    - `entry_remaining_google50k`: `Integer`,
-    - `entry_remaining_google100k`: `Integer`,
-    - `entry_remaining_google150k`: `Integer`,
-    - `entry_remaining_google300k`: `Integer`,
-    - `entry_remaining_google500k`: `Integer`,
-    - `entry_remaining_spotify1m`: `Integer`,
-    - `entry_remaining_spotify3m`: `Integer`,
-    - `exit_remaining_google50k`: `Integer`,
-    - `exit_remaining_google100k`: `Integer`,
-    - `exit_remaining_google150k`: `Integer`,
-    - `exit_remaining_google300k`: `Integer`,
-    - `exit_remaining_google500k`: `Integer`,
-    - `exit_remaining_spotify1m`: `Integer`,
-    - `exit_remaining_spotify3m`: `Integer`
+    - `q4`: `Boolean`
   - Expected response :
     - Success (status: `201`)
       ```json
@@ -809,20 +795,6 @@
             "q2": "...",
             "q3": "...",
             "q4": "...",
-            "entry_remaining_google50k" : "...",
-            "entry_remaining_google100k" : "...",
-            "entry_remaining_google150k" : "...",
-            "entry_remaining_google300k" : "...",
-            "entry_remaining_google500k" : "...",
-            "entry_remaining_spotify1m" : "...",
-            "entry_remaining_spotify3m" : "...",
-            "exit_remaining_google50k" : "...",
-            "exit_remaining_google100k" : "...",
-            "exit_remaining_google150k" : "...",
-            "exit_remaining_google300k" : "...",
-            "exit_remaining_google500k" : "...",
-            "exit_remaining_spotify1m" : "...",
-            "exit_remaining_spotify3m" : "...",
             "tbl_visit_fixture": {
               "id": "...",
               "fixture_type_id_1": "...",
@@ -923,20 +895,6 @@
               "q2": "...",
               "q3": "...",
               "q4": "...",
-              "entry_remaining_google50k" : "...",
-              "entry_remaining_google100k" : "...",
-              "entry_remaining_google150k" : "...",
-              "entry_remaining_google300k" : "...",
-              "entry_remaining_google500k" : "...",
-              "entry_remaining_spotify1m" : "...",
-              "entry_remaining_spotify3m" : "...",
-              "exit_remaining_google50k" : "...",
-              "exit_remaining_google100k" : "...",
-              "exit_remaining_google150k" : "...",
-              "exit_remaining_google300k" : "...",
-              "exit_remaining_google500k" : "...",
-              "exit_remaining_spotify1m" : "...",
-              "exit_remaining_spotify3m" : "...",
               "tbl_visit_fixture": {
               "id": "...",
               "fixture_type_id_1": "...",
@@ -1037,20 +995,6 @@
             "q2": "...",
             "q3": "...",
             "q4": "...",
-            "entry_remaining_google50k" : "...",
-            "entry_remaining_google100k" : "...",
-            "entry_remaining_google150k" : "...",
-            "entry_remaining_google300k" : "...",
-            "entry_remaining_google500k" : "...",
-            "entry_remaining_spotify1m" : "...",
-            "entry_remaining_spotify3m" : "...",
-            "exit_remaining_google50k" : "...",
-            "exit_remaining_google100k" : "...",
-            "exit_remaining_google150k" : "...",
-            "exit_remaining_google300k" : "...",
-            "exit_remaining_google500k" : "...",
-            "exit_remaining_spotify1m" : "...",
-            "exit_remaining_spotify3m" : "...",
             "tbl_visit_fixture": {
               "id": "...",
               "fixture_type_id_1": "...",
@@ -1148,21 +1092,7 @@
     - `q1`: `Boolean`,
     - `q2`: `Boolean`,
     - `q3`: `Boolean`,
-    - `q4`: `Boolean`,
-    - `entry_remaining_google50k`: `Integer`,
-    - `entry_remaining_google100k`: `Integer`,
-    - `entry_remaining_google150k`: `Integer`,
-    - `entry_remaining_google300k`: `Integer`,
-    - `entry_remaining_google500k`: `Integer`,
-    - `entry_remaining_spotify1m`: `Integer`,
-    - `entry_remaining_spotify3m`: `Integer`,
-    - `exit_remaining_google50k`: `Integer`,
-    - `exit_remaining_google100k`: `Integer`,
-    - `exit_remaining_google150k`: `Integer`,
-    - `exit_remaining_google300k`: `Integer`,
-    - `exit_remaining_google500k`: `Integer`,
-    - `exit_remaining_spotify1m`: `Integer`,
-    - `exit_remaining_spotify3m`: `Integer`
+    - `q4`: `Boolean`
   - Expected response :
     - Success (status: `200`)
       ```json
@@ -1204,20 +1134,6 @@
             "q2": "...",
             "q3": "...",
             "q4": "...",
-            "entry_remaining_google50k" : "...",
-            "entry_remaining_google100k" : "...",
-            "entry_remaining_google150k" : "...",
-            "entry_remaining_google300k" : "...",
-            "entry_remaining_google500k" : "...",
-            "entry_remaining_spotify1m" : "...",
-            "entry_remaining_spotify3m" : "...",
-            "exit_remaining_google50k" : "...",
-            "exit_remaining_google100k" : "...",
-            "exit_remaining_google150k" : "...",
-            "exit_remaining_google300k" : "...",
-            "exit_remaining_google500k" : "...",
-            "exit_remaining_spotify1m" : "...",
-            "exit_remaining_spotify3m" : "...",
             "tbl_visit_fixture": {
               "id": "...",
               "fixture_type_id_1": "...",
@@ -1490,20 +1406,6 @@
                   "q2": "...",
                   "q3": "...",
                   "q4": "...",
-                  "entry_remaining_google50k" : "...",
-                  "entry_remaining_google100k" : "...",
-                  "entry_remaining_google150k" : "...",
-                  "entry_remaining_google300k" : "...",
-                  "entry_remaining_google500k" : "...",
-                  "entry_remaining_spotify1m" : "...",
-                  "entry_remaining_spotify3m" : "...",
-                  "exit_remaining_google50k" : "...",
-                  "exit_remaining_google100k" : "...",
-                  "exit_remaining_google150k" : "...",
-                  "exit_remaining_google300k" : "...",
-                  "exit_remaining_google500k" : "...",
-                  "exit_remaining_spotify1m" : "...",
-                  "exit_remaining_spotify3m" : "...",
                   "tbl_visit_fixture": {
                     "id": "...",
                     "fixture_type_id_1": "...",
@@ -1679,7 +1581,14 @@
   - Header:
     - `token`: `<Token>`, required
   - Body:
-    - `file` : `Integer`,
+    - `files` : `File`, ( JIKA UPLOAD FILE SELAIN FILE POP UNTUK IDM )
+    - `files`: [ ( JIKA UPLOAD FILE POP UNTUK IDM )
+        {
+          `File`, `promotion_1`,
+        }, {
+          `File`, `promotion_2`,
+        }
+      ]
     - `category_upload_id` : `Integer`,
     - `retailer_id` : `Integer`
   - Expected response :
