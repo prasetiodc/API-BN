@@ -149,7 +149,7 @@ class visit {
 
   static async findAll(req, res) {
     try {
-      let allRetailer = await tbl_visits.findAll({
+      let allVisit = await tbl_visits.findAll({
         order: [
           ['visit_date', 'ASC'],
         ],
@@ -198,7 +198,12 @@ class visit {
         }
       })
 
-      res.status(200).json({ message: "Success", total_data: allRetailer.length, data: allRetailer })
+      if (req.query.page) {
+        if (req.query.page === 1) allVisit = allVisit.slice(0, 10)
+        else allVisit = allVisit.slice(((req.query.page - 1) * 10), (req.query.page * 10))
+      }
+
+      res.status(200).json({ message: "Success", total_data: allVisit.length, data: allVisit })
     } catch (err) {
       console.log(err)
       res.status(500).json({ message: "Error", err })

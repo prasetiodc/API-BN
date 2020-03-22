@@ -5,28 +5,32 @@ const { sign } = require('../helpers/jwt')
 class user {
   static async signup(req, res) {
     try {
-
-      let newUser = {
-        nik: req.body.nik,
-        name: req.body.name,
-        email: req.body.email,
-        password: hash(req.body.password),
-        role_id: req.body.role || 2,
-      }
-
-      await tbl_users.create(newUser)
-
-      let dataReturn = await tbl_users.findOne({
-        where: { nik: req.body.nik },
-        attributes: {
-          exclude: ['password', 'createdAt', 'updatedAt', 'role_id', 'login_date']
+      if (!req.body.email || req.body.email === "") {
+        throw 'email tidak boleh kosong'
+      } else {
+        let newUser = {
+          nik: req.body.nik,
+          name: req.body.name,
+          email: req.body.email,
+          password: hash(req.body.password),
+          role_id: req.body.role || 2,
         }
-      })
 
-      res.status(201).json({ message: "Success", data: dataReturn })
+        await tbl_users.create(newUser)
+
+        let dataReturn = await tbl_users.findOne({
+          where: { nik: req.body.nik },
+          attributes: {
+            exclude: ['password', 'createdAt', 'updatedAt', 'role_id', 'login_date']
+          }
+        })
+
+        res.status(201).json({ message: "Success", data: dataReturn })
+      }
     } catch (err) {
       console.log(err)
-      if (err.message === "Validation error") res.status(400).json({ message: "NIK/Email must be unique" })
+      if (err === 'email tidak boleh kosong') res.status(400).json({ message: "Email must be added" })
+      else if (err.message === "Validation error") res.status(400).json({ message: "NIK/Email must be unique" })
       else res.status(500).json({ message: "Error", err })
     }
   }

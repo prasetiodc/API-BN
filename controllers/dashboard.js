@@ -253,26 +253,26 @@ class dashboard {
       }
       // for diagram 2
       let fixtureCompliance = {
-        entry: (counterEntryFixComp / allDataVisit.length) * 100,
-        exit: (counterExitFixComp / allDataVisit.length) * 100,
+        entry: dataFixComp.length > 0 ? ((counterEntryFixComp / allDataVisit.length) * 100) : 0,
+        exit: dataFixComp.length > 0 ? ((counterExitFixComp / allDataVisit.length) * 100) : 0,
         dataFixComp
       }
       // for diagram 3
       let POGCompliance = {
-        entry: (counterEntryPOGComp / allDataVisit.length) * 100,
-        exit: (counterExitPOGComp / allDataVisit.length) * 100,
+        entry: dataPOGComp.length > 0 ? ((counterEntryPOGComp / allDataVisit.length) * 100) : 0,
+        exit: dataPOGComp.length > 0 ? ((counterExitPOGComp / allDataVisit.length) * 100) : 0,
         dataPOGComp
       }
       //for diagram 4
       let PODCompliance = {
-        entry: (counterEntryPODCompliance / allDataVisit.length) * 100,
-        exit: (counterExitPODCompliance / allDataVisit.length) * 100,
+        entry: dataPODCompliance.length > 0 ? ((counterEntryPODCompliance / allDataVisit.length) * 100) : 0,
+        exit: dataPODCompliance.length > 0 ? ((counterExitPODCompliance / allDataVisit.length) * 100) : 0,
         dataPODCompliance
       }
       //for diagram 5
       let POPCompliance = {
-        entry: (counterEntryPOPCompliance / allDataVisit.length) * 100,
-        exit: (counterExitPOPCompliance / allDataVisit.length) * 100,
+        entry: dataPOPCompliance.length > 0 ? ((counterEntryPOPCompliance / allDataVisit.length) * 100) : 0,
+        exit: dataPOPCompliance.length > 0 ? ((counterExitPOPCompliance / allDataVisit.length) * 100) : 0,
         dataPOPCompliance
       }
       // for diagram 6
@@ -280,37 +280,37 @@ class dashboard {
       if (req.query.brand) {
         if (req.query.brand === 'Google') {
           instockCompliance = {
-            entryInstockCompliance: (counterEntryInstockCompliance / (allDataVisit.length * 5)) * 100,
-            exitInstockCompliance: (counterExitInstockCompliance / (allDataVisit.length * 5)) * 100,
+            entryInstockCompliance: dataInstockCompliance.length > 0 ? ((counterEntryInstockCompliance / (allDataVisit.length * 5)) * 100) : 0,
+            exitInstockCompliance: dataInstockCompliance.length > 0 ? ((counterExitInstockCompliance / (allDataVisit.length * 5)) * 100) : 0,
             dataInstockCompliance
           }
         } else if (req.query.brand === 'Spotify') {
           instockCompliance = {
-            entryInstockCompliance: (counterEntryInstockCompliance / (allDataVisit.length * 2)) * 100,
-            exitInstockCompliance: (counterExitInstockCompliance / (allDataVisit.length * 2)) * 100,
+            entryInstockCompliance: dataInstockCompliance.length > 0 ? ((counterEntryInstockCompliance / (allDataVisit.length * 2)) * 100) : 0,
+            exitInstockCompliance: dataInstockCompliance.length > 0 ? ((counterExitInstockCompliance / (allDataVisit.length * 2)) * 100) : 0,
             dataInstockCompliance
           }
         }
       } else {
         instockCompliance = {
-          entryInstockCompliance: (counterEntryInstockCompliance / (allDataVisit.length * 7)) * 100,
-          exitInstockCompliance: (counterExitInstockCompliance / (allDataVisit.length * 7)) * 100,
+          entryInstockCompliance: dataInstockCompliance.length > 0 ? ((counterEntryInstockCompliance / (allDataVisit.length * 7)) * 100) : 0,
+          exitInstockCompliance: dataInstockCompliance.length > 0 ? ((counterExitInstockCompliance / (allDataVisit.length * 7)) * 100) : 0,
           dataInstockCompliance
         }
       }
       //for diagram 7
       let activationKnowHow = {
-        persen: (counterActivationKnowHow / allDataVisit.length) * 100,
+        persen: dataActivationKnowHow.length > 0 ? ((counterActivationKnowHow / allDataVisit.length) * 100) : 0,
         dataActivationKnowHow
       }
       // for diagram 8
       let promotionAwareness = {
-        persen: (counterPromotionAwareness / allDataVisit.length) * 100,
+        persen: dataPromotionAwareness.length > 0 ? ((counterPromotionAwareness / allDataVisit.length) * 100) : 0,
         dataPromotionAwareness
       }
       // for diagram 9
       let complaintHandling = {
-        persen: (counterComplaintHandling / allDataVisit.length) * 100,
+        persen: dataComplaintHandling.length > 0 ? ((counterComplaintHandling / allDataVisit.length) * 100) : 0,
         dataComplaintHandling
       }
 
