@@ -4,7 +4,7 @@ class notification {
   static async findAll(req, res) {
     try {
       let allNotification = await tbl_notifications.findAll({
-        where: { user_id: req.user_id },
+        where: { user_id: req.user_id, read: 0 },
         attributes: {
           exclude: ['createdAt', 'updatedAt']
         }
