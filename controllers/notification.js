@@ -17,7 +17,7 @@ class notification {
     }
   }
 
-  static update(req, res) {
+  static async update(req, res) {
     try {
       await tbl_notifications.update({ read: 1 }, { where: { id: req.params.id } })
 
