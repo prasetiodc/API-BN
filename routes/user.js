@@ -7,6 +7,7 @@ router.post('/signin', userController.signin)
 
 router.use(authentication)
 router.get('/', userController.findAll)
+router.get('/check-token', userController.checkToken)
 router.get('/:id', userController.findOne)
 router.put('/:id', userController.update)
 router.delete('/:id', userController.delete)

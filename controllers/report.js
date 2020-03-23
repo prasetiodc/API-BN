@@ -1,4 +1,4 @@
-const { tbl_visits, tbl_stores, tbl_users, tbl_retailers, tbl_dcs, tbl_fixture_types, tbl_visit_fixtures } = require('../models')
+const { tbl_visits, tbl_stores, tbl_users, tbl_retailers, tbl_dcs, tbl_fixture_types } = require('../models')
 const Op = require('sequelize').Op
 
 class report {
@@ -40,24 +40,6 @@ class report {
           ['visit_date', 'ASC'],
         ],
         include: [{
-          model: tbl_visit_fixtures,
-          attributes: {
-            exclude: ['createdAt', 'updatedAt']
-          },
-          include: [{
-            model: tbl_fixture_types,
-            as: "fixtureType1",
-            attributes: {
-              exclude: ['createdAt', 'updatedAt']
-            },
-          }, {
-            model: tbl_fixture_types,
-            as: "fixtureType2",
-            attributes: {
-              exclude: ['createdAt', 'updatedAt']
-            },
-          }]
-        }, {
           required: true,
           model: tbl_users,
           attributes: ['id', 'nik', 'name']
@@ -76,6 +58,18 @@ class report {
           }, {
             required: true,
             model: tbl_retailers,
+            attributes: {
+              exclude: ['createdAt', 'updatedAt']
+            },
+          }, {
+            model: tbl_fixture_types,
+            as: "fixtureType1",
+            attributes: {
+              exclude: ['createdAt', 'updatedAt']
+            },
+          }, {
+            model: tbl_fixture_types,
+            as: "fixtureType2",
             attributes: {
               exclude: ['createdAt', 'updatedAt']
             },

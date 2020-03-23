@@ -1,4 +1,4 @@
-const { tbl_visits, tbl_stores, tbl_users, tbl_retailers, tbl_dcs, tbl_fixture_types, tbl_visit_fixtures } = require('../models')
+const { tbl_visits, tbl_stores, tbl_users, tbl_retailers, tbl_dcs, tbl_fixture_types } = require('../models')
 const Op = require('sequelize').Op
 
 class dashboard {
@@ -61,25 +61,6 @@ class dashboard {
             ['visit_date', 'ASC'],
           ],
           include: [{
-            model: tbl_visit_fixtures,
-            where: conditionInTblFixtureType,
-            include: [{
-              model: tbl_fixture_types,
-              as: "fixtureType1",
-              attributes: {
-                exclude: ['createdAt', 'updatedAt']
-              },
-            }, {
-              model: tbl_fixture_types,
-              as: "fixtureType2",
-              attributes: {
-                exclude: ['createdAt', 'updatedAt']
-              },
-            }],
-            attributes: {
-              exclude: ['createdAt', 'updatedAt']
-            },
-          }, {
             model: tbl_users,
             where: conditionInTblUser,
             attributes: ['id', 'name']
@@ -99,20 +80,7 @@ class dashboard {
               attributes: {
                 exclude: ['createdAt', 'updatedAt']
               },
-            }]
-          }]
-        })
-      } else {
-        allDataVisit = await tbl_visits.findAll({
-          attributes: {
-            exclude: ['createdAt', 'updatedAt']
-          },
-          include: [{
-            model: tbl_visit_fixtures,
-            attributes: {
-              exclude: ['createdAt', 'updatedAt']
-            },
-            include: [{
+            }, {
               model: tbl_fixture_types,
               as: "fixtureType1",
               attributes: {
@@ -124,8 +92,18 @@ class dashboard {
               attributes: {
                 exclude: ['createdAt', 'updatedAt']
               },
-            }]
-          }, {
+            }],
+            attributes: {
+              exclude: ['createdAt', 'updatedAt']
+            },
+          }]
+        })
+      } else {
+        allDataVisit = await tbl_visits.findAll({
+          attributes: {
+            exclude: ['createdAt', 'updatedAt']
+          },
+          include: [{
             model: tbl_users,
             attributes: ['id', 'name']
           }, {
@@ -133,14 +111,26 @@ class dashboard {
             attributes: ['store_code', 'store_name'],
             include: [{
               model: tbl_dcs,
-              // attributes: {
-              // exclude: ['createdAt', 'updatedAt']
-              // },
+              attributes: {
+                exclude: ['createdAt', 'updatedAt']
+              },
             }, {
               model: tbl_retailers,
-              // attributes: {
-              //   exclude: ['createdAt', 'updatedAt']
-              // },
+              attributes: {
+                exclude: ['createdAt', 'updatedAt']
+              },
+            }, {
+              model: tbl_fixture_types,
+              as: "fixtureType1",
+              attributes: {
+                exclude: ['createdAt', 'updatedAt']
+              },
+            }, {
+              model: tbl_fixture_types,
+              as: "fixtureType2",
+              attributes: {
+                exclude: ['createdAt', 'updatedAt']
+              },
             }]
           }]
         })

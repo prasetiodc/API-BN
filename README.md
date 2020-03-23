@@ -795,8 +795,15 @@
             "q2": "...",
             "q3": "...",
             "q4": "...",
-            "tbl_visit_fixture": {
-              "id": "...",
+            "tbl_store": {
+              "store_code": "...",
+              "store_name": "...",
+              "retailer_id": "...",
+              "dc_id": "...",
+              "address": "...",
+              "sub_district": "...",
+              "district": "...",
+              "city": "...",
               "fixture_type_id_1": "...",
               "fixture_type_id_2": "...",
               "fixtureType1": {
@@ -821,16 +828,6 @@
                 "spotify_1m": "...",
                 "spotify_3m": "..."
               },
-            }, 
-            "tbl_store": {
-              "store_code": "...",
-              "store_name": "...",
-              "retailer_id": "...",
-              "dc_id": "...",
-              "address": "...",
-              "sub_district": "...",
-              "district": "...",
-              "city": "...",
             },
             "tbl_dc": {
               "id": "...",
@@ -895,33 +892,6 @@
               "q2": "...",
               "q3": "...",
               "q4": "...",
-              "tbl_visit_fixture": {
-              "id": "...",
-              "fixture_type_id_1": "...",
-              "fixture_type_id_2": "...",
-              "fixtureType1": {
-                "id": "...",
-                "fixture_type": "...",
-                "google_50k": "...",
-                "google_100k": "...",
-                "google_150k": "...",
-                "google_300k": "...",
-                "google_500k": "...",
-                "spotify_1m": "...",
-                "spotify_3m": "..."
-              },
-              "fixtureType2": {
-                "id": "...",
-                "fixture_type": "...",
-                "google_50k": "...",
-                "google_100k": "...",
-                "google_150k": "...",
-                "google_300k": "...",
-                "google_500k": "...",
-                "spotify_1m": "...",
-                "spotify_3m": "..."
-              },
-            }, 
               "tbl_store": {
                 "store_code": "...",
                 "store_name": "...",
@@ -931,6 +901,30 @@
                 "sub_district": "...",
                 "district": "...",
                 "city": "...",
+                "fixture_type_id_1": "...",
+                "fixture_type_id_2": "...",
+                "fixtureType1": {
+                  "id": "...",
+                  "fixture_type": "...",
+                  "google_50k": "...",
+                  "google_100k": "...",
+                  "google_150k": "...",
+                  "google_300k": "...",
+                  "google_500k": "...",
+                  "spotify_1m": "...",
+                  "spotify_3m": "..."
+                },
+                "fixtureType2": {
+                  "id": "...",
+                  "fixture_type": "...",
+                  "google_50k": "...",
+                  "google_100k": "...",
+                  "google_150k": "...",
+                  "google_300k": "...",
+                  "google_500k": "...",
+                  "spotify_1m": "...",
+                  "spotify_3m": "..."
+                },
               },
               "tbl_dc": {
                 "id": "...",
@@ -995,8 +989,15 @@
             "q2": "...",
             "q3": "...",
             "q4": "...",
-            "tbl_visit_fixture": {
-              "id": "...",
+            "tbl_store": {
+              "store_code": "...",
+              "store_name": "...",
+              "retailer_id": "...",
+              "dc_id": "...",
+              "address": "...",
+              "sub_district": "...",
+              "district": "...",
+              "city": "...",
               "fixture_type_id_1": "...",
               "fixture_type_id_2": "...",
               "fixtureType1": {
@@ -1021,16 +1022,6 @@
                 "spotify_1m": "...",
                 "spotify_3m": "..."
               },
-            }, 
-            "tbl_store": {
-              "store_code": "...",
-              "store_name": "...",
-              "retailer_id": "...",
-              "dc_id": "...",
-              "address": "...",
-              "sub_district": "...",
-              "district": "...",
-              "city": "...",
             },
             "tbl_dc": {
               "id": "...",
@@ -1133,9 +1124,16 @@
             "q1": "...",
             "q2": "...",
             "q3": "...",
-            "q4": "...",
-            "tbl_visit_fixture": {
-              "id": "...",
+            "q4": "...",         
+            "tbl_store": {
+              "store_code": "...",
+              "store_name": "...",
+              "retailer_id": "...",
+              "dc_id": "...",
+              "address": "...",
+              "sub_district": "...",
+              "district": "...",
+              "city": "...",
               "fixture_type_id_1": "...",
               "fixture_type_id_2": "...",
               "fixtureType1": {
@@ -1160,16 +1158,6 @@
                 "spotify_1m": "...",
                 "spotify_3m": "..."
               },
-            },            
-            "tbl_store": {
-              "store_code": "...",
-              "store_name": "...",
-              "retailer_id": "...",
-              "dc_id": "...",
-              "address": "...",
-              "sub_district": "...",
-              "district": "...",
-              "city": "...",
             },
             "tbl_dc": {
               "id": "...",
@@ -1405,9 +1393,16 @@
                   "q1": "...",
                   "q2": "...",
                   "q3": "...",
-                  "q4": "...",
-                  "tbl_visit_fixture": {
-                    "id": "...",
+                  "q4": "...",       
+                  "tbl_store": {
+                    "store_code": "...",
+                    "store_name": "...",
+                    "retailer_id": "...",
+                    "dc_id": "...",
+                    "address": "...",
+                    "sub_district": "...",
+                    "district": "...",
+                    "city": "...",
                     "fixture_type_id_1": "...",
                     "fixture_type_id_2": "...",
                     "fixtureType1": {
@@ -1432,16 +1427,6 @@
                       "spotify_1m": "...",
                       "spotify_3m": "..."
                     },
-                  },            
-                  "tbl_store": {
-                    "store_code": "...",
-                    "store_name": "...",
-                    "retailer_id": "...",
-                    "dc_id": "...",
-                    "address": "...",
-                    "sub_district": "...",
-                    "district": "...",
-                    "city": "...",
                   },
                   "tbl_dc": {
                     "id": "...",

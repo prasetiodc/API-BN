@@ -17,9 +17,6 @@ module.exports = {
       img_fixture_out: {
         type: Sequelize.STRING(255)
       },
-      visit_fixture_id: {
-        type: Sequelize.INTEGER(11)
-      },
       visit_date: {
         type: Sequelize.DATE
       },

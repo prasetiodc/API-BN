@@ -8,7 +8,6 @@ module.exports = (sequelize, DataTypes) => {
     img_store: DataTypes.STRING,
     img_fixture_in: DataTypes.STRING,
     img_fixture_out: DataTypes.STRING,
-    visit_fixture_id: DataTypes.INTEGER,
     visit_date: DataTypes.DATE,
     user_id: DataTypes.INTEGER,
     store_code: DataTypes.STRING,
@@ -48,7 +47,6 @@ module.exports = (sequelize, DataTypes) => {
     // associations can be defined here
     tbl_visits.belongsTo(models.tbl_users, { foreignKey: 'user_id' })
     tbl_visits.belongsTo(models.tbl_stores, { foreignKey: 'store_code' })
-    tbl_visits.belongsTo(models.tbl_visit_fixtures, { foreignKey: 'visit_fixture_id' })
   };
   return tbl_visits;
 };

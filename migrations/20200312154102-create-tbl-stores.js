@@ -19,6 +19,12 @@ module.exports = {
       dc_id: {
         type: Sequelize.INTEGER(11)
       },
+      fixture_type_id_1: {
+        type: Sequelize.INTEGER(11)
+      },
+      fixture_type_id_2: {
+        type: Sequelize.INTEGER(11)
+      },
       address: {
         type: Sequelize.STRING(255)
       },

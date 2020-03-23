@@ -155,6 +155,27 @@ class user {
       else res.status(500).json({ message: "Error", err })
     }
   }
+
+  static async checkToken(req, res) {
+    try {
+      let userData = await tbl_users.findByPk(req.user_id)
+
+      if (userData) {
+        res.status(200).json({
+          user_id: userData.id,
+          name: userData.name,
+          role_id: userData.role_id
+        })
+      } else {
+        throw "bad request"
+      }
+    } catch (err) {
+      console.log(err)
+      if (err === "not found") res.status(404).json({ message: "Not found" })
+      else if (err === "bad request") res.status(400).json({ message: "Bad request" })
+      else res.status(500).json({ message: "Error", err })
+    }
+  }
 }
 
 module.exports = user
