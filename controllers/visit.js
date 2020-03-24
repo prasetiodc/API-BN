@@ -10,14 +10,13 @@ class visit {
       img_fixture_in = req.files.find(el => el.originalname === 'img_fixture_in' || el.originalname === 'img_fixture_in.jpg' || el.originalname === 'img_fixture_in.png')
       img_fixture_out = req.files.find(el => el.originalname === 'img_fixture_out' || el.originalname === 'img_fixture_out.jpg' || el.originalname === 'img_fixture_out.png')
     }
-
+    
     try {
-      let dataStore = await tbl_stores.findByPk(req.body.store_code)
 
       let newData = {
-        img_store: img_store ? img_store : (req.files[0] ? req.files[0].path : ""),
-        img_fixture_in: img_fixture_in ? img_fixture_in : (req.files[1] ? req.files[1].path : ""),
-        img_fixture_out: img_fixture_out ? img_fixture_out : (req.files[2] ? req.files[2].path : ""),
+        img_store: img_store ? img_store.path : (req.files[0] ? req.files[0].path : ""),
+        img_fixture_in: img_fixture_in ? img_fixture_in.path : (req.files[1] ? req.files[1].path : ""),
+        img_fixture_out: img_fixture_out ? img_fixture_out.path : (req.files[2] ? req.files[2].path : ""),
         visit_date: new Date(req.body.visit_date),
         user_id: req.user_id,
         store_code: req.body.store_code,
