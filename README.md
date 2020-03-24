@@ -1607,15 +1607,70 @@
           "message": "Success",
           "data": [
             {
-                "id": "...",
-                "category": "...",
-                "path": "...",
-                "retailer": {
-                    "id": "...",
+              "id": 1,
+              "category": "POG",
+              "retailers": [
+                {
+                    "retailer_id": "...",
                     "retailer_name": "...",
                     "initial": "...",
-                    "total_store": "..."
-                }
+                    "path": "..."
+                },
+                ....
+              ]
+            },
+            {
+              "id": 2,
+              "category": "Fixture Traits",
+              "retailers": [
+                {
+                  "retailer_id": "...",
+                  "retailer_name": "...",
+                  "initial": "...",
+                  "path": "..."
+                },
+                ....
+              ]
+            },
+            {
+              "id": 3,
+              "category": "Promotions",
+              "retailers": [
+                  {
+                      "retailer_id":  "...",
+                      "retailer_name": "...",
+                      "initial":  "...",
+                      "path_1": "...",
+                      "path_2":  "...",
+                  },
+                  {
+                      "retailer_id":  "...",
+                      "retailer_name":  "...",
+                      "initial":  "...",
+                      "path": "..."
+                  },
+                  ....
+              ]
+            },
+            {
+              "id": 4,
+              "category": "Store List",
+              "path": "..."
+            },
+            {
+              "id": 5,
+              "category": "Permit",
+              "path": "..."
+            },
+            {
+              "id": 6,
+              "category": "Visit Instructions",
+              "path": "..."
+            },
+            {
+              "id": 7,
+              "category": "Store",
+              "path": "..."
             }
           ]
         }

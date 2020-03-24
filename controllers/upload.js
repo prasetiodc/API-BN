@@ -158,24 +158,47 @@ class upload {
         }]
       })
 
-      let allCategori = await tbl_category_uploads.findAll({})
+      let allCategori = await tbl_category_uploads.findAll()
+      let allRetailer = await tbl_retailers.findAll()
 
       let datas = []
       await allCategori.forEach(async element => {
 
-        if (element.id === 3) { //PROMOTION
-          for (let i = 1; i <= 3; i++) {
-            let file = await allFileUpload.find(el => el.category_upload_id === element.id && el.retailer_id === i)
-
-            let newObj = {
-              id: element.id,
-              category: element.category,
-              path: file ? file.path : null,
-              retailer: file ? file.tbl_retailer : null
-            }
-            datas.push(newObj)
+        if (Number(element.id) === 1 || Number(element.id) === 2 || Number(element.id) === 3) { //PROMOTION
+          let newObj = {
+            id: element.id,
+            category: element.category,
           }
-          console.log(datas)
+          let data = []
+
+          await allRetailer.forEach(async retailer => {
+            let file = await allFileUpload.find(el => el.category_upload_id === element.id && el.retailer_id === retailer.id)
+
+            let tempObj = {
+              retailer_id: retailer.id,
+              retailer_name: retailer.retailer_name,
+              initial: retailer.initial,
+            }
+
+            if (Number(element.id) === 3 && Number(retailer.id) === 1) {
+              let file1 = allFileUpload.find(el => 
+                (el.category_upload_id === element.id && el.retailer_id === retailer.id && el.information === 'promotion_1') || 
+                (el.category_upload_id === element.id && el.retailer_id === retailer.id))
+              let file2 = allFileUpload.find(el => 
+                (el.category_upload_id === element.id && el.retailer_id === retailer.id && el.information === 'promotion_2' && el.id !== file1.id) || 
+                (el.category_upload_id === element.id && el.retailer_id === retailer.id && el.id !== file1.id))
+
+                tempObj.path_1 = file1 ? file1.path : null
+                tempObj.path_2 = file2 ? file2.path : null
+
+            } else {
+              tempObj.path = file ? file.path : null
+            }
+
+            data.push(tempObj)
+          })
+          newObj.retailers = data
+          datas.push(newObj)
         } else {
           let file = await allFileUpload.find(el => el.category_upload_id === element.id)
 
@@ -183,7 +206,6 @@ class upload {
             id: element.id,
             category: element.category,
             path: file ? file.path : null,
-            retailer: file ? file.tbl_retailer : null
           }
           datas.push(newObj)
         }
@@ -256,7 +278,7 @@ async function importStore(pathFile, res) {
       city: element.city
     }
     if (element.fixture_type_2 !== "-") newObj.fixture_type_id_1 = fixture_type_2.id
-console.log(newObj)
+    console.log(newObj)
     await tbl_stores.upsert(newObj)
   })
 

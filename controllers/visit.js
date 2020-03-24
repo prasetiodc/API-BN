@@ -1,5 +1,4 @@
 const { tbl_visits, tbl_stores, tbl_users, tbl_retailers, tbl_dcs, tbl_fixture_types } = require('../models')
-const moment = require('moment')
 
 class visit {
   static async create(req, res) {
