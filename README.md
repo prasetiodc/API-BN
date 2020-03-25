@@ -1575,7 +1575,8 @@
         }
       ]
     - `category_upload_id` : `Integer`,
-    - `retailer_id` : `Integer`
+    - `retailer_id` : `Integer`,
+    - `fixture_type_id` : `Integer`, [OPTIONAL]
   - Expected response :
     - Success (status: `200`)
       ```json
