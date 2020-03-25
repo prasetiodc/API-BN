@@ -14,6 +14,12 @@ module.exports = {
       initial: {
         type: Sequelize.STRING(20)
       },
+      promotion_1: {
+        type: Sequelize.STRING(255)
+      },
+      promotion_2: {
+        type: Sequelize.STRING(255)
+      },
       total_store: {
         type: Sequelize.INTEGER(100)
       },

@@ -4,26 +4,57 @@ const excelToJson = require('convert-excel-to-json');
 class upload {
   static async create(req, res) {
     try {
-      let POP_promotion_1, POP_promotion_2
+      let POP_promotion_1, POP_promotion_2, dataReturn
 
-      if (req.files.length != 0) {
-        POP_promotion_1 = req.files.find(el => el.originalname === 'promotion_1' || el.originalname === 'promotion_1.jpg' || el.originalname === 'promotion_1.png')
-        POP_promotion_2 = req.files.find(el => el.originalname === 'promotion_2' || el.originalname === 'promotion_2.jpg' || el.originalname === 'promotion_2.png')
+      if (Number(req.body.category_upload_id) === 3) {
+        POP_promotion_1 = req.files.find(el => el.originalname === 'promotion_1' || el.originalname === 'promotion_1.jpg' || el.originalname === 'promotion_1.png') || req.files[0]
+        POP_promotion_2 = req.files.find(el => el.originalname === 'promotion_2' || el.originalname === 'promotion_2.jpg' || el.originalname === 'promotion_2.png') || req.files[1]
       }
 
-      if (Number(req.body.category_upload_id) === 3) { //UPLOAD POP IDN
-        let datasReturn = []
+      if (Number(req.body.category_upload_id) === 1 || Number(req.body.category_upload_id) === 2) { //UPLOAD POG AND FIXTURE TRAIT
 
+        let newData = {
+          path: POP_promotion_1.path,
+          category_upload_id: 1,
+          retailer_id: req.body.retailer_id,
+        }
+        let createUpload = await tbl_uploads.create(newData)
+
+        if (Number(req.body.category_upload_id) === 1) {
+          await tbl_fixture_types.update({ POG: req.files[0].path }, { where: { id: req.body.fixture_type_id } })
+
+        } else if (Number(req.body.category_upload_id) === 2) {
+          await tbl_fixture_types.update({ fixture_traits: req.files[0].path }, { where: { id: req.body.fixture_type_id } })
+        }
+
+        dataReturn = await tbl_uploads.findOne({
+          where: { id: createUpload.id },
+          attributes: {
+            exclude: ['createdAt', 'updatedAt']
+          },
+          include: [{
+            require: true,
+            model: tbl_category_uploads,
+            attributes: {
+              exclude: ['createdAt', 'updatedAt']
+            }
+          }]
+        })
+
+        res.status(201).json({ message: "Success", data: dataReturn })
+
+      } else if (Number(req.body.category_upload_id) === 3) { //UPLOAD POP IDN
+        let datasReturn = []
         if (POP_promotion_1) {
           let newData = {
-            path: POP_promotion_1,
+            path: POP_promotion_1.path,
             category_upload_id: 1,
             retailer_id: req.body.retailer_id,
             information: 'promotion_1'
           }
           let createUpload = await tbl_uploads.create(newData)
 
-          let dataReturn = await tbl_uploads.findOne({
+          dataReturn = await tbl_uploads.findOne({
             where: { id: createUpload.id },
             attributes: {
               exclude: ['createdAt', 'updatedAt']
@@ -36,19 +67,21 @@ class upload {
               }
             }]
           })
+
+          await tbl_retailers.update({ promotion_1: POP_promotion_1.path }, { where: { id: req.body.retailer_id } })
           datasReturn.push(dataReturn)
         }
 
         if (POP_promotion_2) {
           let newData = {
-            path: POP_promotion_2,
+            path: POP_promotion_2.path,
             category_upload_id: 1,
             retailer_id: req.body.retailer_id,
             information: 'promotion_2'
           }
           let createUpload = await tbl_uploads.create(newData)
 
-          let dataReturn = await tbl_uploads.findOne({
+          let dataReturns = await tbl_uploads.findOne({
             where: { id: createUpload.id },
             attributes: {
               exclude: ['createdAt', 'updatedAt']
@@ -61,8 +94,11 @@ class upload {
               }
             }]
           })
-          datasReturn.push(dataReturn)
+          await tbl_retailers.update({ promotion_2: POP_promotion_2.path }, { where: { id: req.body.retailer_id } })
+
+          datasReturn.push(dataReturns)
         }
+        console.log(datasReturn)
         res.status(201).json({ message: "Success", data: datasReturn })
 
       } else {
@@ -89,16 +125,17 @@ class upload {
         res.status(201).json({ message: "Success", data: dataReturn })
       }
 
+
+      // SEND NOTIF OR IMPORT STORE
       if (Number(req.body.category_upload_id) === 1 || Number(req.body.category_upload_id) === 2 || Number(req.body.category_upload_id) === 3) {
         let allUser = await tbl_users.findAll()
 
         allUser.forEach(async el => {
-          if (req.body.category_upload_id === 3) { //UPLOAD POP IDN
-
+          if (Number(req.body.category_upload_id) === 3) { //UPLOAD POP IDN
             if (POP_promotion_1) {
               let newData = {
                 message: `Ada file ${dataReturn.tbl_category_upload.category} baru`,
-                path_file: POP_promotion_1,
+                path_file: POP_promotion_1.path,
                 user_id: el.id,
                 read: 0
               }
@@ -107,7 +144,7 @@ class upload {
             if (POP_promotion_2) {
               let newData = {
                 message: `Ada file ${dataReturn.tbl_category_upload.category} baru`,
-                path_file: POP_promotion_2,
+                path_file: POP_promotion_2.path,
                 user_id: el.id,
                 read: 0
               }
@@ -181,15 +218,15 @@ class upload {
             }
 
             if (Number(element.id) === 3 && Number(retailer.id) === 1) {
-              let file1 = allFileUpload.find(el => 
-                (el.category_upload_id === element.id && el.retailer_id === retailer.id && el.information === 'promotion_1') || 
+              let file1 = allFileUpload.find(el =>
+                (el.category_upload_id === element.id && el.retailer_id === retailer.id && el.information === 'promotion_1') ||
                 (el.category_upload_id === element.id && el.retailer_id === retailer.id))
-              let file2 = allFileUpload.find(el => 
-                (el.category_upload_id === element.id && el.retailer_id === retailer.id && el.information === 'promotion_2' && el.id !== file1.id) || 
+              let file2 = allFileUpload.find(el =>
+                (el.category_upload_id === element.id && el.retailer_id === retailer.id && el.information === 'promotion_2' && el.id !== file1.id) ||
                 (el.category_upload_id === element.id && el.retailer_id === retailer.id && el.id !== file1.id))
 
-                tempObj.path_1 = file1 ? file1.path : null
-                tempObj.path_2 = file2 ? file2.path : null
+              tempObj.path_1 = file1 ? file1.path : null
+              tempObj.path_2 = file2 ? file2.path : null
 
             } else {
               tempObj.path = file ? file.path : null

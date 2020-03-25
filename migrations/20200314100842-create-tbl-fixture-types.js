@@ -11,6 +11,12 @@ module.exports = {
       fixture_type: {
         type: Sequelize.STRING
       },
+      POG: {
+        type: Sequelize.STRING(255)
+      },
+      fixture_traits: {
+        type: Sequelize.STRING(255)
+      },
       google_50k: {
         type: Sequelize.INTEGER
       },
