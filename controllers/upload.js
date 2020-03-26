@@ -1,10 +1,23 @@
 const { tbl_uploads, tbl_category_uploads, tbl_retailers, tbl_notifications, tbl_users, tbl_dcs, tbl_fixture_types, tbl_stores } = require('../models')
 const excelToJson = require('convert-excel-to-json');
+const Jimp = require('jimp');
 
 class upload {
   static async create(req, res) {
     try {
       let POP_promotion_1, POP_promotion_2, dataReturn
+
+      req.files.forEach(el => {
+        if (el.mimetype === 'image/jpeg' || el.mimetype === 'image/png') {
+          Jimp.read(`./${el.path}`, (err, lenna) => {
+            if (err) throw err;
+            lenna
+              .scaleToFit(500, 500)
+              .quality(70)
+              .write(`./${el.path}`);
+          });
+        }
+      })
 
       if (Number(req.body.category_upload_id) === 3) {
         POP_promotion_1 = req.files.find(el => el.originalname === 'promotion_1' || el.originalname === 'promotion_1.jpg' || el.originalname === 'promotion_1.png') || req.files[0]

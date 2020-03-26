@@ -1,16 +1,29 @@
 const { tbl_visits, tbl_stores, tbl_users, tbl_retailers, tbl_dcs, tbl_fixture_types } = require('../models')
+var Jimp = require('jimp');
 
 class visit {
   static async create(req, res) {
 
     let img_store, img_fixture_in, img_fixture_out
 
+    req.files.forEach(el => {
+      if (el.mimetype === 'image/jpeg' || el.mimetype === 'image/png') {
+        Jimp.read(`./${el.path}`, (err, lenna) => {
+          if (err) throw err;
+          lenna
+            .scaleToFit(500, 500)
+            .quality(70)
+            .write(`./${el.path}`);
+        });
+      }
+    })
+
     if (req.files.length != 0) {
       img_store = req.files.find(el => el.originalname === 'img_store' || el.originalname === 'img_store.jpg' || el.originalname === 'img_store.png')
       img_fixture_in = req.files.find(el => el.originalname === 'img_fixture_in' || el.originalname === 'img_fixture_in.jpg' || el.originalname === 'img_fixture_in.png')
       img_fixture_out = req.files.find(el => el.originalname === 'img_fixture_out' || el.originalname === 'img_fixture_out.jpg' || el.originalname === 'img_fixture_out.png')
     }
-    
+
     try {
 
       let newData = {
@@ -206,10 +219,28 @@ class visit {
 
   static async update(req, res) {
     try {
+      req.files.forEach(el => {
+        if (el.mimetype === 'image/jpeg' || el.mimetype === 'image/png') {
+          Jimp.read(`./${el.path}`, (err, lenna) => {
+            if (err) throw err;
+            lenna
+              .scaleToFit(500, 500)
+              .quality(70)
+              .write(`./${el.path}`);
+          });
+        }
+      })
+
+      if (req.files.length != 0) {
+        img_store = req.files.find(el => el.originalname === 'img_store' || el.originalname === 'img_store.jpg' || el.originalname === 'img_store.png')
+        img_fixture_in = req.files.find(el => el.originalname === 'img_fixture_in' || el.originalname === 'img_fixture_in.jpg' || el.originalname === 'img_fixture_in.png')
+        img_fixture_out = req.files.find(el => el.originalname === 'img_fixture_out' || el.originalname === 'img_fixture_out.jpg' || el.originalname === 'img_fixture_out.png')
+      }
+
       let newData = {
-        img_store: req.files[0] ? req.files[0].path : "",
-        img_fixture_in: req.files[1] ? req.files[1].path : "",
-        img_fixture_out: req.files[2] ? req.files[2].path : "",
+        img_store: img_store ? img_store.path : (req.files[0] ? req.files[0].path : ""),
+        img_fixture_in: img_fixture_in ? img_fixture_in.path : (req.files[1] ? req.files[1].path : ""),
+        img_fixture_out: img_fixture_out ? img_fixture_out.path : (req.files[2] ? req.files[2].path : ""),
         visit_date: new Date(req.body.visit_date),
         user_id: req.user_id,
         store_code: req.body.store_code,
