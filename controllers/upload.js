@@ -327,7 +327,7 @@ async function importStore(pathFile, res) {
       city: element.city
     }
 
-    if (element.fixture_type_2 !== "-" || element.fixture_type_2 !== "") newObj.fixture_type_id_2 = fixture_type_2.id
+    if (element.fixture_type_2 !== "-" && element.fixture_type_2 !== "") newObj.fixture_type_id_2 = fixture_type_2.id
 
     await tbl_stores.upsert(newObj)
   })
