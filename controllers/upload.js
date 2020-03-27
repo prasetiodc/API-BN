@@ -175,7 +175,8 @@ class upload {
           }
         })
       } else if (Number(req.body.category_upload_id) === 4) {
-        importStore(req.files[0].path, res)
+        await importStore(req.files[0].path, res)
+        await refreshTotalStore()
       }
 
     } catch (err) {
@@ -334,4 +335,15 @@ async function importStore(pathFile, res) {
 
 }
 
+
+async function refreshTotalStore() {
+  let allRetailer = await tbl_retailers.findAll()
+  let allStore = await tbl_stores.findAll()
+
+  await allRetailer.forEach(async retailer => {
+    let storeRetailer = await allStore.filter(store => Number(store.retailer_id) === Number(retailer.id))
+
+    await tbl_retailers.update({ total_store: storeRetailer.length }, { where: { id: retailer.id } })
+  })
+}
 module.exports = upload

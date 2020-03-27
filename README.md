@@ -1575,8 +1575,8 @@
         }
       ]
     - `category_upload_id` : `Integer`,
-    - `retailer_id` : `Integer`,
-    - `fixture_type_id` : `Integer`, [OPTIONAL]
+    - `retailer_id` : `Integer`, 
+    - `fixture_type_id` : `Integer`, [For upload POG and Fixture Traits]
   - Expected response :
     - Success (status: `200`)
       ```json
