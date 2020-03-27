@@ -303,7 +303,6 @@ async function importStore(pathFile, res) {
   let allDC = await tbl_dcs.findAll()
   let allFixtureType = await tbl_fixture_types.findAll()
 
-  console.log(data.Sheet1)
   await data.Sheet1.forEach(async element => {
     let md = await allMD.find(el => el.nik.toLowerCase() === element.md.toLowerCase())
     let fixture_type_1 = await allFixtureType.find(el => el.fixture_type.toLowerCase() === element.fixture_type_1.toLowerCase())
@@ -327,8 +326,9 @@ async function importStore(pathFile, res) {
       district: element.district,
       city: element.city
     }
-    if (element.fixture_type_2 !== "-") newObj.fixture_type_id_1 = fixture_type_2.id
-    console.log(newObj)
+
+    if (element.fixture_type_2 !== "-" || element.fixture_type_2 !== "") newObj.fixture_type_id_2 = fixture_type_2.id
+
     await tbl_stores.upsert(newObj)
   })
 
