@@ -27,7 +27,7 @@ class upload {
       if (Number(req.body.category_upload_id) === 1 || Number(req.body.category_upload_id) === 2) { //UPLOAD POG AND FIXTURE TRAIT
 
         let newData = {
-          path: POP_promotion_1.path,
+          path: req.files.path,
           category_upload_id: 1,
           retailer_id: req.body.retailer_id,
         }
