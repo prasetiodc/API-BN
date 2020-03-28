@@ -1615,8 +1615,14 @@
                     "retailer_id": "...",
                     "retailer_name": "...",
                     "initial": "...",
-                    "path": "..."
-                },
+                    "file": [
+                        {
+                            "id": "...",
+                            "fixture_type": "...",
+                            "POG": "..."
+                        },
+                    ]
+                }
                 ....
               ]
             },
@@ -1625,11 +1631,17 @@
               "category": "Fixture Traits",
               "retailers": [
                 {
-                  "retailer_id": "...",
-                  "retailer_name": "...",
-                  "initial": "...",
-                  "path": "..."
-                },
+                    "retailer_id": "...",
+                    "retailer_name": "...",
+                    "initial": "...",
+                    "file": [
+                        {
+                            "id": "...",
+                            "fixture_type": "...",
+                            "fixture_traits": "..."
+                        },
+                    ]
+                }
                 ....
               ]
             },
@@ -1641,14 +1653,14 @@
                       "retailer_id":  "...",
                       "retailer_name": "...",
                       "initial":  "...",
-                      "path_1": "...",
-                      "path_2":  "...",
+                      "promotion_1": "...",
+                      "promotion_2":  "...",
                   },
                   {
                       "retailer_id":  "...",
                       "retailer_name":  "...",
                       "initial":  "...",
-                      "path": "..."
+                      "promotion": "..."
                   },
                   ....
               ]

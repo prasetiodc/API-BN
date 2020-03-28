@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
     // associations can be defined here
     tbl_retailers.hasMany(models.tbl_stores, { foreignKey: 'retailer_id' })
     tbl_retailers.hasMany(models.tbl_uploads, { foreignKey: 'retailer_id' })
+    tbl_retailers.hasMany(models.tbl_fixture_types, { foreignKey: 'retailer_id' })
   };
   return tbl_retailers;
 };

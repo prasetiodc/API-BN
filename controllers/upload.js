@@ -211,6 +211,9 @@ class upload {
 
       let allCategori = await tbl_category_uploads.findAll()
       let allRetailer = await tbl_retailers.findAll()
+      let allFixtureType = await tbl_fixture_types.findAll({
+        attributes: ['id', 'fixture_type', 'POG', 'fixture_traits', 'retailer_id'],
+      })
 
       let datas = []
       await allCategori.forEach(async element => {
@@ -223,28 +226,50 @@ class upload {
           let data = []
 
           await allRetailer.forEach(async retailer => {
-            let file = await allFileUpload.find(el => el.category_upload_id === element.id && el.retailer_id === retailer.id)
-
             let tempObj = {
               retailer_id: retailer.id,
               retailer_name: retailer.retailer_name,
               initial: retailer.initial,
             }
 
-            if (Number(element.id) === 3 && Number(retailer.id) === 1) {
-              let file1 = allFileUpload.find(el =>
-                (el.category_upload_id === element.id && el.retailer_id === retailer.id && el.information === 'promotion_1') ||
-                (el.category_upload_id === element.id && el.retailer_id === retailer.id))
-              let file2 = allFileUpload.find(el =>
-                (el.category_upload_id === element.id && el.retailer_id === retailer.id && el.information === 'promotion_2' && el.id !== file1.id) ||
-                (el.category_upload_id === element.id && el.retailer_id === retailer.id && el.id !== file1.id))
+            if (Number(element.id) === 1 || Number(element.id) === 2) {
+              let tempFixtureType = await allFixtureType.filter(el => el.retailer_id === retailer.id)
+              let data = []
+              tempFixtureType.forEach(fixType => {
+                delete fixType.fixture_traits
+                let obj = {
+                  id: fixType.id,
+                  fixture_type: fixType.fixture_type
+                }
+                if (Number(element.id) === 1) obj.POG = fixType.POG
+                if (Number(element.id) === 2) obj.fixture_traits = fixType.fixture_traits
 
-              tempObj.path_1 = file1 ? file1.path : null
-              tempObj.path_2 = file2 ? file2.path : null
-
-            } else {
-              tempObj.path = file ? file.path : null
+                data.push(obj)
+              })
+              tempObj.file = data
+            }else{
+              if(retailer.id===1){
+                tempObj.promotion_1=retailer.promotion_1
+                tempObj.promotion_2=retailer.promotion_2
+              }else{
+                tempObj.promotion=retailer.promotion_1
+              }
             }
+
+            // if (Number(element.id) === 3 && Number(retailer.id) === 1) {
+            //   let file1 = allFileUpload.find(el =>
+            //     (el.category_upload_id === element.id && el.retailer_id === retailer.id && el.information === 'promotion_1') ||
+            //     (el.category_upload_id === element.id && el.retailer_id === retailer.id))
+            //   let file2 = allFileUpload.find(el =>
+            //     (el.category_upload_id === element.id && el.retailer_id === retailer.id && el.information === 'promotion_2' && el.id !== file1.id) ||
+            //     (el.category_upload_id === element.id && el.retailer_id === retailer.id && el.id !== file1.id))
+
+            //   tempObj.path_1 = file1 ? file1.path : null
+            //   tempObj.path_2 = file2 ? file2.path : null
+
+            // } else {
+            //   tempObj.path = file ? file.path : null
+            // }
 
             data.push(tempObj)
           })

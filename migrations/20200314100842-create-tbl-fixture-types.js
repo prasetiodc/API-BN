@@ -17,6 +17,9 @@ module.exports = {
       fixture_traits: {
         type: Sequelize.STRING(255)
       },
+      retailer_id: {
+        type: Sequelize.INTEGER(11)
+      },
       google_50k: {
         type: Sequelize.INTEGER
       },

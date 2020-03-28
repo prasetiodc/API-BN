@@ -1,10 +1,11 @@
-const { tbl_fixture_types } = require('../models')
+const { tbl_fixture_types, tbl_retailers } = require('../models')
 
 class fixtureType {
   static async create(req, res) {
     try {
       let newData = {
         fixture_type: req.body.fixture_type,
+        retailer_id: req.body.retailer_id,
         google_50k: req.body.google_50k,
         google_100k: req.body.google_100k,
         google_150k: req.body.google_150k,
@@ -17,6 +18,11 @@ class fixtureType {
 
       let dataReturn = await tbl_fixture_types.findOne({
         where: { id: createFixtureType.id },
+        include: [{
+          model: tbl_retailers, attributes: {
+            exclude: ['createdAt', 'updatedAt']
+          }
+        }],
         attributes: {
           exclude: ['createdAt', 'updatedAt']
         }
@@ -32,13 +38,18 @@ class fixtureType {
 
   static async findAll(req, res) {
     try {
-      let allRetailer = await tbl_fixture_types.findAll({
+      let allFixtureType = await tbl_fixture_types.findAll({
+        include: [{
+          model: tbl_retailers, attributes: {
+            exclude: ['createdAt', 'updatedAt']
+          }
+        }],
         attributes: {
           exclude: ['createdAt', 'updatedAt']
         }
       })
 
-      res.status(200).json({ message: "Success", total_data: allRetailer.length, data: allRetailer })
+      res.status(200).json({ message: "Success", total_data: allFixtureType.length, data: allFixtureType })
     } catch (err) {
       res.status(500).json({ message: "Error", err })
     }
@@ -46,13 +57,18 @@ class fixtureType {
 
   static async findOne(req, res) {
     try {
-      let allRetailer = await tbl_fixture_types.findByPk(req.params.id, {
+      let allFixtureType = await tbl_fixture_types.findByPk(req.params.id, {
+        include: [{
+          model: tbl_retailers, attributes: {
+            exclude: ['createdAt', 'updatedAt']
+          }
+        }],
         attributes: {
           exclude: ['createdAt', 'updatedAt']
         }
       })
 
-      if (allRetailer) res.status(200).json({ message: "Success", data: allRetailer })
+      if (allFixtureType) res.status(200).json({ message: "Success", data: allFixtureType })
       else throw "bad request"
     } catch (err) {
       console.log(err)
@@ -63,12 +79,18 @@ class fixtureType {
 
   static async update(req, res) {
     try {
-      let newDate = {
-        retailer_name: req.body.name,
-        initial: req.body.initial,
-        total_store: req.body.total_store
+      let newData = {
+        fixture_type: req.body.fixture_type,
+        retailer_id: req.body.retailer_id,
+        google_50k: req.body.google_50k,
+        google_100k: req.body.google_100k,
+        google_150k: req.body.google_150k,
+        google_300k: req.body.google_300k,
+        google_500k: req.body.google_500k,
+        spotify_1m: req.body.spotify_1m,
+        spotify_3m: req.body.spotify_3m
       }
-      await tbl_fixture_types.update(newDate, { where: { id: req.params.id } })
+      await tbl_fixture_types.update(newData, { where: { id: req.params.id } })
 
       let dataReturn = await tbl_fixture_types.findByPk(req.params.id, {
         attributes: {
