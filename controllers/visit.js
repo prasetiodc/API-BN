@@ -6,13 +6,15 @@ class visit {
 
     let img_store, img_fixture_in, img_fixture_out
 
-    let newDataStore = {
-      nameStore: req.body.name_store,
-      dc: req.body.dc,
-      city: req.body.city,
-      address: req.body.address
+    if(req.body.store_name || req.body.dc || req.body.city || req.body.address ){
+      let newDataStore = {
+        store_name: req.body.store_name,
+        dc: req.body.dc,
+        city: req.body.city,
+        address: req.body.address
+      }
+      await tbl_stores.update(newDataStore, { where: { store_code: req.body.store_code } })
     }
-    await tbl_stores.update(newDataStore, { where: { store_code: req.body.store_code } })
 
     req.files.forEach(el => {
       if (el.mimetype === 'image/jpeg' || el.mimetype === 'image/png') {
