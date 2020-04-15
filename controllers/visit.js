@@ -6,10 +6,10 @@ class visit {
 
     let img_store, img_fixture_in, img_fixture_out
 
-    if(req.body.store_name || req.body.dc || req.body.city || req.body.address ){
+    if(req.body.store_name || req.body.dc_id || req.body.city || req.body.address ){
       let newDataStore = {
         store_name: req.body.store_name,
-        dc: req.body.dc,
+        dc_id: req.body.dc_id,
         city: req.body.city,
         address: req.body.address
       }
