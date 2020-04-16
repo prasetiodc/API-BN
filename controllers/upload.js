@@ -326,7 +326,7 @@ async function importStore(pathFile, res) {
 
   let allMD = await tbl_users.findAll()
   let allRetailer = await tbl_retailers.findAll()
-  let allDC = await tbl_dcs.findAll()
+  var allDC = await tbl_dcs.findAll()
   let allFixtureType = await tbl_fixture_types.findAll()
 
   await data.Sheet1.forEach(async element => {
@@ -338,6 +338,7 @@ async function importStore(pathFile, res) {
 
     if (!dc) {
       dc = await tbl_dcs.create({ DC_name: element.dc })
+      allDC = await tbl_dcs.findAll()
     }
 
     let newObj = {
