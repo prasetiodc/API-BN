@@ -1,4 +1,5 @@
-const { tbl_stores, tbl_retailers, tbl_dcs, tbl_users, tbl_fixture_types } = require('../models')
+const { tbl_stores, tbl_retailers, tbl_dcs, tbl_users, tbl_fixture_types, tbl_visits } = require('../models')
+const Op = require('sequelize').Op
 
 class store {
   static async create(req, res) {
@@ -86,42 +87,108 @@ class store {
 
   static async findAll(req, res) {
     try {
-      let allStore = await tbl_stores.findAll({
-        include: [{
-          model: tbl_users,
-          attributes: {
-            exclude: ['createdAt', 'updatedAt']
-          },
-        }, {
-          model: tbl_fixture_types,
-          as: "fixtureType1",
-          attributes: {
-            exclude: ['createdAt', 'updatedAt']
-          },
-        }, {
-          model: tbl_fixture_types,
-          as: "fixtureType2",
-          attributes: {
-            exclude: ['createdAt', 'updatedAt']
-          },
-        }, {
-          model: tbl_dcs,
-          attributes: {
-            exclude: ['createdAt', 'updatedAt']
-          },
-        }, {
-          model: tbl_retailers,
+      let allStore
+      if (req.query.forVisit === 'true') {
+        let tempStore = []
+        let monthNow = new Date().getMonth() + 1
+        let monthNext = new Date().getMonth() + 2
+
+        if (monthNow < 10) monthNow = `0${monthNow}`
+        if (monthNext < 10) monthNext = `0${monthNext}`
+
+        let dataVisit = await tbl_visits.findAll({
+          where: {
+            user_id: req.user_id,
+            [Op.and]: [
+              { visit_date: { [Op.gte]: `${new Date().getFullYear()}-${monthNow}-01` } },
+              { visit_date: { [Op.lt]: `${new Date().getFullYear()}-${monthNext}-01` } }
+            ]
+          }
+        })
+
+
+        allStore = await tbl_stores.findAll({
+          where: { md_id: req.user_id },
+          include: [{
+            model: tbl_users,
+            attributes: {
+              exclude: ['createdAt', 'updatedAt']
+            },
+          }, {
+            model: tbl_fixture_types,
+            as: "fixtureType1",
+            attributes: {
+              exclude: ['createdAt', 'updatedAt']
+            },
+          }, {
+            model: tbl_fixture_types,
+            as: "fixtureType2",
+            attributes: {
+              exclude: ['createdAt', 'updatedAt']
+            },
+          }, {
+            model: tbl_dcs,
+            attributes: {
+              exclude: ['createdAt', 'updatedAt']
+            },
+          }, {
+            model: tbl_retailers,
+            attributes: {
+              exclude: ['createdAt', 'updatedAt']
+            }
+          }],
           attributes: {
             exclude: ['createdAt', 'updatedAt']
           }
-        }],
-        attributes: {
-          exclude: ['createdAt', 'updatedAt']
-        }
-      })
+        })
 
-      res.status(200).json({ message: "Success", total_data: allStore.length, data: allStore })
+        await allStore.forEach(async store => {
+          let cekAvailable = await dataVisit.find(el => store.store_code === el.store_code)
+
+          if (!cekAvailable) tempStore.push(store)
+        });
+
+        res.status(200).json({ message: "Success", total_data: tempStore.length, data: tempStore })
+
+      } else {
+        allStore = await tbl_stores.findAll({
+          include: [{
+            model: tbl_users,
+            attributes: {
+              exclude: ['createdAt', 'updatedAt']
+            },
+          }, {
+            model: tbl_fixture_types,
+            as: "fixtureType1",
+            attributes: {
+              exclude: ['createdAt', 'updatedAt']
+            },
+          }, {
+            model: tbl_fixture_types,
+            as: "fixtureType2",
+            attributes: {
+              exclude: ['createdAt', 'updatedAt']
+            },
+          }, {
+            model: tbl_dcs,
+            attributes: {
+              exclude: ['createdAt', 'updatedAt']
+            },
+          }, {
+            model: tbl_retailers,
+            attributes: {
+              exclude: ['createdAt', 'updatedAt']
+            }
+          }],
+          attributes: {
+            exclude: ['createdAt', 'updatedAt']
+          }
+        })
+      }
+
+      // res.status(200).json({ message: "Success", total_data: allStore.length, data: allStore })
     } catch (err) {
+      console.log(err)
       res.status(500).json({ message: "Error", err })
     }
   }
