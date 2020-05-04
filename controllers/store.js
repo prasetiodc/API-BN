@@ -148,7 +148,7 @@ class store {
           if (!cekAvailable) tempStore.push(store)
         });
 
-        res.status(200).json({ message: "Success", total_data: tempStore.length, data: tempStore })
+        allStore = tempStore
 
       } else {
         allStore = await tbl_stores.findAll({
@@ -185,8 +185,8 @@ class store {
           }
         })
       }
-
-      // res.status(200).json({ message: "Success", total_data: allStore.length, data: allStore })
+      
+      res.status(200).json({ message: "Success", total_data: allStore.length, data: allStore })
     } catch (err) {
       console.log(err)
       res.status(500).json({ message: "Error", err })
