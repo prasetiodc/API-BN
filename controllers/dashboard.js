@@ -18,23 +18,23 @@ class dashboard {
         if (req.query.brand) {
           if (req.query.brand.toLowerCase() === 'google') {
             conditionInTblVisit[Op.or] = [
-              { entry_google50k: 1 },
-              { entry_google100k: 1 },
-              { entry_google150k: 1 },
-              { entry_google300k: 1 },
-              { entry_google500k: 1 },
-              { exit_google50k: 1 },
-              { exit_google100k: 1 },
-              { exit_google150k: 1 },
-              { exit_google300k: 1 },
-              { exit_google500k: 1 }
+              { entry_google50k: 15 },
+              { entry_google100k: 15 },
+              { entry_google150k: 15 },
+              { entry_google300k: 15 },
+              { entry_google500k: 15 },
+              { exit_google50k: 15 },
+              { exit_google100k: 15 },
+              { exit_google150k: 15 },
+              { exit_google300k: 15 },
+              { exit_google500k: 15 }
             ]
           } else if (req.query.brand.toLowerCase() === 'spotify') {
             conditionInTblVisit[Op.or] = [
-              { entry_spotify1M: 1 },
-              { entry_spotify3M: 1 },
-              { exit_spotify1M: 1 },
-              { exit_spotify3M: 1 }
+              { entry_spotify1M: 15 },
+              { entry_spotify3M: 15 },
+              { exit_spotify1M: 15 },
+              { exit_spotify3M: 15 }
             ]
           }
 
@@ -187,34 +187,34 @@ class dashboard {
 
         }
         // for diagram 6
-        if (Number(element.entry_google50k) === 1 || Number(element.entry_google100k) === 1 || Number(element.entry_google150k) === 1 || Number(element.entry_google300k) === 1 || Number(element.entry_google500k) === 1 || Number(element.entry_spotify1M) === 1 || Number(element.entry_spotify3M) === 1 || Number(element.exit_google50k) === 1 || Number(element.exit_google100k) === 1 || Number(element.exit_google150k) === 1 || Number(element.exit_google300k) === 1 || Number(element.exit_google500k) === 1 || Number(element.exit_spotify1M) === 1 || Number(element.exit_spotify3M) === 1) {
+        if (Number(element.entry_google50k) === 15 || Number(element.entry_google100k) === 15 || Number(element.entry_google150k) === 15 || Number(element.entry_google300k) === 15 || Number(element.entry_google500k) === 15 || Number(element.entry_spotify1M) === 15 || Number(element.entry_spotify3M) === 15 || Number(element.exit_google50k) === 15 || Number(element.exit_google100k) === 15 || Number(element.exit_google150k) === 15 || Number(element.exit_google300k) === 15 || Number(element.exit_google500k) === 15 || Number(element.exit_spotify1M) === 15 || Number(element.exit_spotify3M) === 15) {
 
           if (req.query.brand) {
             if (req.query.brand.toLowerCase() === 'google') {
-              if (Number(element.entry_google50k) === 1 || Number(element.entry_google100k) === 1 || Number(element.entry_google150k) === 1 || Number(element.entry_google300k) === 1 || Number(element.entry_google500k) === 1) {
+              if (Number(element.entry_google50k) === 15 || Number(element.entry_google100k) === 15 || Number(element.entry_google150k) === 15 || Number(element.entry_google300k) === 15 || Number(element.entry_google500k) === 15) {
                 counterEntryInstockCompliance++
               }
 
-              if (Number(element.exit_google50k) === 1 || Number(element.exit_google100k) === 1 || Number(element.exit_google150k) === 1 || Number(element.exit_google300k) === 1 || Number(element.exit_google500k) === 1) {
-                counterEntryInstockCompliance++
+              if (Number(element.exit_google50k) === 15 || Number(element.exit_google100k) === 15 || Number(element.exit_google150k) === 15 || Number(element.exit_google300k) === 15 || Number(element.exit_google500k) === 15) {
+                counterExitInstockCompliance++
               }
 
             } else if (req.query.brand.toLowerCase() === 'spotify') {
-              if (Number(element.entry_spotify1M) === 1 || Number(element.entry_spotify3M) === 1) {
+              if (Number(element.entry_spotify1M) === 15 || Number(element.entry_spotify3M) === 15) {
                 counterEntryInstockCompliance++
-              } else if (Number(element.exit_spotify1M) === 1 || Number(element.exit_spotify3M) === 1) {
+              } 
+              if (Number(element.exit_spotify1M) === 15 || Number(element.exit_spotify3M) === 15) {
                 counterExitInstockCompliance++
               }
             }
           } else {
-            if (Number(element.entry_google50k) === 1 || Number(element.entry_google100k) === 1 || Number(element.entry_google150k) === 1 || Number(element.entry_google300k) === 1 || Number(element.entry_google500k) === 1 || Number(element.entry_spotify1M) === 1 || Number(element.entry_spotify3M) === 1) {
+            if (Number(element.entry_google50k) === 15 || Number(element.entry_google100k) === 15 || Number(element.entry_google150k) === 15 || Number(element.entry_google300k) === 15 || Number(element.entry_google500k) === 15 || Number(element.entry_spotify1M) === 15 || Number(element.entry_spotify3M) === 15) {
               counterEntryInstockCompliance++
-            } else {
+            }
+            if (Number(element.exit_google50k) === 15 || Number(element.exit_google100k) === 15 || Number(element.exit_google150k) === 15 || Number(element.exit_google300k) === 15 || Number(element.exit_google500k) === 15 || Number(element.exit_spotify1M) === 15 || Number(element.exit_spotify3M) === 15) {
               counterExitInstockCompliance++
             }
           }
-
-
 
           dataInstockCompliance.push(element)
         }
