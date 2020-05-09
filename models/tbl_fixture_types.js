@@ -18,6 +18,8 @@ module.exports = (sequelize, DataTypes) => {
     tbl_fixture_types.hasMany(models.tbl_stores, { as: "fixtureType1", foreignKey: 'fixture_type_id_1' })
     tbl_fixture_types.hasMany(models.tbl_stores, { as: "fixtureType2", foreignKey: 'fixture_type_id_2' })
     tbl_fixture_types.belongsTo(models.tbl_retailers, { foreignKey: 'retailer_id' })
+    tbl_fixture_types.hasMany(models.tbl_visits, { foreignKey: 'entry_correct_fixture', as: 'entry_correct_fixture_id'})
+    tbl_fixture_types.hasMany(models.tbl_visits, { foreignKey: 'exit_correct_fixture', as: 'exit_correct_fixture_id' })
   };
   return tbl_fixture_types;
 };

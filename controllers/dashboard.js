@@ -15,30 +15,30 @@ class dashboard {
             [Op.lte]: new Date(`${new Date().getFullYear()}-${Number(req.query.month) + 1}-01`)
           }
         }
-        if (req.query.brand) {
-          if (req.query.brand.toLowerCase() === 'google') {
-            conditionInTblVisit[Op.or] = [
-              { entry_google50k: 15 },
-              { entry_google100k: 15 },
-              { entry_google150k: 15 },
-              { entry_google300k: 15 },
-              { entry_google500k: 15 },
-              { exit_google50k: 15 },
-              { exit_google100k: 15 },
-              { exit_google150k: 15 },
-              { exit_google300k: 15 },
-              { exit_google500k: 15 }
-            ]
-          } else if (req.query.brand.toLowerCase() === 'spotify') {
-            conditionInTblVisit[Op.or] = [
-              { entry_spotify1M: 15 },
-              { entry_spotify3M: 15 },
-              { exit_spotify1M: 15 },
-              { exit_spotify3M: 15 }
-            ]
-          }
+        // if (req.query.brand) {
+        //   if (req.query.brand.toLowerCase() === 'google') {
+        //     conditionInTblVisit[Op.or] = [
+        //       { entry_google50k: 15 },
+        //       { entry_google100k: 15 },
+        //       { entry_google150k: 15 },
+        //       { entry_google300k: 15 },
+        //       { entry_google500k: 15 },
+        //       { exit_google50k: 15 },
+        //       { exit_google100k: 15 },
+        //       { exit_google150k: 15 },
+        //       { exit_google300k: 15 },
+        //       { exit_google500k: 15 }
+        //     ]
+        //   } else if (req.query.brand.toLowerCase() === 'spotify') {
+        //     conditionInTblVisit[Op.or] = [
+        //       { entry_spotify1M: 15 },
+        //       { entry_spotify3M: 15 },
+        //       { exit_spotify1M: 15 },
+        //       { exit_spotify3M: 15 }
+        //     ]
+        //   }
 
-        }
+        // }
         if (req.query.retailer) conditionInTblRetailer.id = Number(req.query.retailer)
         if (req.query.store) conditionInTblStore.store_code = req.query.store
         if (req.query.md) conditionInTblUser.id = Number(req.query.md)
@@ -96,6 +96,18 @@ class dashboard {
             attributes: {
               exclude: ['createdAt', 'updatedAt']
             },
+          }, {
+            model: tbl_fixture_types,
+            as: "entry_correct_fixture_id",
+            attributes: {
+              exclude: ['createdAt', 'updatedAt']
+            },
+          }, {
+            model: tbl_fixture_types,
+            as: "exit_correct_fixture_id",
+            attributes: {
+              exclude: ['createdAt', 'updatedAt']
+            },
           }]
         })
       } else {
@@ -132,6 +144,18 @@ class dashboard {
                 exclude: ['createdAt', 'updatedAt']
               },
             }]
+          }, {
+            model: tbl_fixture_types,
+            as: "entry_correct_fixture_id",
+            attributes: {
+              exclude: ['createdAt', 'updatedAt']
+            },
+          }, {
+            model: tbl_fixture_types,
+            as: "exit_correct_fixture_id",
+            attributes: {
+              exclude: ['createdAt', 'updatedAt']
+            },
           }]
         })
       }
@@ -141,7 +165,7 @@ class dashboard {
       let totalAllStore = AllStore.length
 
       let counterEntryFixComp = 0, counterExitFixComp = 0, dataFixComp = [], counterEntryPOGComp = 0, counterExitPOGComp = 0, dataPOGComp = [], counterPromotionAwareness = 0, dataPromotionAwareness = [], counterComplaintHandling = 0, dataComplaintHandling = [], counterActivationKnowHow = 0, dataActivationKnowHow = [], counterEntryInstockCompliance = 0, counterExitInstockCompliance = 0, dataInstockCompliance = [], counterEntryPODCompliance = 0, counterExitPODCompliance = 0, dataPODCompliance = [], counterEntryPOPCompliance = 0, counterExitPOPCompliance = 0, dataPOPCompliance = []
-
+      console.log(allDataVisit)
       allDataVisit && allDataVisit.forEach(element => {
         // for diagram 2
         if (Number(element.entry_fixture_comp) === 1 || Number(element.exit_fixture_comp) === 1) {
@@ -202,7 +226,7 @@ class dashboard {
             } else if (req.query.brand.toLowerCase() === 'spotify') {
               if (Number(element.entry_spotify1M) === 15 || Number(element.entry_spotify3M) === 15) {
                 counterEntryInstockCompliance++
-              } 
+              }
               if (Number(element.exit_spotify1M) === 15 || Number(element.exit_spotify3M) === 15) {
                 counterExitInstockCompliance++
               }

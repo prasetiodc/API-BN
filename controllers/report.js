@@ -74,6 +74,18 @@ class report {
               exclude: ['createdAt', 'updatedAt']
             },
           }]
+        }, {
+          model: tbl_fixture_types,
+          as: "entry_correct_fixture_id",
+          attributes: {
+            exclude: ['createdAt', 'updatedAt']
+          },
+        }, {
+          model: tbl_fixture_types,
+          as: "exit_correct_fixture_id",
+          attributes: {
+            exclude: ['createdAt', 'updatedAt']
+          },
         }]
       })
 
@@ -92,38 +104,42 @@ class report {
             "Sub District": visit.tbl_store.sub_district,
             "District": visit.tbl_store.district,
             "City": visit.tbl_store.city,
-            "Documentation Store": visit.img_store,
-            "Picture (Entry)": visit.img_fixture_in,
+            "Documentation Store": `http://212.237.35.40:3030/${visit.img_store}`,
+            "Picture (Entry)": `http://212.237.35.40:3030/${visit.img_fixture_in}`,
             "Fixture Compliance (Entry)": Number(visit.entry_fixture_comp) === 1 ? "Yes" : "No",
+            "Correct Fixture": visit.entry_correct_fixture_id ? visit.entry_correct_fixture_id.fixture_type : "Yes",
             "PEG Compliance (Entry)": Number(visit.entry_peg_comp) === 1 ? "Yes" : "No",
+            "Broken Pegs (Entry)": visit.entry_broken_hanger ? visit.entry_broken_hanger : 0,
             "POG Compliance (Entry)": Number(visit.entry_pog_comp) === 1 ? "Yes" : "No",
-            "Google 50k (Entry)": Number(visit.entry_google50k) === 1 ? "Yes" : "No",
-            "Google 100k (Entry)": Number(visit.entry_google100k) === 1 ? "Yes" : "No",
-            "Google 150k (Entry)": Number(visit.entry_google150k) === 1 ? "Yes" : "No",
-            "Google 300k (Entry)": Number(visit.entry_google300k) === 1 ? "Yes" : "No",
-            "Google 500k (Entry)": Number(visit.entry_google500k) === 1 ? "Yes" : "No",
-            "Spotify 1 Month (Entry)": Number(visit.entry_spotify1M) === 1 ? "Yes" : "No",
-            "Spotify 3 Month (Entry)": Number(visit.entry_spotify3M) === 1 ? "Yes" : "No",
+            "Correct POG (Entry)": Number(visit.entry_pog_comp) === 1 ? "Yes" : visit.entry_correct_pog,
+            "Google 50k (Entry)": visit.entry_google50k,
+            "Google 100k (Entry)": visit.entry_google100k,
+            "Google 150k (Entry)": visit.entry_google150k,
+            "Google 300k (Entry)": visit.entry_google300k,
+            "Google 500k (Entry)": visit.entry_google500k,
+            "Spotify 1 Month (Entry)": visit.entry_spotify1M,
+            "Spotify 3 Month (Entry)": visit.entry_spotify3M,
             "POP Pic 1 (Entry)": Number(visit.entry_pop_pic_1) === 1 ? "Yes" : "No",
             "POP Pic 2 (Entry)": Number(visit.entry_pop_pic_2) === 1 ? "Yes" : "No",
-            "Picture (Exit)": Number(visit.img_fixture_out) === 1 ? "Yes" : "No",
+            "Picture (Exit)": `http://212.237.35.40:3030/${visit.img_fixture_out}`,
             "Fixture Compliance (Exit)": Number(visit.exit_fixture_comp) === 1 ? "Yes" : "No",
             "PEG Compliance (Exit)": Number(visit.exit_peg_comp) === 1 ? "Yes" : "No",
+            "Broken Pegs (Exit)": visit.exit_broken_hanger ? visit.exit_broken_hanger : 0,
             "POG Compliance (Exit)": Number(visit.exit_pog_comp) === 1 ? "Yes" : "No",
-            "Google 50k (Exit)": Number(visit.exit_google50k) === 1 ? "Yes" : "No",
-            "Google 100k (Exit)": Number(visit.exit_google100k) === 1 ? "Yes" : "No",
-            "Google 150k (Exit)": Number(visit.exit_google150k) === 1 ? "Yes" : "No",
-            "Google 300k (Exit)": Number(visit.exit_google300k) === 1 ? "Yes" : "No",
-            "Google 500k (Exit)": Number(visit.exit_google500k) === 1 ? "Yes" : "No",
-            "Spotify 1 Month (Exit)": Number(visit.exit_spotify1M) === 1 ? "Yes" : "No",
-            "Spotify 3 Month (Exit)": Number(visit.exit_spotify3M) === 1 ? "Yes" : "No",
+            "Correct POG (Exit)": visit.exit_correct_pog,
+            "Google 50k (Exit)": visit.exit_google50k,
+            "Google 100k (Exit)": visit.exit_google100k,
+            "Google 150k (Exit)": visit.exit_google150k,
+            "Google 300k (Exit)": visit.exit_google300k,
+            "Google 500k (Exit)": visit.exit_google500k,
+            "Spotify 1 Month (Exit)": visit.exit_spotify1M,
+            "Spotify 3 Month (Exit)": visit.exit_spotify3M,
             "POP Pic 1 (Exit)": Number(visit.exit_pop_pic_1) === 1 ? "Yes" : "No",
             "POP Pic 2 (Exit)": Number(visit.exit_pop_pic_2) === 1 ? "Yes" : "No",
             "Shop Assistants Name": visit.assistants_name,
             "Does the staff know how to activate Gift cards?": Number(visit.q1) === 1 ? "Yes" : "No",
             "Does the staff know how to activate POR?": Number(visit.q2) === 1 ? "Yes" : "No",
             "Does the staff know how to handle customer complaints about Gift card redemption?": Number(visit.q3) === 1 ? "Yes" : "No",
-            "Does the staff know about existing promotions for each gift cards?": Number(visit.q4) === 1 ? "Yes" : "No",
           }
           dataReturn.push(newObj)
         });

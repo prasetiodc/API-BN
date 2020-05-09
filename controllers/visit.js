@@ -3,10 +3,9 @@ var Jimp = require('jimp');
 
 class visit {
   static async create(req, res) {
-
     let img_store, img_fixture_in, img_fixture_out
-
-    if(req.body.store_name || req.body.dc_id || req.body.city || req.body.address ){
+console.log(req.body)
+    if (req.body.store_name || req.body.dc_id || req.body.city || req.body.address) {
       let newDataStore = {
         store_name: req.body.store_name,
         dc_id: req.body.dc_id,
@@ -16,7 +15,7 @@ class visit {
       await tbl_stores.update(newDataStore, { where: { store_code: req.body.store_code } })
     }
 
-    req.files.forEach(el => {
+    req.files && req.files.forEach(el => {
       if (el.mimetype === 'image/jpeg' || el.mimetype === 'image/png') {
         Jimp.read(`./${el.path}`, (err, lenna) => {
           if (err) throw err;
@@ -28,7 +27,7 @@ class visit {
       }
     })
 
-    if (req.files.length != 0) {
+    if (req.files && req.files.length != 0) {
       img_store = req.files.find(el => el.originalname === 'img_store' || el.originalname === 'img_store.jpg' || el.originalname === 'img_store.png')
       img_fixture_in = req.files.find(el => el.originalname === 'img_fixture_in' || el.originalname === 'img_fixture_in.jpg' || el.originalname === 'img_fixture_in.png')
       img_fixture_out = req.files.find(el => el.originalname === 'img_fixture_out' || el.originalname === 'img_fixture_out.jpg' || el.originalname === 'img_fixture_out.png')
@@ -37,16 +36,18 @@ class visit {
     try {
 
       let newData = {
-        img_store: img_store ? img_store.path : (req.files[0] ? req.files[0].path : ""),
-        img_fixture_in: img_fixture_in ? img_fixture_in.path : (req.files[1] ? req.files[1].path : ""),
-        img_fixture_out: img_fixture_out ? img_fixture_out.path : (req.files[2] ? req.files[2].path : ""),
+        img_store: img_store ? img_store.path : ((req.files && req.files[0]) ? req.files[0].path : ""),
+        img_fixture_in: img_fixture_in ? img_fixture_in.path : ((req.files && req.files[1]) ? req.files[1].path : ""),
+        img_fixture_out: img_fixture_out ? img_fixture_out.path : ((req.files && req.files[2]) ? req.files[2].path : ""),
         visit_date: new Date(req.body.visit_date),
         user_id: req.user_id,
         store_code: req.body.store_code,
         entry_fixture_comp: req.body.entry_fixture_comp,
+        entry_correct_fixture: req.body.entry_correct_fixture || null,
         entry_peg_comp: req.body.entry_peg_comp,
         entry_broken_hanger: req.body.entry_broken_hanger,
         entry_pog_comp: req.body.entry_pog_comp,
+        entry_correct_pog: req.body.entry_correct_pog,
         entry_pop_pic_1: req.body.entry_pop_pic_1,
         entry_pop_pic_2: req.body.entry_pop_pic_2,
         entry_google50k: req.body.entry_google50k,
@@ -57,9 +58,11 @@ class visit {
         entry_spotify1M: req.body.entry_spotify1M,
         entry_spotify3M: req.body.entry_spotify3M,
         exit_fixture_comp: req.body.exit_fixture_comp,
+        exit_correct_fixture: req.body.exit_correct_fixture || null,
         exit_peg_comp: req.body.exit_peg_comp,
         exit_broken_hanger: req.body.exit_broken_hanger,
         exit_pog_comp: req.body.exit_pog_comp,
+        exit_correct_pog: req.body.exit_correct_pog,
         exit_pop_pic_1: req.body.exit_pop_pic_1,
         exit_pop_pic_2: req.body.exit_pop_pic_2,
         exit_google50k: req.body.exit_google50k,
@@ -160,6 +163,18 @@ class visit {
               exclude: ['createdAt', 'updatedAt']
             },
           }]
+        }, {
+          model: tbl_fixture_types,
+          as: "entry_correct_fixture_id",
+          attributes: {
+            exclude: ['createdAt', 'updatedAt']
+          },
+        }, {
+          model: tbl_fixture_types,
+          as: "exit_correct_fixture_id",
+          attributes: {
+            exclude: ['createdAt', 'updatedAt']
+          },
         }],
         attributes: {
           exclude: ['createdAt', 'updatedAt']
@@ -257,11 +272,13 @@ class visit {
         user_id: req.user_id,
         store_code: req.body.store_code,
         entry_fixture_comp: req.body.entry_fixture_comp,
+        entry_correct_fixture: req.body.entry_correct_fixture,
         entry_peg_comp: req.body.entry_peg_comp,
         entry_broken_hanger: req.body.entry_broken_hanger,
         entry_pog_comp: req.body.entry_pog_comp,
+        entry_correct_pog: req.body.entry_correct_pog,
         entry_pop_pic_1: req.body.entry_pop_pic_1,
-        exit_pop_pic_2: req.body.exit_pop_pic_2,
+        entry_pop_pic_2: req.body.entry_pop_pic_2,
         entry_google50k: req.body.entry_google50k,
         entry_google100k: req.body.entry_google100k,
         entry_google150k: req.body.entry_google150k,
@@ -270,11 +287,13 @@ class visit {
         entry_spotify1M: req.body.entry_spotify1M,
         entry_spotify3M: req.body.entry_spotify3M,
         exit_fixture_comp: req.body.exit_fixture_comp,
+        exit_correct_fixture: req.body.exit_correct_fixture,
         exit_peg_comp: req.body.exit_peg_comp,
         exit_broken_hanger: req.body.exit_broken_hanger,
         exit_pog_comp: req.body.exit_pog_comp,
-        entry_pop_pic_2: req.body.entry_pop_pic_2,
+        exit_correct_pog: req.body.exit_correct_pog,
         exit_pop_pic_1: req.body.exit_pop_pic_1,
+        exit_pop_pic_2: req.body.exit_pop_pic_2,
         exit_google50k: req.body.exit_google50k,
         exit_google100k: req.body.exit_google100k,
         exit_google150k: req.body.exit_google150k,
