@@ -126,7 +126,7 @@ class report {
             "PEG Compliance (Exit)": Number(visit.exit_peg_comp) === 1 ? "Yes" : "No",
             "Broken Pegs (Exit)": visit.exit_broken_hanger ? visit.exit_broken_hanger : 0,
             "POG Compliance (Exit)": Number(visit.exit_pog_comp) === 1 ? "Yes" : "No",
-            "Correct POG (Exit)": visit.exit_correct_pog,
+            "Correct POG (Exit)": Number(visit.exit_pog_comp) === 1 ? "Yes" : visit.exit_correct_pog,
             "Google 50k (Exit)": visit.exit_google50k,
             "Google 100k (Exit)": visit.exit_google100k,
             "Google 150k (Exit)": visit.exit_google150k,
