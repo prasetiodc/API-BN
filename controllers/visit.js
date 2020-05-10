@@ -4,7 +4,7 @@ var Jimp = require('jimp');
 class visit {
   static async create(req, res) {
     let img_store, img_fixture_in, img_fixture_out
-console.log(req.body)
+    console.log("start", new Date())
     if (req.body.store_name || req.body.dc_id || req.body.city || req.body.address) {
       let newDataStore = {
         store_name: req.body.store_name,
@@ -14,18 +14,6 @@ console.log(req.body)
       }
       await tbl_stores.update(newDataStore, { where: { store_code: req.body.store_code } })
     }
-
-    req.files && req.files.forEach(el => {
-      if (el.mimetype === 'image/jpeg' || el.mimetype === 'image/png') {
-        Jimp.read(`./${el.path}`, (err, lenna) => {
-          if (err) throw err;
-          lenna
-            .scaleToFit(500, 500)
-            .quality(70)
-            .write(`./${el.path}`);
-        });
-      }
-    })
 
     if (req.files && req.files.length != 0) {
       img_store = req.files.find(el => el.originalname === 'img_store' || el.originalname === 'img_store.jpg' || el.originalname === 'img_store.png')
@@ -115,8 +103,21 @@ console.log(req.body)
           }]
         }]
       })
+      console.log("end", new Date())
 
       res.status(201).json({ message: "Success", data: dataReturn })
+
+      req.files && req.files.forEach(el => {
+        if (el.mimetype === 'image/jpeg' || el.mimetype === 'image/png') {
+          Jimp.read(`./${el.path}`, (err, lenna) => {
+            if (err) throw err;
+            lenna
+              .scaleToFit(500, 500)
+              .quality(70)
+              .write(`./${el.path}`);
+          });
+        }
+      })
     } catch (err) {
       console.log(err)
       if (err === "bad request") res.status(400).json({ message: "Bad request" })
