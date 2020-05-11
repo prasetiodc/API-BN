@@ -326,7 +326,7 @@ class dashboard {
       // for diagram 9
       let complaintHandling = {
         persen: dataComplaintHandling.length > 0 ? ((counterComplaintHandling / allDataVisit.length) * 100) : 0,
-        dataComplaintHandling
+        dataComplaintHandling : allDataVisit
       }
 
 
