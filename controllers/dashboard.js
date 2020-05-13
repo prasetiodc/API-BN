@@ -216,16 +216,16 @@ class dashboard {
           if (req.query.brand) {
             if (req.query.brand.toLowerCase() === 'google') {
               if (Number(element.entry_google50k) === 15) {
-                counterExitInstockCompliance++
+                counterEntryInstockCompliance++
               }
               if (Number(element.entry_google100k) === 15) {
-                counterExitInstockCompliance++
+                counterEntryInstockCompliance++
               }
               if (Number(element.entry_google150k) === 15) {
-                counterExitInstockCompliance++
+                counterEntryInstockCompliance++
               }
               if (Number(element.entry_google300k) === 15) {
-                counterExitInstockCompliance++
+                counterEntryInstockCompliance++
               }
               if (Number(element.entry_google500k) === 15) {
                 counterEntryInstockCompliance++
@@ -249,7 +249,7 @@ class dashboard {
 
             } else if (req.query.brand.toLowerCase() === 'spotify') {
               if (Number(element.entry_spotify1M) === 15) {
-                counterExitInstockCompliance++
+                counterEntryInstockCompliance++
               }
               if (Number(element.entry_spotify3M) === 15) {
                 counterEntryInstockCompliance++
