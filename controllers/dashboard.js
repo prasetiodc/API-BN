@@ -164,57 +164,112 @@ class dashboard {
 
       let totalAllStore = AllStore.length
 
-      let counterEntryFixComp = 0, counterExitFixComp = 0, dataFixComp = [], counterEntryPOGComp = 0, counterExitPOGComp = 0, dataPOGComp = [], counterPromotionAwareness = 0, dataPromotionAwareness = [], counterComplaintHandling = 0, dataComplaintHandling = [], counterActivationKnowHow = 0, dataActivationKnowHow = [], counterEntryInstockCompliance = 0, counterExitInstockCompliance = 0, dataInstockCompliance = [], counterEntryPODCompliance = 0, counterExitPODCompliance = 0, dataPODCompliance = [], counterEntryPOPCompliance = 0, counterExitPOPCompliance = 0, dataPOPCompliance = []
-      console.log(allDataVisit)
+      let counterEntryFixComp = 0, counterExitFixComp = 0, dataFixComp = [], counterEntryPOGComp = 0, counterExitPOGComp = 0, dataPOGComp = [], counterPromotionAwareness = 0, dataPromotionAwareness = [], counterComplaintHandling = 0, dataComplaintHandling = [], counterActivationKnowHow = 0, dataActivationKnowHow = [], counterEntryInstockCompliance = 0, counterExitInstockCompliance = 0, dataInstockCompliance = [], counterEntryPODCompliance = 0, counterExitPODCompliance = 0, dataPODCompliance = [], counterEntryPOPCompliance = 0, counterExitPOPCompliance = 0, dataPOPCompliance = [], dataDetail
+
       allDataVisit && allDataVisit.forEach(element => {
         // for diagram 2
-        if (Number(element.entry_fixture_comp) === 1 || Number(element.exit_fixture_comp) === 1) {
-          if (Number(element.entry_fixture_comp) === 1) counterEntryFixComp++
-          if (Number(element.exit_fixture_comp) === 1) counterExitFixComp++
-          // dataFixComp.push(element)
+        if (req.query.diagram === "fixture-compliance" || !req.query.diagram) {
+          if (Number(element.entry_fixture_comp) === 1 || Number(element.exit_fixture_comp) === 1) {
+            if (Number(element.entry_fixture_comp) === 1) counterEntryFixComp++
+            if (Number(element.exit_fixture_comp) === 1) counterExitFixComp++
+            if (req.query.diagram === "fixture-compliance") dataFixComp.push(element)
+          }
         }
         // for diagram 3
-        if (Number(element.entry_pog_comp) === 1 || Number(element.exit_pog_comp) === 1) {
-          if (Number(element.entry_pog_comp) === 1) counterEntryPOGComp++
-          if (Number(element.exit_pog_comp) === 1) counterExitPOGComp++
-          // dataPOGComp.push(element)
+        if (req.query.diagram === "POG-compliance" || !req.query.diagram) {
+          if (Number(element.entry_pog_comp) === 1 || Number(element.exit_pog_comp) === 1) {
+            if (Number(element.entry_pog_comp) === 1) counterEntryPOGComp++
+            if (Number(element.exit_pog_comp) === 1) counterExitPOGComp++
+            if (req.query.diagram === "POG-compliance") dataPOGComp.push(element)
+          }
         }
         //for diagram 4 
-        if (Number(element.entry_peg_comp) === 1 || Number(element.exit_peg_comp) === 1) {
-          if (Number(element.entry_peg_comp) === 1) counterEntryPODCompliance++
-          if (Number(element.exit_peg_comp) === 1) counterExitPODCompliance++
-          // dataPODCompliance.push(element)
+        if (req.query.diagram === "POD-compliance" || !req.query.diagram) {
+          if (Number(element.entry_peg_comp) === 1 || Number(element.exit_peg_comp) === 1) {
+            if (Number(element.entry_peg_comp) === 1) counterEntryPODCompliance++
+            if (Number(element.exit_peg_comp) === 1) counterExitPODCompliance++
+            if (req.query.diagram === "POD-compliance") dataPODCompliance.push(element)
+          }
         }
         //for diagram 5
-        if (Number(element.entry_pop_pic_1) == 1 || Number(element.entry_pop_pic_2) == 1 || Number(element.exit_pop_pic_1) == 1 || Number(element.exit_pop_pic_2) == 1) {
-          let tempCounterEntry = 0, tempCounterExit = 0
+        if (req.query.diagram === "POP-compliance" || !req.query.diagram) {
+          if (Number(element.entry_pop_pic_1) == 1 || Number(element.entry_pop_pic_2) == 1 || Number(element.exit_pop_pic_1) == 1 || Number(element.exit_pop_pic_2) == 1) {
+            let tempCounterEntry = 0, tempCounterExit = 0
 
-          if (Number(element.tbl_store.retailer_id) === 1) {  // 1=IDN, 2=SAT, 3=MIDI
-            if (Number(element.entry_pop_pic_1) === 1) tempCounterEntry++
-            if (Number(element.entry_pop_pic_2) === 1) tempCounterEntry++
-            counterEntryPOPCompliance += (tempCounterEntry / 2)
+            if (Number(element.tbl_store.retailer_id) === 1) {  // 1=IDN, 2=SAT, 3=MIDI
+              if (Number(element.entry_pop_pic_1) === 1) tempCounterEntry++
+              if (Number(element.entry_pop_pic_2) === 1) tempCounterEntry++
+              counterEntryPOPCompliance += (tempCounterEntry / 2)
 
-            if (Number(element.exit_pop_pic_1) === 1) tempCounterExit++
-            if (Number(element.exit_pop_pic_2) === 1) tempCounterExit++
-            counterExitPOPCompliance += (tempCounterExit / 2)
+              if (Number(element.exit_pop_pic_1) === 1) tempCounterExit++
+              if (Number(element.exit_pop_pic_2) === 1) tempCounterExit++
+              counterExitPOPCompliance += (tempCounterExit / 2)
 
-            // dataPOPCompliance.push(element)
-          } else if (Number(element.tbl_store.retailer_id) === 2 || Number(element.tbl_store.retailer_id) === 3) {
-            if (Number(element.entry_pop_pic_1) === 1 || Number(element.entry_pop_pic_2) === 1) tempCounterEntry++
-            counterEntryPOPCompliance += tempCounterEntry
+              if (req.query.diagram === "POP-compliance") dataPOPCompliance.push(element)
+            } else if (Number(element.tbl_store.retailer_id) === 2 || Number(element.tbl_store.retailer_id) === 3) {
+              if (Number(element.entry_pop_pic_1) === 1) tempCounterEntry++
+              counterEntryPOPCompliance += tempCounterEntry
 
-            if (Number(element.exit_pop_pic_1) === 1 || Number(element.exit_pop_pic_2) === 1) tempCounterExit++
-            counterExitPOPCompliance += tempCounterExit
+              if (Number(element.exit_pop_pic_1) === 1) tempCounterExit++
+              counterExitPOPCompliance += tempCounterExit
 
-            // dataPOPCompliance.push(element)
+              if (req.query.diagram === "POP-compliance") dataPOPCompliance.push(element)
+            }
           }
-
         }
         // for diagram 6
-        if (Number(element.entry_google50k) === 15 || Number(element.entry_google100k) === 15 || Number(element.entry_google150k) === 15 || Number(element.entry_google300k) === 15 || Number(element.entry_google500k) === 15 || Number(element.entry_spotify1M) === 15 || Number(element.entry_spotify3M) === 15 || Number(element.exit_google50k) === 15 || Number(element.exit_google100k) === 15 || Number(element.exit_google150k) === 15 || Number(element.exit_google300k) === 15 || Number(element.exit_google500k) === 15 || Number(element.exit_spotify1M) === 15 || Number(element.exit_spotify3M) === 15) {
+        if (req.query.diagram === "stock-compliance" || !req.query.diagram) {
+          if (Number(element.entry_google50k) === 15 || Number(element.entry_google100k) === 15 || Number(element.entry_google150k) === 15 || Number(element.entry_google300k) === 15 || Number(element.entry_google500k) === 15 || Number(element.entry_spotify1M) === 15 || Number(element.entry_spotify3M) === 15 || Number(element.exit_google50k) === 15 || Number(element.exit_google100k) === 15 || Number(element.exit_google150k) === 15 || Number(element.exit_google300k) === 15 || Number(element.exit_google500k) === 15 || Number(element.exit_spotify1M) === 15 || Number(element.exit_spotify3M) === 15) {
 
-          if (req.query.brand) {
-            if (req.query.brand.toLowerCase() === 'google') {
+            if (req.query.brand) {
+              if (req.query.brand.toLowerCase() === 'google') {
+                if (Number(element.entry_google50k) === 15) {
+                  counterEntryInstockCompliance++
+                }
+                if (Number(element.entry_google100k) === 15) {
+                  counterEntryInstockCompliance++
+                }
+                if (Number(element.entry_google150k) === 15) {
+                  counterEntryInstockCompliance++
+                }
+                if (Number(element.entry_google300k) === 15) {
+                  counterEntryInstockCompliance++
+                }
+                if (Number(element.entry_google500k) === 15) {
+                  counterEntryInstockCompliance++
+                }
+
+                if (Number(element.exit_google50k) === 15) {
+                  counterExitInstockCompliance++
+                }
+                if (Number(element.exit_google100k) === 15) {
+                  counterExitInstockCompliance++
+                }
+                if (Number(element.exit_google150k) === 15) {
+                  counterExitInstockCompliance++
+                }
+                if (Number(element.exit_google300k) === 15) {
+                  counterExitInstockCompliance++
+                }
+                if (Number(element.exit_google500k) === 15) {
+                  counterExitInstockCompliance++
+                }
+
+              } else if (req.query.brand.toLowerCase() === 'spotify') {
+                if (Number(element.entry_spotify1M) === 15) {
+                  counterEntryInstockCompliance++
+                }
+                if (Number(element.entry_spotify3M) === 15) {
+                  counterEntryInstockCompliance++
+                }
+                if (Number(element.exit_spotify1M) === 15) {
+                  counterExitInstockCompliance++
+                }
+                if (Number(element.exit_spotify3M) === 15) {
+                  counterExitInstockCompliance++
+                }
+              }
+            } else {
               if (Number(element.entry_google50k) === 15) {
                 counterEntryInstockCompliance++
               }
@@ -228,6 +283,12 @@ class dashboard {
                 counterEntryInstockCompliance++
               }
               if (Number(element.entry_google500k) === 15) {
+                counterEntryInstockCompliance++
+              }
+              if (Number(element.entry_spotify1M) === 15) {
+                counterEntryInstockCompliance++
+              }
+              if (Number(element.entry_spotify3M) === 15) {
                 counterEntryInstockCompliance++
               }
 
@@ -246,14 +307,6 @@ class dashboard {
               if (Number(element.exit_google500k) === 15) {
                 counterExitInstockCompliance++
               }
-
-            } else if (req.query.brand.toLowerCase() === 'spotify') {
-              if (Number(element.entry_spotify1M) === 15) {
-                counterEntryInstockCompliance++
-              }
-              if (Number(element.entry_spotify3M) === 15) {
-                counterEntryInstockCompliance++
-              }
               if (Number(element.exit_spotify1M) === 15) {
                 counterExitInstockCompliance++
               }
@@ -261,147 +314,158 @@ class dashboard {
                 counterExitInstockCompliance++
               }
             }
-          } else {
-            if (Number(element.entry_google50k) === 15) {
-              counterEntryInstockCompliance++
-            }
-            if (Number(element.entry_google100k) === 15) {
-              counterEntryInstockCompliance++
-            }
-            if (Number(element.entry_google150k) === 15) {
-              counterEntryInstockCompliance++
-            }
-            if (Number(element.entry_google300k) === 15) {
-              counterEntryInstockCompliance++
-            }
-            if (Number(element.entry_google500k) === 15) {
-              counterEntryInstockCompliance++
-            }
-            if (Number(element.entry_spotify1M) === 15) {
-              counterEntryInstockCompliance++
-            }
-            if (Number(element.entry_spotify3M) === 15) {
-              counterEntryInstockCompliance++
-            }
 
-            if (Number(element.exit_google50k) === 15) {
-              counterExitInstockCompliance++
-            }
-            if (Number(element.exit_google100k) === 15) {
-              counterExitInstockCompliance++
-            }
-            if (Number(element.exit_google150k) === 15) {
-              counterExitInstockCompliance++
-            }
-            if (Number(element.exit_google300k) === 15) {
-              counterExitInstockCompliance++
-            }
-            if (Number(element.exit_google500k) === 15) {
-              counterExitInstockCompliance++
-            }
-            if (Number(element.exit_spotify1M) === 15) {
-              counterExitInstockCompliance++
-            }
-            if (Number(element.exit_spotify3M) === 15) {
-              counterExitInstockCompliance++
-            }
+            if (req.query.diagram === "stock-compliance") dataInstockCompliance.push(element)
           }
-
-          // dataInstockCompliance.push(element)
         }
         // for diagram 7
-        if (Number(element.q1) === 1) {
-          counterActivationKnowHow++
-          // dataActivationKnowHow.push(element)
+        if (req.query.diagram === "activation-know-how" || !req.query.diagram) {
+          if (Number(element.q1) === 1) {
+            counterActivationKnowHow++
+            if (req.query.diagram === "activation-know-how") dataActivationKnowHow.push(element)
+          }
         }
         // for diagram 8
-        if (Number(element.q2) === 1) {
-          counterPromotionAwareness++
-          // dataPromotionAwareness.push(element)
+        if (req.query.diagram === "promotion-awareness" || !req.query.diagram) {
+          if (Number(element.q2) === 1) {
+            counterPromotionAwareness++
+            if (req.query.diagram === "promotion-awareness") dataPromotionAwareness.push(element)
+          }
         }
         //for diagram 9
-        if (Number(element.q3) === 1) {
-          counterComplaintHandling++
-          // dataComplaintHandling.push(element)
+        if (req.query.diagram === "complain-handling" || !req.query.diagram) {
+          if (Number(element.q3) === 1) {
+            counterComplaintHandling++
+            if (req.query.diagram === "complain-handling") dataComplaintHandling.push(element)
+          }
         }
       });
+      // visit-compliance, fixture-compliance, POG-compliance
+      if (req.query.diagram === "POD-compliance") dataPODCompliance.push(element)
+      if (req.query.diagram === "POP-compliance") dataPOPCompliance.push(element)
+      if (req.query.diagram === "stock-compliance") dataInstockCompliance.push(element)
+      if (req.query.diagram === "activation-know-how") dataActivationKnowHow.push(element)
+      if (req.query.diagram === "promotion-awareness") dataPromotionAwareness.push(element)
+      if (req.query.diagram === "complain-handling") dataComplaintHandling.push(element)
 
       // for diagram 1
       let visitCompliance = {
         total_all_store: totalAllStore,
         store_has_visit: allDataVisit.length,
-        persen: (allDataVisit.length / totalAllStore) * 100,
-        // allDataVisit
+        persen: (allDataVisit.length / totalAllStore) * 100
       }
+      if (req.query.diagram === "visit-compliance") {
+        visitCompliance.allDataVisit = allDataVisit
+        dataDetail = visitCompliance
+      }
+
       // for diagram 2
       let fixtureCompliance = {
         entry: dataFixComp.length > 0 ? ((counterEntryFixComp / allDataVisit.length) * 100) : 0,
-        exit: dataFixComp.length > 0 ? ((counterExitFixComp / allDataVisit.length) * 100) : 0,
-        // dataFixComp
+        exit: dataFixComp.length > 0 ? ((counterExitFixComp / allDataVisit.length) * 100) : 0
       }
+      if (req.query.diagram === "fixture-compliance") {
+        fixtureCompliance.dataFixComp = dataFixComp
+        dataDetail = fixtureCompliance
+      }
+
       // for diagram 3
       let POGCompliance = {
         entry: dataPOGComp.length > 0 ? ((counterEntryPOGComp / allDataVisit.length) * 100) : 0,
-        exit: dataPOGComp.length > 0 ? ((counterExitPOGComp / allDataVisit.length) * 100) : 0,
-        // dataPOGComp
+        exit: dataPOGComp.length > 0 ? ((counterExitPOGComp / allDataVisit.length) * 100) : 0
       }
+      if (req.query.diagram === "POG-compliance") {
+        POGCompliance.dataPOGComp = dataPOGComp
+        dataDetail = POGCompliance
+      }
+
       //for diagram 4
       let PODCompliance = {
         entry: dataPODCompliance.length > 0 ? ((counterEntryPODCompliance / allDataVisit.length) * 100) : 0,
         exit: dataPODCompliance.length > 0 ? ((counterExitPODCompliance / allDataVisit.length) * 100) : 0,
         // dataPODCompliance
       }
+      if (req.query.diagram === "POD-compliance") {
+        PODCompliance.dataPODCompliance = dataPODCompliance
+        dataDetail = PODCompliance
+      }
+
       //for diagram 5
       let POPCompliance = {
         entry: dataPOPCompliance.length > 0 ? ((counterEntryPOPCompliance / allDataVisit.length) * 100) : 0,
         exit: dataPOPCompliance.length > 0 ? ((counterExitPOPCompliance / allDataVisit.length) * 100) : 0,
         // dataPOPCompliance
       }
+      if (req.query.diagram === "POP-compliance") {
+        POPCompliance.dataPOPCompliance = dataPOPCompliance
+        dataDetail = POPCompliance
+      }
+
       // for diagram 6
       let instockCompliance
       if (req.query.brand) {
         if (req.query.brand.toLowerCase() === 'google') {
           instockCompliance = {
             entryInstockCompliance: dataInstockCompliance.length > 0 ? ((counterEntryInstockCompliance / (allDataVisit.length * 5)) * 100) : 0,
-            exitInstockCompliance: dataInstockCompliance.length > 0 ? ((counterExitInstockCompliance / (allDataVisit.length * 5)) * 100) : 0,
-            // dataInstockCompliance
+            exitInstockCompliance: dataInstockCompliance.length > 0 ? ((counterExitInstockCompliance / (allDataVisit.length * 5)) * 100) : 0
           }
         } else if (req.query.brand.toLowerCase() === 'spotify') {
           instockCompliance = {
             entryInstockCompliance: dataInstockCompliance.length > 0 ? ((counterEntryInstockCompliance / (allDataVisit.length * 2)) * 100) : 0,
-            exitInstockCompliance: dataInstockCompliance.length > 0 ? ((counterExitInstockCompliance / (allDataVisit.length * 2)) * 100) : 0,
-            // dataInstockCompliance
+            exitInstockCompliance: dataInstockCompliance.length > 0 ? ((counterExitInstockCompliance / (allDataVisit.length * 2)) * 100) : 0
           }
         }
       } else {
         instockCompliance = {
           entryInstockCompliance: dataInstockCompliance.length > 0 ? ((counterEntryInstockCompliance / (allDataVisit.length * 7)) * 100) : 0,
           exitInstockCompliance: dataInstockCompliance.length > 0 ? ((counterExitInstockCompliance / (allDataVisit.length * 7)) * 100) : 0,
-          // dataInstockCompliance
         }
       }
+      if (req.query.diagram === "stock-compliance") {
+        instockCompliance.dataInstockCompliance = dataInstockCompliance
+        dataDetail = instockCompliance
+      }
+
       //for diagram 7
       let activationKnowHow = {
         persen: dataActivationKnowHow.length > 0 ? ((counterActivationKnowHow / allDataVisit.length) * 100) : 0,
-        // dataActivationKnowHow
       }
+      if (req.query.diagram === "activation-know-how") {
+        activationKnowHow.dataActivationKnowHow = dataActivationKnowHow
+        dataDetail = activationKnowHow
+      }
+
       // for diagram 8
       let promotionAwareness = {
         persen: dataPromotionAwareness.length > 0 ? ((counterPromotionAwareness / allDataVisit.length) * 100) : 0,
         // dataPromotionAwareness
       }
+      if (req.query.diagram === "promotion-awareness") {
+        promotionAwareness.dataPromotionAwareness = dataPromotionAwareness
+        dataDetail = promotionAwareness
+      }
+
       // for diagram 9
       let complaintHandling = {
         persen: dataComplaintHandling.length > 0 ? ((counterComplaintHandling / allDataVisit.length) * 100) : 0,
         // dataComplaintHandling: allDataVisit
       }
+      if (req.query.diagram === "complain-handling") {
+        complaintHandling.dataComplaintHandling = allDataVisit
+        dataDetail = complaintHandling
+      }
 
-
-      res.status(200).json({
-        message: "Success", data_length: allDataVisit.length, data: allDataVisit, diagram: {
-          visitCompliance, fixtureCompliance, POGCompliance, PODCompliance, POPCompliance, instockCompliance, activationKnowHow, promotionAwareness, complaintHandling
-        }
-      })
+      if (!req.query.diagram) {
+        res.status(200).json({
+          message: "Success", data_length: allDataVisit.length, diagram: {
+            visitCompliance, fixtureCompliance, POGCompliance, PODCompliance, POPCompliance, instockCompliance, activationKnowHow, promotionAwareness, complaintHandling
+          }
+        })
+      } else {
+        res.status(200).json({
+          message: "Success", ...dataDetail
+        })
+      }
     } catch (err) {
       console.log(err)
       res.status(500).json({ message: "Error", err })
