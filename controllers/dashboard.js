@@ -159,7 +159,6 @@ class dashboard {
           }]
         })
       }
-
       let AllStore = await tbl_stores.findAll()
 
       let totalAllStore = AllStore.length
@@ -176,23 +175,23 @@ class dashboard {
           }
         }
         // for diagram 3
-        if (req.query.diagram === "POG-compliance" || !req.query.diagram) {
+        if ((req.query.diagram && req.query.diagram.toLowerCase() === "pog-compliance") || !req.query.diagram) {
           if (Number(element.entry_pog_comp) === 1 || Number(element.exit_pog_comp) === 1) {
             if (Number(element.entry_pog_comp) === 1) counterEntryPOGComp++
             if (Number(element.exit_pog_comp) === 1) counterExitPOGComp++
-            if (req.query.diagram === "POG-compliance") dataPOGComp.push(element)
+            if ((req.query.diagram && req.query.diagram.toLowerCase() === "pog-compliance")) dataPOGComp.push(element)
           }
         }
         //for diagram 4 
-        if (req.query.diagram === "POD-compliance" || !req.query.diagram) {
+        if ((req.query.diagram && req.query.diagram.toLowerCase() === "pod-compliance") || !req.query.diagram) {
           if (Number(element.entry_peg_comp) === 1 || Number(element.exit_peg_comp) === 1) {
             if (Number(element.entry_peg_comp) === 1) counterEntryPODCompliance++
             if (Number(element.exit_peg_comp) === 1) counterExitPODCompliance++
-            if (req.query.diagram === "POD-compliance") dataPODCompliance.push(element)
+            if ((req.query.diagram && req.query.diagram.toLowerCase() === "pod-compliance")) dataPODCompliance.push(element)
           }
         }
         //for diagram 5
-        if (req.query.diagram === "POP-compliance" || !req.query.diagram) {
+        if ((req.query.diagram && req.query.diagram.toLowerCase() === "pop-compliance") || !req.query.diagram) {
           if (Number(element.entry_pop_pic_1) == 1 || Number(element.entry_pop_pic_2) == 1 || Number(element.exit_pop_pic_1) == 1 || Number(element.exit_pop_pic_2) == 1) {
             let tempCounterEntry = 0, tempCounterExit = 0
 
@@ -205,7 +204,7 @@ class dashboard {
               if (Number(element.exit_pop_pic_2) === 1) tempCounterExit++
               counterExitPOPCompliance += (tempCounterExit / 2)
 
-              if (req.query.diagram === "POP-compliance") dataPOPCompliance.push(element)
+              if ((req.query.diagram && req.query.diagram.toLowerCase() === "pop-compliance")) dataPOPCompliance.push(element)
             } else if (Number(element.tbl_store.retailer_id) === 2 || Number(element.tbl_store.retailer_id) === 3) {
               if (Number(element.entry_pop_pic_1) === 1) tempCounterEntry++
               counterEntryPOPCompliance += tempCounterEntry
@@ -213,7 +212,7 @@ class dashboard {
               if (Number(element.exit_pop_pic_1) === 1) tempCounterExit++
               counterExitPOPCompliance += tempCounterExit
 
-              if (req.query.diagram === "POP-compliance") dataPOPCompliance.push(element)
+              if ((req.query.diagram && req.query.diagram.toLowerCase() === "pop-compliance")) dataPOPCompliance.push(element)
             }
           }
         }
@@ -340,13 +339,6 @@ class dashboard {
           }
         }
       });
-      // visit-compliance, fixture-compliance, POG-compliance
-      if (req.query.diagram === "POD-compliance") dataPODCompliance.push(element)
-      if (req.query.diagram === "POP-compliance") dataPOPCompliance.push(element)
-      if (req.query.diagram === "stock-compliance") dataInstockCompliance.push(element)
-      if (req.query.diagram === "activation-know-how") dataActivationKnowHow.push(element)
-      if (req.query.diagram === "promotion-awareness") dataPromotionAwareness.push(element)
-      if (req.query.diagram === "complain-handling") dataComplaintHandling.push(element)
 
       // for diagram 1
       let visitCompliance = {
@@ -361,8 +353,8 @@ class dashboard {
 
       // for diagram 2
       let fixtureCompliance = {
-        entry: dataFixComp.length > 0 ? ((counterEntryFixComp / allDataVisit.length) * 100) : 0,
-        exit: dataFixComp.length > 0 ? ((counterExitFixComp / allDataVisit.length) * 100) : 0
+        entry: (dataFixComp.length > 0 || !req.query.diagram) ? ((counterEntryFixComp / allDataVisit.length) * 100) : 0,
+        exit: (dataFixComp.length > 0 || !req.query.diagram) ? ((counterExitFixComp / allDataVisit.length) * 100) : 0
       }
       if (req.query.diagram === "fixture-compliance") {
         fixtureCompliance.dataFixComp = dataFixComp
@@ -371,32 +363,32 @@ class dashboard {
 
       // for diagram 3
       let POGCompliance = {
-        entry: dataPOGComp.length > 0 ? ((counterEntryPOGComp / allDataVisit.length) * 100) : 0,
-        exit: dataPOGComp.length > 0 ? ((counterExitPOGComp / allDataVisit.length) * 100) : 0
+        entry: (dataPOGComp.length > 0 || !req.query.diagram) ? ((counterEntryPOGComp / allDataVisit.length) * 100) : 0,
+        exit: (dataPOGComp.length > 0 || !req.query.diagram) ? ((counterExitPOGComp / allDataVisit.length) * 100) : 0
       }
-      if (req.query.diagram === "POG-compliance") {
+      if (req.query.diagram && req.query.diagram.toLowerCase() === "pog-compliance") {
         POGCompliance.dataPOGComp = dataPOGComp
         dataDetail = POGCompliance
       }
 
       //for diagram 4
       let PODCompliance = {
-        entry: dataPODCompliance.length > 0 ? ((counterEntryPODCompliance / allDataVisit.length) * 100) : 0,
-        exit: dataPODCompliance.length > 0 ? ((counterExitPODCompliance / allDataVisit.length) * 100) : 0,
+        entry: (dataPODCompliance.length > 0 || !req.query.diagram) ? ((counterEntryPODCompliance / allDataVisit.length) * 100) : 0,
+        exit: (dataPODCompliance.length > 0 || !req.query.diagram) ? ((counterExitPODCompliance / allDataVisit.length) * 100) : 0,
         // dataPODCompliance
       }
-      if (req.query.diagram === "POD-compliance") {
+      if (req.query.diagram && req.query.diagram.toLowerCase() === "pod-compliance") {
         PODCompliance.dataPODCompliance = dataPODCompliance
         dataDetail = PODCompliance
       }
 
       //for diagram 5
       let POPCompliance = {
-        entry: dataPOPCompliance.length > 0 ? ((counterEntryPOPCompliance / allDataVisit.length) * 100) : 0,
-        exit: dataPOPCompliance.length > 0 ? ((counterExitPOPCompliance / allDataVisit.length) * 100) : 0,
+        entry: (dataPOPCompliance.length > 0 || !req.query.diagram) ? ((counterEntryPOPCompliance / allDataVisit.length) * 100) : 0,
+        exit: (dataPOPCompliance.length > 0 || !req.query.diagram) ? ((counterExitPOPCompliance / allDataVisit.length) * 100) : 0,
         // dataPOPCompliance
       }
-      if (req.query.diagram === "POP-compliance") {
+      if (req.query.diagram && req.query.diagram.toLowerCase() === "pop-compliance") {
         POPCompliance.dataPOPCompliance = dataPOPCompliance
         dataDetail = POPCompliance
       }
@@ -406,19 +398,19 @@ class dashboard {
       if (req.query.brand) {
         if (req.query.brand.toLowerCase() === 'google') {
           instockCompliance = {
-            entryInstockCompliance: dataInstockCompliance.length > 0 ? ((counterEntryInstockCompliance / (allDataVisit.length * 5)) * 100) : 0,
-            exitInstockCompliance: dataInstockCompliance.length > 0 ? ((counterExitInstockCompliance / (allDataVisit.length * 5)) * 100) : 0
+            entryInstockCompliance: (dataInstockCompliance.length > 0 || !req.query.diagram) ? ((counterEntryInstockCompliance / (allDataVisit.length * 5)) * 100) : 0,
+            exitInstockCompliance: (dataInstockCompliance.length > 0 || !req.query.diagram) ? ((counterExitInstockCompliance / (allDataVisit.length * 5)) * 100) : 0
           }
         } else if (req.query.brand.toLowerCase() === 'spotify') {
           instockCompliance = {
-            entryInstockCompliance: dataInstockCompliance.length > 0 ? ((counterEntryInstockCompliance / (allDataVisit.length * 2)) * 100) : 0,
-            exitInstockCompliance: dataInstockCompliance.length > 0 ? ((counterExitInstockCompliance / (allDataVisit.length * 2)) * 100) : 0
+            entryInstockCompliance: (dataInstockCompliance.length > 0 || !req.query.diagram) ? ((counterEntryInstockCompliance / (allDataVisit.length * 2)) * 100) : 0,
+            exitInstockCompliance: (dataInstockCompliance.length > 0 || !req.query.diagram) ? ((counterExitInstockCompliance / (allDataVisit.length * 2)) * 100) : 0
           }
         }
       } else {
         instockCompliance = {
-          entryInstockCompliance: dataInstockCompliance.length > 0 ? ((counterEntryInstockCompliance / (allDataVisit.length * 7)) * 100) : 0,
-          exitInstockCompliance: dataInstockCompliance.length > 0 ? ((counterExitInstockCompliance / (allDataVisit.length * 7)) * 100) : 0,
+          entryInstockCompliance: (dataInstockCompliance.length > 0 || !req.query.diagram) ? ((counterEntryInstockCompliance / (allDataVisit.length * 7)) * 100) : 0,
+          exitInstockCompliance: (dataInstockCompliance.length > 0 || !req.query.diagram) ? ((counterExitInstockCompliance / (allDataVisit.length * 7)) * 100) : 0,
         }
       }
       if (req.query.diagram === "stock-compliance") {
@@ -428,7 +420,7 @@ class dashboard {
 
       //for diagram 7
       let activationKnowHow = {
-        persen: dataActivationKnowHow.length > 0 ? ((counterActivationKnowHow / allDataVisit.length) * 100) : 0,
+        persen: (dataActivationKnowHow.length > 0 || !req.query.diagram) ? ((counterActivationKnowHow / allDataVisit.length) * 100) : 0,
       }
       if (req.query.diagram === "activation-know-how") {
         activationKnowHow.dataActivationKnowHow = dataActivationKnowHow
@@ -437,7 +429,7 @@ class dashboard {
 
       // for diagram 8
       let promotionAwareness = {
-        persen: dataPromotionAwareness.length > 0 ? ((counterPromotionAwareness / allDataVisit.length) * 100) : 0,
+        persen: (dataPromotionAwareness.length > 0 || !req.query.diagram) ? ((counterPromotionAwareness / allDataVisit.length) * 100) : 0,
         // dataPromotionAwareness
       }
       if (req.query.diagram === "promotion-awareness") {
@@ -447,7 +439,7 @@ class dashboard {
 
       // for diagram 9
       let complaintHandling = {
-        persen: dataComplaintHandling.length > 0 ? ((counterComplaintHandling / allDataVisit.length) * 100) : 0,
+        persen: (dataComplaintHandling.length > 0 || !req.query.diagram) ? ((counterComplaintHandling / allDataVisit.length) * 100) : 0,
         // dataComplaintHandling: allDataVisit
       }
       if (req.query.diagram === "complain-handling") {
