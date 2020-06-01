@@ -121,7 +121,7 @@ class report {
             "POP Pic 1 (Entry)": Number(visit.entry_pop_pic_1) === 1 ? "Yes" : "No",
             "POP Pic 2 (Entry)": Number(visit.entry_pop_pic_2) === 1 ? "Yes" : "No",
             "Picture (Exit)": `http://212.237.35.40:3030/${visit.img_fixture_out}`,
-            "Fixture Compliance (Exit)": Number(visit.exit_fixture_comp) === 1 ? "Yes" : visit.entry_correct_fixture_id.fixture_type,
+            "Fixture Compliance (Exit)": Number(visit.exit_fixture_comp) === 1 ? "Yes" : visit.exit_correct_fixture_id.fixture_type,
             "PEG Compliance (Exit)": Number(visit.exit_peg_comp) === 1 ? "Yes" : "No",
             "Broken Pegs (Exit)": visit.exit_broken_hanger ? visit.exit_broken_hanger : 0,
             "POG Compliance (Exit)": Number(visit.exit_pog_comp) === 1 ? "Yes" : visit.exit_correct_pog,
