@@ -111,7 +111,6 @@ class upload {
 
           datasReturn.push(dataReturns)
         }
-        console.log(datasReturn)
         res.status(201).json({ message: "Success", data: datasReturn })
 
       } else {
