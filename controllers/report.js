@@ -115,7 +115,16 @@ class report {
             "Fixture Compliance (Entry)": Number(visit.entry_fixture_comp) === 1 ? "Yes" : visit.entry_correct_fixture_id.fixture_type,
             "PEG Compliance (Entry)": Number(visit.entry_peg_comp) === 1 ? "Yes" : "No",
             "Broken Pegs (Entry)": visit.entry_broken_hanger ? visit.entry_broken_hanger : 0,
-            "POG Compliance (Entry)": Number(visit.entry_pog_comp) === 1 ? "Yes" : visit.entry_correct_pog,
+            "Is the planogram displayed correctly (Entry)": Number(visit.entry_pog_comp) === 1 ? "Yes" : "No",
+            "Reason if Not (Entry)": Number(visit.entry_pog_comp) === 1
+              ? ""
+              : visit.entry_correct_pog === "Gantungan rusak / patah"
+                ? "Broken Pegs"
+                : visit.entry_correct_pog === "Voucher tidak sesuai aturan"
+                  ? "Messy"
+                  : visit.entry_correct_pog === "Stock voucher kosong"
+                    ? "Not enough stock"
+                    : "",
             "50K Facings (Entry)": visit.entryGoogle50KSpacing,
             "100K Facings (Entry)": visit.entryGoogle100KSpacing,
             "150K Facings (Entry)": visit.entryGoogle150KSpacing,
@@ -134,7 +143,16 @@ class report {
             "Fixture Compliance (Exit)": Number(visit.exit_fixture_comp) === 1 ? "Yes" : visit.exit_correct_fixture_id.fixture_type,
             "PEG Compliance (Exit)": Number(visit.exit_peg_comp) === 1 ? "Yes" : "No",
             "Broken Pegs (Exit)": visit.exit_broken_hanger ? visit.exit_broken_hanger : 0,
-            "POG Compliance (Exit)": Number(visit.exit_pog_comp) === 1 ? "Yes" : visit.exit_correct_pog,
+            "Is the planogram displayed correctly (Exit)": Number(visit.exit_pog_comp) === 1 ? "Yes" : "No",
+            "Reason if Not (Exit)": Number(visit.exit_pog_comp) === 1
+              ? ""
+              : visit.exit_correct_pog === "Gantungan rusak / patah"
+                ? "Broken Pegs"
+                : visit.exit_correct_pog === "Voucher tidak sesuai aturan"
+                  ? "Messy"
+                  : visit.exit_correct_pog === "Stock voucher kosong"
+                    ? "Not enough stock"
+                    : "",
             "50K Facings (Exit)": visit.exitGoogle50KSpacing,
             "100K Facings (Exit)": visit.exitGoogle100KSpacing,
             "150K Facings (Exit)": visit.exitGoogle150KSpacing,
