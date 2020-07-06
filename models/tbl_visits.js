@@ -45,7 +45,17 @@ module.exports = (sequelize, DataTypes) => {
     q1: DataTypes.BOOLEAN,
     q2: DataTypes.BOOLEAN,
     q3: DataTypes.BOOLEAN,
-    q4: DataTypes.BOOLEAN
+    q4: DataTypes.BOOLEAN,
+    entryGoogle50KSpacing: DataTypes.INTEGER,
+    entryGoogle100KSpacing: DataTypes.INTEGER,
+    entryGoogle150KSpacing: DataTypes.INTEGER,
+    entryGoogle300KSpacing: DataTypes.INTEGER,
+    entryGoogle500KSpacing: DataTypes.INTEGER,
+    exitGoogle50KSpacing: DataTypes.INTEGER,
+    exitGoogle100KSpacing: DataTypes.INTEGER,
+    exitGoogle150KSpacing: DataTypes.INTEGER,
+    exitGoogle300KSpacing: DataTypes.INTEGER,
+    exitGoogle500KSpacing: DataTypes.INTEGER,
   }, {});
   tbl_visits.removeAttribute('id');
 
@@ -53,7 +63,7 @@ module.exports = (sequelize, DataTypes) => {
     // associations can be defined here
     tbl_visits.belongsTo(models.tbl_users, { foreignKey: 'user_id' })
     tbl_visits.belongsTo(models.tbl_stores, { foreignKey: 'store_code' })
-    tbl_visits.belongsTo(models.tbl_fixture_types, { foreignKey: 'entry_correct_fixture', as: 'entry_correct_fixture_id'})
+    tbl_visits.belongsTo(models.tbl_fixture_types, { foreignKey: 'entry_correct_fixture', as: 'entry_correct_fixture_id' })
     tbl_visits.belongsTo(models.tbl_fixture_types, { foreignKey: 'exit_correct_fixture', as: 'exit_correct_fixture_id' })
   };
   return tbl_visits;

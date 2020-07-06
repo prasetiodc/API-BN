@@ -255,21 +255,6 @@ class upload {
               }
             }
 
-            // if (Number(element.id) === 3 && Number(retailer.id) === 1) {
-            //   let file1 = allFileUpload.find(el =>
-            //     (el.category_upload_id === element.id && el.retailer_id === retailer.id && el.information === 'promotion_1') ||
-            //     (el.category_upload_id === element.id && el.retailer_id === retailer.id))
-            //   let file2 = allFileUpload.find(el =>
-            //     (el.category_upload_id === element.id && el.retailer_id === retailer.id && el.information === 'promotion_2' && el.id !== file1.id) ||
-            //     (el.category_upload_id === element.id && el.retailer_id === retailer.id && el.id !== file1.id))
-
-            //   tempObj.path_1 = file1 ? file1.path : null
-            //   tempObj.path_2 = file2 ? file2.path : null
-
-            // } else {
-            //   tempObj.path = file ? file.path : null
-            // }
-
             data.push(tempObj)
           })
           newObj.retailers = data
@@ -296,8 +281,8 @@ class upload {
 
 }
 
+
 async function importStore(pathFile, res) {
-  // try {
   const data = excelToJson({
     sourceFile: `${pathFile}`,
     sheets: [{
@@ -360,7 +345,6 @@ async function importStore(pathFile, res) {
 
 }
 
-
 async function refreshTotalStore() {
   let allRetailer = await tbl_retailers.findAll()
   let allStore = await tbl_stores.findAll()
@@ -371,4 +355,5 @@ async function refreshTotalStore() {
     await tbl_retailers.update({ total_store: storeRetailer.length }, { where: { id: retailer.id } })
   })
 }
+
 module.exports = upload

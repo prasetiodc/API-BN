@@ -8,7 +8,6 @@ class galery {
       if (req.query.month || req.query.brand || req.query.retailer || req.query.store || req.query.md || req.query.dc || req.query.fixture) {
         let conditionInTblVisit = {}, conditionInTblStore = {}, conditionInTblRetailer = {}, conditionInTblUser = {}, conditionInTblDC = {}, conditionInTblFixtureType = {}
 
-        // Filter supervisior not yet
         if (req.query.month) conditionInTblVisit.visit_date = {
           [Op.and]: {
             [Op.gte]: new Date(`${new Date().getFullYear()}-${req.query.month}-01`),

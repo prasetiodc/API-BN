@@ -8,37 +8,13 @@ class dashboard {
       if (req.query.month || req.query.brand || req.query.retailer || req.query.store || req.query.md || req.query.dc || req.query.fixture) {
         let conditionInTblVisit = {}, conditionInTblStore = {}, conditionInTblRetailer = {}, conditionInTblUser = {}, conditionInTblDC = {}, conditionInTblFixtureType = {}
 
-        // Filter supervisior not yet
         if (req.query.month) conditionInTblVisit.visit_date = {
           [Op.and]: {
             [Op.gte]: new Date(`${new Date().getFullYear()}-${req.query.month}-01`),
             [Op.lte]: new Date(`${new Date().getFullYear()}-${Number(req.query.month) + 1}-01`)
           }
         }
-        // if (req.query.brand) {
-        //   if (req.query.brand.toLowerCase() === 'google') {
-        //     conditionInTblVisit[Op.or] = [
-        //       { entry_google50k: 15 },
-        //       { entry_google100k: 15 },
-        //       { entry_google150k: 15 },
-        //       { entry_google300k: 15 },
-        //       { entry_google500k: 15 },
-        //       { exit_google50k: 15 },
-        //       { exit_google100k: 15 },
-        //       { exit_google150k: 15 },
-        //       { exit_google300k: 15 },
-        //       { exit_google500k: 15 }
-        //     ]
-        //   } else if (req.query.brand.toLowerCase() === 'spotify') {
-        //     conditionInTblVisit[Op.or] = [
-        //       { entry_spotify1M: 15 },
-        //       { entry_spotify3M: 15 },
-        //       { exit_spotify1M: 15 },
-        //       { exit_spotify3M: 15 }
-        //     ]
-        //   }
-
-        // }
+       
         if (req.query.retailer) conditionInTblRetailer.id = Number(req.query.retailer)
         if (req.query.store) conditionInTblStore.store_code = req.query.store
         if (req.query.md) conditionInTblUser.id = Number(req.query.md)
@@ -375,7 +351,6 @@ class dashboard {
       let PODCompliance = {
         entry: (dataPODCompliance.length > 0 || !req.query.diagram) ? ((counterEntryPODCompliance / allDataVisit.length) * 100) : 0,
         exit: (dataPODCompliance.length > 0 || !req.query.diagram) ? ((counterExitPODCompliance / allDataVisit.length) * 100) : 0,
-        // dataPODCompliance
       }
       if (req.query.diagram && req.query.diagram.toLowerCase() === "pod-compliance") {
         PODCompliance.dataPODCompliance = dataPODCompliance
@@ -386,7 +361,6 @@ class dashboard {
       let POPCompliance = {
         entry: (dataPOPCompliance.length > 0 || !req.query.diagram) ? ((counterEntryPOPCompliance / allDataVisit.length) * 100) : 0,
         exit: (dataPOPCompliance.length > 0 || !req.query.diagram) ? ((counterExitPOPCompliance / allDataVisit.length) * 100) : 0,
-        // dataPOPCompliance
       }
       if (req.query.diagram && req.query.diagram.toLowerCase() === "pop-compliance") {
         POPCompliance.dataPOPCompliance = dataPOPCompliance
@@ -430,7 +404,6 @@ class dashboard {
       // for diagram 8
       let promotionAwareness = {
         persen: (dataPromotionAwareness.length > 0 || !req.query.diagram) ? ((counterPromotionAwareness / allDataVisit.length) * 100) : 0,
-        // dataPromotionAwareness
       }
       if (req.query.diagram === "promotion-awareness") {
         promotionAwareness.dataPromotionAwareness = dataPromotionAwareness
@@ -440,7 +413,6 @@ class dashboard {
       // for diagram 9
       let complaintHandling = {
         persen: (dataComplaintHandling.length > 0 || !req.query.diagram) ? ((counterComplaintHandling / allDataVisit.length) * 100) : 0,
-        // dataComplaintHandling: allDataVisit
       }
       if (req.query.diagram === "complain-handling") {
         complaintHandling.dataComplaintHandling = allDataVisit

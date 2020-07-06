@@ -2,6 +2,7 @@ const { tbl_visits, tbl_stores, tbl_users, tbl_retailers, tbl_dcs, tbl_fixture_t
 const Op = require('sequelize').Op
 var Jimp = require('jimp');
 const fs = require('fs')
+const { createDateAsUTC } = require('../helpers/convertDate');
 
 class visit {
   static async create(req, res) {
@@ -37,7 +38,7 @@ class visit {
           img_store: img_store ? img_store.path : ((req.files && req.files[0]) ? req.files[0].path : ""),
           img_fixture_in: img_fixture_in ? img_fixture_in.path : ((req.files && req.files[1]) ? req.files[1].path : ""),
           img_fixture_out: img_fixture_out ? img_fixture_out.path : ((req.files && req.files[2]) ? req.files[2].path : ""),
-          visit_date: new Date(req.body.visit_date),
+          visit_date: createDateAsUTC(new Date(req.body.visit_date)),
           user_id: req.user_id,
           store_code: req.body.store_code,
           entry_fixture_comp: req.body.entry_fixture_comp,
@@ -74,7 +75,17 @@ class visit {
           q1: req.body.q1,
           q2: req.body.q2,
           q3: req.body.q3,
-          q4: req.body.q4
+          q4: req.body.q4,
+          entryGoogle50KSpacing: req.body.entryGoogle50KSpacing,
+          entryGoogle100KSpacing: req.body.entryGoogle100KSpacing,
+          entryGoogle150KSpacing: req.body.entryGoogle150KSpacing,
+          entryGoogle300KSpacing: req.body.entryGoogle300KSpacing,
+          entryGoogle500KSpacing: req.body.entryGoogle500KSpacing,
+          exitGoogle50KSpacing: req.body.exitGoogle50KSpacing,
+          exitGoogle100KSpacing: req.body.exitGoogle100KSpacing,
+          exitGoogle150KSpacing: req.body.exitGoogle150KSpacing,
+          exitGoogle300KSpacing: req.body.exitGoogle300KSpacing,
+          exitGoogle500KSpacing: req.body.exitGoogle500KSpacing,
         }
         let createVisit = await tbl_visits.create(newData)
 
@@ -114,7 +125,7 @@ class visit {
           }]
         })
         console.log("end progress add visit", new Date())
-        
+
         res.status(201).json({ message: "Success", data: dataReturn })
 
         req.files && req.files.forEach(el => {
@@ -280,7 +291,7 @@ class visit {
         img_store: img_store ? img_store.path : (req.files[0] ? req.files[0].path : ""),
         img_fixture_in: img_fixture_in ? img_fixture_in.path : (req.files[1] ? req.files[1].path : ""),
         img_fixture_out: img_fixture_out ? img_fixture_out.path : (req.files[2] ? req.files[2].path : ""),
-        visit_date: new Date(req.body.visit_date),
+        visit_date: createDateAsUTC(new Date(req.body.visit_date)),
         user_id: req.user_id,
         store_code: req.body.store_code,
         entry_fixture_comp: req.body.entry_fixture_comp,
@@ -317,7 +328,17 @@ class visit {
         q1: req.body.q1,
         q2: req.body.q2,
         q3: req.body.q3,
-        q4: req.body.q4
+        q4: req.body.q4,
+        entryGoogle50KSpacing: req.body.entryGoogle50KSpacing,
+        entryGoogle100KSpacing: req.body.entryGoogle100KSpacing,
+        entryGoogle150KSpacing: req.body.entryGoogle150KSpacing,
+        entryGoogle300KSpacing: req.body.entryGoogle300KSpacing,
+        entryGoogle500KSpacing: req.body.entryGoogle500KSpacing,
+        exitGoogle50KSpacing: req.body.exitGoogle50KSpacing,
+        exitGoogle100KSpacing: req.body.exitGoogle100KSpacing,
+        exitGoogle150KSpacing: req.body.exitGoogle150KSpacing,
+        exitGoogle300KSpacing: req.body.exitGoogle300KSpacing,
+        exitGoogle500KSpacing: req.body.exitGoogle500KSpacing,
       }
       await tbl_visits.update(newData, { where: { visit_id: req.params.id } })
 
