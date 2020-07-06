@@ -111,11 +111,11 @@ class report {
             "300K Facings": visit.tbl_store.fixtureType1.google_300k,
             "500K Facings": visit.tbl_store.fixtureType1.google_500k,
             "Picture (Entry)": visit.img_fixture_in ? `http://212.237.35.40:3030/${visit.img_fixture_in}` : '',
-            "Expected Fixture": visit.tbl_store.fixtureType1.fixture_type,
+            // "Expected Fixture": visit.tbl_store.fixtureType1.fixture_type,
             "Fixture Compliance (Entry)": Number(visit.entry_fixture_comp) === 1
-              ? visit.tbl_stores.fixtureType1.id === 2 || visit.tbl_stores.fixtureType1.id === 3
+              ? visit.tbl_store.fixtureType1.id === 2 || visit.tbl_store.fixtureType1.id === 3
                 ? "Vertical Inline"
-                : visit.tbl_stores.fixtureType1.fixture_type
+                : visit.tbl_store.fixtureType1.fixture_type
               : visit.entry_correct_fixture_id.id === 2 || visit.entry_correct_fixture_id.id === 3
                 ? "Vertical Inline"
                 : visit.entry_correct_fixture_id.fixture_type,
@@ -148,9 +148,9 @@ class report {
             "POP Pic 2 (Entry)": Number(visit.entry_pop_pic_2) === 1 ? "Yes" : "No",
             "Picture (Exit)": visit.img_fixture_out ? `http://212.237.35.40:3030/${visit.img_fixture_out}` : '',
             "Fixture Compliance (Exit)": Number(visit.exit_fixture_comp) === 1
-              ? visit.tbl_stores.fixtureType1.id === 2 || visit.tbl_stores.fixtureType1.id === 3
+              ? visit.tbl_store.fixtureType1.id === 2 || visit.tbl_store.fixtureType1.id === 3
                 ? "Vertical Inline"
-                : visit.tbl_stores.fixtureType1.fixture_type
+                : visit.tbl_store.fixtureType1.fixture_type
               : visit.exit_correct_fixture_id.id === 2 || visit.exit_correct_fixture_id.id === 3
                 ? "Vertical Inline"
                 : visit.exit_correct_fixture_id.fixture_type,
