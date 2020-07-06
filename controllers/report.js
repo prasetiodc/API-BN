@@ -188,7 +188,7 @@ class report {
           dataReturn.push(newObj)
         });
       }
-      res.status(200).json({ message: "Success", total_data: dataReturn.length, data: allRetailer })
+      res.status(200).json({ message: "Success", total_data: dataReturn.length, data: dataReturn })
     } catch (err) {
       console.log(err)
       res.status(500).json({ message: "Error", err })
