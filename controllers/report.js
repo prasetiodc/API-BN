@@ -112,9 +112,16 @@ class report {
             "500K Facings": visit.tbl_store.fixtureType1.google_500k,
             "Picture (Entry)": visit.img_fixture_in ? `http://212.237.35.40:3030/${visit.img_fixture_in}` : '',
             "Expected Fixture": visit.tbl_store.fixtureType1.fixture_type,
-            "Fixture Compliance (Entry)": Number(visit.entry_fixture_comp) === 1 ? "Yes" : visit.entry_correct_fixture_id.fixture_type,
+            "Fixture Compliance (Entry)": Number(visit.entry_fixture_comp) === 1
+              ? visit.tbl_stores.fixtureType1.id === 2 || visit.tbl_stores.fixtureType1.id === 3
+                ? "Vertical Inline"
+                : visit.tbl_stores.fixtureType1.fixture_type
+              : visit.entry_correct_fixture_id.id === 2 || visit.entry_correct_fixture_id.id === 3
+                ? "Vertical Inline"
+                : visit.entry_correct_fixture_id.fixture_type,
             "PEG Compliance (Entry)": Number(visit.entry_peg_comp) === 1 ? "Yes" : "No",
             "Broken Pegs (Entry)": visit.entry_broken_hanger ? visit.entry_broken_hanger : 0,
+
             "Is the planogram displayed correctly (Entry)": Number(visit.entry_pog_comp) === 1 ? "Yes" : "No",
             "Reason if Not (Entry)": Number(visit.entry_pog_comp) === 1
               ? ""
@@ -140,7 +147,13 @@ class report {
             "POP Pic 1 (Entry)": Number(visit.entry_pop_pic_1) === 1 ? "Yes" : "No",
             "POP Pic 2 (Entry)": Number(visit.entry_pop_pic_2) === 1 ? "Yes" : "No",
             "Picture (Exit)": visit.img_fixture_out ? `http://212.237.35.40:3030/${visit.img_fixture_out}` : '',
-            "Fixture Compliance (Exit)": Number(visit.exit_fixture_comp) === 1 ? "Yes" : visit.exit_correct_fixture_id.fixture_type,
+            "Fixture Compliance (Exit)": Number(visit.exit_fixture_comp) === 1
+              ? visit.tbl_stores.fixtureType1.id === 2 || visit.tbl_stores.fixtureType1.id === 3
+                ? "Vertical Inline"
+                : visit.tbl_stores.fixtureType1.fixture_type
+              : visit.exit_correct_fixture_id.id === 2 || visit.exit_correct_fixture_id.id === 3
+                ? "Vertical Inline"
+                : visit.exit_correct_fixture_id.fixture_type,
             "PEG Compliance (Exit)": Number(visit.exit_peg_comp) === 1 ? "Yes" : "No",
             "Broken Pegs (Exit)": visit.exit_broken_hanger ? visit.exit_broken_hanger : 0,
             "Is the planogram displayed correctly (Exit)": Number(visit.exit_pog_comp) === 1 ? "Yes" : "No",
@@ -175,7 +188,7 @@ class report {
           dataReturn.push(newObj)
         });
       }
-      res.status(200).json({ message: "Success", total_data: dataReturn.length, data: dataReturn })
+      res.status(200).json({ message: "Success", total_data: dataReturn.length, data: allRetailer })
     } catch (err) {
       console.log(err)
       res.status(500).json({ message: "Error", err })
