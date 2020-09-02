@@ -145,10 +145,14 @@ class report {
             "Fixture type (Exit)": Number(visit.exit_fixture_comp) === 1
               ? visit.tbl_store.fixtureType1.id === 2 || visit.tbl_store.fixtureType1.id === 3
                 ? "Vertical Inline"
-                : visit.tbl_store.fixtureType1.fixture_type
+                : visit.exit_correct_fixture_id.id === 7 || visit.exit_correct_fixture_id.id === 8 || visit.exit_correct_fixture_id.id === 9
+                  ? "-"
+                  : visit.tbl_store.fixtureType1.fixture_type
               : visit.exit_correct_fixture_id.id === 2 || visit.exit_correct_fixture_id.id === 3
                 ? "Vertical Inline"
-                : visit.exit_correct_fixture_id.fixture_type,
+                : visit.exit_correct_fixture_id.id === 7 || visit.exit_correct_fixture_id.id === 8 || visit.exit_correct_fixture_id.id === 9
+                  ? "-"
+                  : visit.exit_correct_fixture_id.fixture_type,
             "Broken Pegs (Exit)": visit.exit_broken_hanger ? visit.exit_broken_hanger : 0,
             "Is the planogram displayed correctly (Exit)": Number(visit.exit_pog_comp) === 1 ? "Yes" : "No",
             "Reason if Not (Exit)": Number(visit.exit_pog_comp) === 1

@@ -505,7 +505,7 @@ class visit {
                   entryCorrectPOG = 3
                 }
               }
-            } else if (sheet[i].entryFixtureType === "Tidak Ada Sarana" || sheet[i].entryFixtureType === "Tidak Ada Sarana (IDM)" || sheet[i].entryFixtureType === "Tidak Ada Sarana (SAT)" || sheet[i].entryFixtureType === "Tidak Ada Sarana (MIDI)" || sheet[i].entryFixtureType === "tidak ada sarana" || sheet[i].entryFixtureType === "tidak ada sarana (IDM)" || sheet[i].entryFixtureType === "tidak ada sarana (SAT)" || sheet[i].entryFixtureType === "tidak ada sarana (MIDI)" || sheet[i].entryFixtureType === "tidak ada sarana (idm)" || sheet[i].entryFixtureType === "tidak ada sarana (sat)" || sheet[i].entryFixtureType === "tidak ada sarana (midi)" || '' + sheet[i].entryFixtureType === '0') {
+            } else if (sheet[i].entryFixtureType === "Tidak Ada Sarana" || sheet[i].entryFixtureType === "Tidak Ada Sarana (IDM)" || sheet[i].entryFixtureType === "Tidak Ada Sarana (SAT)" || sheet[i].entryFixtureType === "Tidak Ada Sarana (MIDI)" || sheet[i].entryFixtureType === "tidak ada sarana" || sheet[i].entryFixtureType === "tidak ada sarana (IDM)" || sheet[i].entryFixtureType === "tidak ada sarana (SAT)" || sheet[i].entryFixtureType === "tidak ada sarana (MIDI)" || sheet[i].entryFixtureType === "tidak ada sarana (idm)" || sheet[i].entryFixtureType === "tidak ada sarana (sat)" || sheet[i].entryFixtureType === "tidak ada sarana (midi)" || '' + sheet[i].entryFixtureType === '0' || '' + sheet[i].entryFixtureType === '-') {
               if (storeSelected.fixture_type_id_1 === 7 || storeSelected.fixture_type_id_1 === 8 || storeSelected.fixture_type_id_1 === 9) { //DEFAULT Tidak Ada Sarana
                 entryFixComp = 1
                 entryCorrectPOG = null
@@ -546,7 +546,7 @@ class visit {
                   exitCorrectPOG = 3
                 }
               }
-            } else if (sheet[i].exitFixtureType === "Tidak Ada Sarana" || sheet[i].exitFixtureType === "Tidak Ada Sarana (IDM)" || sheet[i].exitFixtureType === "Tidak Ada Sarana (SAT)" || sheet[i].exitFixtureType === "Tidak Ada Sarana (MIDI)" || sheet[i].exitFixtureType === "tidak ada sarana" || sheet[i].exitFixtureType === "tidak ada sarana (IDM)" || sheet[i].exitFixtureType === "tidak ada sarana (SAT)" || sheet[i].exitFixtureType === "tidak ada sarana (MIDI)" || sheet[i].exitFixtureType === "tidak ada sarana (idm)" || sheet[i].exitFixtureType === "tidak ada sarana (sat)" || sheet[i].exitFixtureType === "tidak ada sarana (midi)" || '' + sheet[i].exitFixtureType === '0') {
+            } else if (sheet[i].exitFixtureType === "Tidak Ada Sarana" || sheet[i].exitFixtureType === "Tidak Ada Sarana (IDM)" || sheet[i].exitFixtureType === "Tidak Ada Sarana (SAT)" || sheet[i].exitFixtureType === "Tidak Ada Sarana (MIDI)" || sheet[i].exitFixtureType === "tidak ada sarana" || sheet[i].exitFixtureType === "tidak ada sarana (IDM)" || sheet[i].exitFixtureType === "tidak ada sarana (SAT)" || sheet[i].exitFixtureType === "tidak ada sarana (MIDI)" || sheet[i].exitFixtureType === "tidak ada sarana (idm)" || sheet[i].exitFixtureType === "tidak ada sarana (sat)" || sheet[i].exitFixtureType === "tidak ada sarana (midi)" || '' + sheet[i].exitFixtureType === '0' || '' + sheet[i].exitFixtureType === '-') {
               if (storeSelected.fixture_type_id_1 === 7 || storeSelected.fixture_type_id_1 === 8 || storeSelected.fixture_type_id_1 === 9) { //DEFAULT Tidak Ada Sarana
                 exitFixComp = 1
                 exitCorrectPOG = null
