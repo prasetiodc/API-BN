@@ -113,10 +113,14 @@ class report {
             "Fixture type (Entry)": Number(visit.entry_fixture_comp) === 1
               ? visit.tbl_store.fixtureType1.id === 2 || visit.tbl_store.fixtureType1.id === 3
                 ? "Vertical Inline"
-                : visit.tbl_store.fixtureType1.fixture_type
+                : visit.tbl_store.fixtureType1.id === 7 || visit.tbl_store.fixtureType1.id === 8 || visit.tbl_store.fixtureType1.id === 9
+                  ? "-"
+                  : visit.tbl_store.fixtureType1.fixture_type
               : visit.entry_correct_fixture_id.id === 2 || visit.entry_correct_fixture_id.id === 3
                 ? "Vertical Inline"
-                : visit.entry_correct_fixture_id.fixture_type,
+                : visit.entry_correct_fixture_id.id === 7 || visit.entry_correct_fixture_id.id === 8 || visit.entry_correct_fixture_id.id === 9
+                  ? "-"
+                  : visit.entry_correct_fixture_id.fixture_type,
             "Broken Pegs (Entry)": visit.entry_broken_hanger ? visit.entry_broken_hanger : 0,
             "Is the planogram displayed correctly (Entry)": Number(visit.entry_pog_comp) === 1 ? "Yes" : "No",
             "Reason if Not (Entry)": Number(visit.entry_pog_comp) === 1
