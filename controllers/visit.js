@@ -488,9 +488,10 @@ class visit {
         let storeSelected = await allStore.find(store => store.store_code === sheet[i].storeCode)
         let entryFixComp, entryCorrectPOG, exitFixComp, exitCorrectPOG
         
-        if(!storeSelected.fixture_type_id_1){
-          console.log(storeSelected)
-        }
+        console.log(sheet[i].storeCode)
+        // if(!storeSelected.fixture_type_id_1){
+        //   console.log(storeSelected)
+        // }
 
         if (sheet[i].entryFixtureType === "Vertical Inline") {
           if (storeSelected.fixture_type_id_1 === 2 || storeSelected.fixture_type_id_1 === 3) { //DEFAULT VERTICAL INLINE
