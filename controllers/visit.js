@@ -626,6 +626,8 @@ class visit {
           await tbl_visits.create(newData)
             .then(response => { })
             .catch(err => { console.log(err) })
+        } else {
+          console.log("STORE TIDAK ADA", sheet[i].storeCode)
         }
       }
       console.log("FINISH IMPORT VISIT", createDateAsUTC(new Date()))
