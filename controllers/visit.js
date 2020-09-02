@@ -489,143 +489,147 @@ class visit {
         let entryFixComp, entryCorrectPOG, exitFixComp, exitCorrectPOG
 
         if (storeSelected) {
-          if (sheet[i].entryFixtureType === "Vertical Inline") {
-            if (storeSelected.fixture_type_id_1 === 2 || storeSelected.fixture_type_id_1 === 3) { //DEFAULT VERTICAL INLINE
-              entryFixComp = 1
-              entryCorrectPOG = null
-            } else { //BUKAN DEFAULT VERTICAL INLINE
-              if (storeSelected.retailer_id === 1) { //IDM
-                entryFixComp = 0
-                entryCorrectPOG = 2
-              } else {
-                entryFixComp = 0
-                entryCorrectPOG = 3
-              }
-            }
-          } else if (sheet[i].entryFixtureType === "No Fixture" || '' + sheet[i].entryFixtureType === '0') {
-            if (storeSelected.fixture_type_id_1 === 7 || storeSelected.fixture_type_id_1 === 8 || storeSelected.fixture_type_id_1 === 9) { //DEFAULT NO FIXTURE
-              entryFixComp = 1
-              entryCorrectPOG = null
-            } else { //BUKAN DEFAULT VERTICAL INLINE
-              if (storeSelected.retailer_id === 1) { //IDM
-                entryFixComp = 0
-                entryCorrectPOG = 7
-              } else if (storeSelected.retailer_id === 2) { //SAT
-                entryFixComp = 0
-                entryCorrectPOG = 8
-              } else {
-                entryFixComp = 0
-                entryCorrectPOG = 9
-              }
-            }
-          } else {
-            let checkFixtureType = await allFixtureType.find(fixType => fixType.fixture_type.toLowerCase() === '' + sheet[i].entryFixtureType.toLowerCase())
+          let hasVisited = await checkHasVisited(sheet[i].storeCode, sheet[i].dateOfVisit)
 
-            if (storeSelected.fixture_type_id_1 === checkFixtureType.id) {
-              entryFixComp = 1
-              entryCorrectPOG = null
+          if (!hasVisited) {
+            if (sheet[i].entryFixtureType === "Vertical Inline") {
+              if (storeSelected.fixture_type_id_1 === 2 || storeSelected.fixture_type_id_1 === 3) { //DEFAULT VERTICAL INLINE
+                entryFixComp = 1
+                entryCorrectPOG = null
+              } else { //BUKAN DEFAULT VERTICAL INLINE
+                if (storeSelected.retailer_id === 1) { //IDM
+                  entryFixComp = 0
+                  entryCorrectPOG = 2
+                } else {
+                  entryFixComp = 0
+                  entryCorrectPOG = 3
+                }
+              }
+            } else if (sheet[i].entryFixtureType === "No Fixture" || '' + sheet[i].entryFixtureType === '0') {
+              if (storeSelected.fixture_type_id_1 === 7 || storeSelected.fixture_type_id_1 === 8 || storeSelected.fixture_type_id_1 === 9) { //DEFAULT NO FIXTURE
+                entryFixComp = 1
+                entryCorrectPOG = null
+              } else { //BUKAN DEFAULT VERTICAL INLINE
+                if (storeSelected.retailer_id === 1) { //IDM
+                  entryFixComp = 0
+                  entryCorrectPOG = 7
+                } else if (storeSelected.retailer_id === 2) { //SAT
+                  entryFixComp = 0
+                  entryCorrectPOG = 8
+                } else {
+                  entryFixComp = 0
+                  entryCorrectPOG = 9
+                }
+              }
             } else {
-              entryFixComp = 0
-              entryCorrectPOG = checkFixtureType.id
-            }
-          }
+              let checkFixtureType = await allFixtureType.find(fixType => fixType.fixture_type.toLowerCase() === '' + sheet[i].entryFixtureType.toLowerCase())
 
-          if (sheet[i].exitFixtureType === "Vertical Inline") {
-            if (storeSelected.fixture_type_id_1 === 2 || storeSelected.fixture_type_id_1 === 3) { //DEFAULT VERTICAL INLINE
-              exitFixComp = 1
-              exitCorrectPOG = null
-            } else { //BUKAN DEFAULT VERTICAL INLINE
-              if (storeSelected.retailer_id === 1) { //IDM
-                exitFixComp = 0
-                exitCorrectPOG = 2
+              if (storeSelected.fixture_type_id_1 === checkFixtureType.id) {
+                entryFixComp = 1
+                entryCorrectPOG = null
               } else {
-                exitFixComp = 0
-                exitCorrectPOG = 3
+                entryFixComp = 0
+                entryCorrectPOG = checkFixtureType.id
               }
             }
-          } else if (sheet[i].exitFixtureType === "No Fixture" || '' + sheet[i].exitFixtureType === '0') {
-            if (storeSelected.fixture_type_id_1 === 7 || storeSelected.fixture_type_id_1 === 8 || storeSelected.fixture_type_id_1 === 9) { //DEFAULT NO FIXTURE
-              exitFixComp = 1
-              exitCorrectPOG = null
-            } else { //BUKAN DEFAULT VERTICAL INLINE
-              if (storeSelected.retailer_id === 1) { //IDM
-                exitFixComp = 0
-                exitCorrectPOG = 7
-              } else if (storeSelected.retailer_id === 2) { //SAT
-                exitFixComp = 0
-                exitCorrectPOG = 8
-              } else {
-                exitFixComp = 0
-                exitCorrectPOG = 9
-              }
-            }
-          } else {
-            let checkFixtureType = await allFixtureType.find(fixType => fixType.fixture_type.toLowerCase() === sheet[i].exitFixtureType.toLowerCase())
 
-            if (storeSelected.fixture_type_id_1 === checkFixtureType.id) {
-              exitFixComp = 1
-              exitCorrectPOG = null
+            if (sheet[i].exitFixtureType === "Vertical Inline") {
+              if (storeSelected.fixture_type_id_1 === 2 || storeSelected.fixture_type_id_1 === 3) { //DEFAULT VERTICAL INLINE
+                exitFixComp = 1
+                exitCorrectPOG = null
+              } else { //BUKAN DEFAULT VERTICAL INLINE
+                if (storeSelected.retailer_id === 1) { //IDM
+                  exitFixComp = 0
+                  exitCorrectPOG = 2
+                } else {
+                  exitFixComp = 0
+                  exitCorrectPOG = 3
+                }
+              }
+            } else if (sheet[i].exitFixtureType === "No Fixture" || '' + sheet[i].exitFixtureType === '0') {
+              if (storeSelected.fixture_type_id_1 === 7 || storeSelected.fixture_type_id_1 === 8 || storeSelected.fixture_type_id_1 === 9) { //DEFAULT NO FIXTURE
+                exitFixComp = 1
+                exitCorrectPOG = null
+              } else { //BUKAN DEFAULT VERTICAL INLINE
+                if (storeSelected.retailer_id === 1) { //IDM
+                  exitFixComp = 0
+                  exitCorrectPOG = 7
+                } else if (storeSelected.retailer_id === 2) { //SAT
+                  exitFixComp = 0
+                  exitCorrectPOG = 8
+                } else {
+                  exitFixComp = 0
+                  exitCorrectPOG = 9
+                }
+              }
             } else {
-              exitFixComp = 0
-              exitCorrectPOG = checkFixtureType.id
-            }
-          }
+              let checkFixtureType = await allFixtureType.find(fixType => fixType.fixture_type.toLowerCase() === sheet[i].exitFixtureType.toLowerCase())
 
-          let newData = {
-            img_store: visited[0].img_store,
-            img_fixture_in: visited[0].img_fixture_in,
-            img_fixture_out: visited[0].img_fixture_out,
-            visit_date: sheet[i].dateOfVisit,
-            user_id: allMD.find(md => md.nik === sheet[i].md || md.name === sheet[i].md).id,
-            store_code: sheet[i].storeCode,
-            entry_fixture_comp: entryFixComp,
-            entry_correct_fixture: entryCorrectPOG,
-            entry_peg_comp: sheet[i].entryBrokenPegs === 0 ? 1 : 0,
-            entry_broken_hanger: sheet[i].entryBrokenPegs === 0 ? null : sheet[i].entryBrokenPegs,
-            entry_pog_comp: sheet[i].entryCorrectPOG ? 0 : 1,
-            entry_correct_pog: sheet[i].entryCorrectPOG || null,
-            entry_pop_pic_1: sheet[i].entryPOPPic1 === "Yes" || sheet[i].entryPOPPic1 === "yes" ? 1 : 0,
-            entry_pop_pic_2: sheet[i].entryPOPPic2 === "Yes" || sheet[i].entryPOPPic2 === "yes" ? 1 : 0,
-            entry_google50k: sheet[i].entryGoogle50k === "Over 15" || sheet[i].entryGoogle50k === "over 15" ? 15 : sheet[i].entryGoogle50k,
-            entry_google100k: sheet[i].entryGoogle100k === "Over 15" || sheet[i].entryGoogle100k === "over 15" ? 15 : sheet[i].entryGoogle100k,
-            entry_google150k: sheet[i].entryGoogle150k === "Over 10" || sheet[i].entryGoogle150k === "over 10" ? 10 : sheet[i].entryGoogle150k,
-            entry_google300k: sheet[i].entryGoogle300k === "Over 10" || sheet[i].entryGoogle300k === "over 10" ? 10 : sheet[i].entryGoogle300k,
-            entry_google500k: sheet[i].entryGoogle500k === "Over 10" || sheet[i].entryGoogle500k === "over 10" ? 10 : sheet[i].entryGoogle500k,
-            entry_spotify1M: sheet[i].entrySpotify1m === "Yes" || sheet[i].entrySpotify1m === "yes" ? 15 : sheet[i].entrySpotify1m,
-            entry_spotify3M: sheet[i].entrySpotify3m === "Yes" || sheet[i].entrySpotify3m === "yes" ? 15 : sheet[i].entrySpotify3m,
-            exit_fixture_comp: exitFixComp,
-            exit_correct_fixture: exitCorrectPOG,
-            exit_peg_comp: sheet[i].exitBrokenPegs === 0 ? 1 : 0,
-            exit_broken_hanger: sheet[i].exitBrokenPegs === 0 ? null : sheet[i].exitBrokenPegs,
-            exit_pog_comp: sheet[i].exitCorrectPOG ? 0 : 1,
-            exit_correct_pog: sheet[i].exitCorrectPOG || null,
-            exit_pop_pic_1: sheet[i].exitPOPPic1 === "Yes" || sheet[i].exitPOPPic1 === "yes" ? 1 : 0,
-            exit_pop_pic_2: sheet[i].exitPOPPic2 === "Yes" || sheet[i].exitPOPPic2 === "yes" ? 1 : 0,
-            exit_google50k: sheet[i].exitGoogle50k === "Over 15" || sheet[i].exitGoogle50k === "over 15" ? 15 : sheet[i].exitGoogle50k,
-            exit_google100k: sheet[i].exitGoogle100k === "Over 15" || sheet[i].exitGoogle100k === "over 15" ? 15 : sheet[i].exitGoogle100k,
-            exit_google150k: sheet[i].exitGoogle150k === "Over 10" || sheet[i].exitGoogle150k === "over 10" ? 10 : sheet[i].exitGoogle150k,
-            exit_google300k: sheet[i].exitGoogle300k === "Over 10" || sheet[i].exitGoogle300k === "over 10" ? 10 : sheet[i].exitGoogle300k,
-            exit_google500k: sheet[i].exitGoogle500k === "Over 10" || sheet[i].exitGoogle500k === "over 10" ? 10 : sheet[i].exitGoogle500k,
-            exit_spotify1M: sheet[i].exitSpotify1m === "Yes" || sheet[i].exitSpotify1m === "yes" ? 15 : sheet[i].exitSpotify1m,
-            exit_spotify3M: sheet[i].exitSpotify3m === "Yes" || sheet[i].exitSpotify3m === "yes" ? 15 : sheet[i].exitSpotify3m,
-            q1: sheet[i].activeGift === "Yes" || sheet[i].activeGift === "yes" ? 1 : 0,
-            q2: sheet[i].activePOR === "Yes" || sheet[i].activePOR === "yes" ? 1 : 0,
-            q3: sheet[i].redemption === "Yes" || sheet[i].redemption === "yes" ? 1 : 0,
-            entryGoogle50KSpacing: sheet[i].entry50kFacing,
-            entryGoogle100KSpacing: sheet[i].entry100kFacing,
-            entryGoogle150KSpacing: sheet[i].entry150kFacing,
-            entryGoogle300KSpacing: sheet[i].entry300kFacing,
-            entryGoogle500KSpacing: sheet[i].entry500kFacing,
-            exitGoogle50KSpacing: sheet[i].exit50kFacing,
-            exitGoogle100KSpacing: sheet[i].exit100kFacing,
-            exitGoogle150KSpacing: sheet[i].exit150kFacing,
-            exitGoogle300KSpacing: sheet[i].exit300kFacing,
-            exitGoogle500KSpacing: sheet[i].exit500kFacing,
+              if (storeSelected.fixture_type_id_1 === checkFixtureType.id) {
+                exitFixComp = 1
+                exitCorrectPOG = null
+              } else {
+                exitFixComp = 0
+                exitCorrectPOG = checkFixtureType.id
+              }
+            }
+
+            let newData = {
+              img_store: visited[0].img_store,
+              img_fixture_in: visited[0].img_fixture_in,
+              img_fixture_out: visited[0].img_fixture_out,
+              visit_date: sheet[i].dateOfVisit,
+              user_id: allMD.find(md => md.nik === sheet[i].md || md.name === sheet[i].md).id,
+              store_code: sheet[i].storeCode,
+              entry_fixture_comp: entryFixComp,
+              entry_correct_fixture: entryCorrectPOG,
+              entry_peg_comp: sheet[i].entryBrokenPegs === 0 ? 1 : 0,
+              entry_broken_hanger: sheet[i].entryBrokenPegs === 0 ? null : sheet[i].entryBrokenPegs,
+              entry_pog_comp: sheet[i].entryCorrectPOG ? 0 : 1,
+              entry_correct_pog: sheet[i].entryCorrectPOG || null,
+              entry_pop_pic_1: sheet[i].entryPOPPic1 === "Yes" || sheet[i].entryPOPPic1 === "yes" ? 1 : 0,
+              entry_pop_pic_2: sheet[i].entryPOPPic2 === "Yes" || sheet[i].entryPOPPic2 === "yes" ? 1 : 0,
+              entry_google50k: sheet[i].entryGoogle50k === "Over 15" || sheet[i].entryGoogle50k === "over 15" ? 15 : sheet[i].entryGoogle50k,
+              entry_google100k: sheet[i].entryGoogle100k === "Over 15" || sheet[i].entryGoogle100k === "over 15" ? 15 : sheet[i].entryGoogle100k,
+              entry_google150k: sheet[i].entryGoogle150k === "Over 10" || sheet[i].entryGoogle150k === "over 10" ? 10 : sheet[i].entryGoogle150k,
+              entry_google300k: sheet[i].entryGoogle300k === "Over 10" || sheet[i].entryGoogle300k === "over 10" ? 10 : sheet[i].entryGoogle300k,
+              entry_google500k: sheet[i].entryGoogle500k === "Over 10" || sheet[i].entryGoogle500k === "over 10" ? 10 : sheet[i].entryGoogle500k,
+              entry_spotify1M: sheet[i].entrySpotify1m === "Yes" || sheet[i].entrySpotify1m === "yes" ? 15 : sheet[i].entrySpotify1m,
+              entry_spotify3M: sheet[i].entrySpotify3m === "Yes" || sheet[i].entrySpotify3m === "yes" ? 15 : sheet[i].entrySpotify3m,
+              exit_fixture_comp: exitFixComp,
+              exit_correct_fixture: exitCorrectPOG,
+              exit_peg_comp: sheet[i].exitBrokenPegs === 0 ? 1 : 0,
+              exit_broken_hanger: sheet[i].exitBrokenPegs === 0 ? null : sheet[i].exitBrokenPegs,
+              exit_pog_comp: sheet[i].exitCorrectPOG ? 0 : 1,
+              exit_correct_pog: sheet[i].exitCorrectPOG || null,
+              exit_pop_pic_1: sheet[i].exitPOPPic1 === "Yes" || sheet[i].exitPOPPic1 === "yes" ? 1 : 0,
+              exit_pop_pic_2: sheet[i].exitPOPPic2 === "Yes" || sheet[i].exitPOPPic2 === "yes" ? 1 : 0,
+              exit_google50k: sheet[i].exitGoogle50k === "Over 15" || sheet[i].exitGoogle50k === "over 15" ? 15 : sheet[i].exitGoogle50k,
+              exit_google100k: sheet[i].exitGoogle100k === "Over 15" || sheet[i].exitGoogle100k === "over 15" ? 15 : sheet[i].exitGoogle100k,
+              exit_google150k: sheet[i].exitGoogle150k === "Over 10" || sheet[i].exitGoogle150k === "over 10" ? 10 : sheet[i].exitGoogle150k,
+              exit_google300k: sheet[i].exitGoogle300k === "Over 10" || sheet[i].exitGoogle300k === "over 10" ? 10 : sheet[i].exitGoogle300k,
+              exit_google500k: sheet[i].exitGoogle500k === "Over 10" || sheet[i].exitGoogle500k === "over 10" ? 10 : sheet[i].exitGoogle500k,
+              exit_spotify1M: sheet[i].exitSpotify1m === "Yes" || sheet[i].exitSpotify1m === "yes" ? 15 : sheet[i].exitSpotify1m,
+              exit_spotify3M: sheet[i].exitSpotify3m === "Yes" || sheet[i].exitSpotify3m === "yes" ? 15 : sheet[i].exitSpotify3m,
+              q1: sheet[i].activeGift === "Yes" || sheet[i].activeGift === "yes" ? 1 : 0,
+              q2: sheet[i].activePOR === "Yes" || sheet[i].activePOR === "yes" ? 1 : 0,
+              q3: sheet[i].redemption === "Yes" || sheet[i].redemption === "yes" ? 1 : 0,
+              entryGoogle50KSpacing: sheet[i].entry50kFacing,
+              entryGoogle100KSpacing: sheet[i].entry100kFacing,
+              entryGoogle150KSpacing: sheet[i].entry150kFacing,
+              entryGoogle300KSpacing: sheet[i].entry300kFacing,
+              entryGoogle500KSpacing: sheet[i].entry500kFacing,
+              exitGoogle50KSpacing: sheet[i].exit50kFacing,
+              exitGoogle100KSpacing: sheet[i].exit100kFacing,
+              exitGoogle150KSpacing: sheet[i].exit150kFacing,
+              exitGoogle300KSpacing: sheet[i].exit300kFacing,
+              exitGoogle500KSpacing: sheet[i].exit500kFacing,
+            }
+            // console.log(newData)
+            await tbl_visits.create(newData)
+              .then(response => { })
+              .catch(err => { console.log(err) })
           }
-          // console.log(newData)
-          await tbl_visits.create(newData)
-            .then(response => { })
-            .catch(err => { console.log(err) })
         } else {
           console.log("STORE TIDAK ADA", sheet[i].storeCode)
         }
