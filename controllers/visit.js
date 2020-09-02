@@ -492,7 +492,7 @@ class visit {
           let hasVisited = await checkHasVisited(sheet[i].storeCode, sheet[i].dateOfVisit)
 
           if (!hasVisited) {
-            if (sheet[i].entryFixtureType === "Vertical Inline") {
+            if (sheet[i].entryFixtureType === "Vertical Inline" || sheet[i].entryFixtureType === "vertical inline") {
               if (storeSelected.fixture_type_id_1 === 2 || storeSelected.fixture_type_id_1 === 3) { //DEFAULT VERTICAL INLINE
                 entryFixComp = 1
                 entryCorrectPOG = null
@@ -505,7 +505,7 @@ class visit {
                   entryCorrectPOG = 3
                 }
               }
-            } else if (sheet[i].entryFixtureType === "No Fixture" || '' + sheet[i].entryFixtureType === '0') {
+            } else if (sheet[i].entryFixtureType === "No Fixture" || sheet[i].entryFixtureType === "No Fixture (IDM)" || sheet[i].entryFixtureType === "No Fixture (SAT)" || sheet[i].entryFixtureType === "No Fixture (MIDI)" || sheet[i].entryFixtureType === "no fixture" || sheet[i].entryFixtureType === "no fixture (IDM)" || sheet[i].entryFixtureType === "no fixture (SAT)" || sheet[i].entryFixtureType === "no fixture (MIDI)" || sheet[i].entryFixtureType === "no fixture (idm)" || sheet[i].entryFixtureType === "no fixture (sat)" || sheet[i].entryFixtureType === "no fixture (midi)" || '' + sheet[i].entryFixtureType === '0') {
               if (storeSelected.fixture_type_id_1 === 7 || storeSelected.fixture_type_id_1 === 8 || storeSelected.fixture_type_id_1 === 9) { //DEFAULT NO FIXTURE
                 entryFixComp = 1
                 entryCorrectPOG = null
@@ -533,7 +533,7 @@ class visit {
               }
             }
 
-            if (sheet[i].exitFixtureType === "Vertical Inline") {
+            if (sheet[i].exitFixtureType === "Vertical Inline" || sheet[i].exitFixtureType === "vertical inline") {
               if (storeSelected.fixture_type_id_1 === 2 || storeSelected.fixture_type_id_1 === 3) { //DEFAULT VERTICAL INLINE
                 exitFixComp = 1
                 exitCorrectPOG = null
@@ -546,7 +546,7 @@ class visit {
                   exitCorrectPOG = 3
                 }
               }
-            } else if (sheet[i].exitFixtureType === "No Fixture" || '' + sheet[i].exitFixtureType === '0') {
+            } else if (sheet[i].exitFixtureType === "No Fixture" || sheet[i].exitFixtureType === "No Fixture (IDM)" || sheet[i].exitFixtureType === "No Fixture (SAT)" || sheet[i].exitFixtureType === "No Fixture (MIDI)" || sheet[i].exitFixtureType === "no fixture" || sheet[i].exitFixtureType === "no fixture (IDM)" || sheet[i].exitFixtureType === "no fixture (SAT)" || sheet[i].exitFixtureType === "no fixture (MIDI)" || sheet[i].exitFixtureType === "no fixture (idm)" || sheet[i].exitFixtureType === "no fixture (sat)" || sheet[i].exitFixtureType === "no fixture (midi)" || '' + sheet[i].exitFixtureType === '0') {
               if (storeSelected.fixture_type_id_1 === 7 || storeSelected.fixture_type_id_1 === 8 || storeSelected.fixture_type_id_1 === 9) { //DEFAULT NO FIXTURE
                 exitFixComp = 1
                 exitCorrectPOG = null
