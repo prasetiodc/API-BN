@@ -411,7 +411,7 @@ class visit {
       let result = excelToJson({
         sourceFile: req.file.path,
         header: {
-          rows: 2
+          rows: 1
         },
         columnToKey: {
           A: 'retailer',
@@ -487,7 +487,7 @@ class visit {
       for (let i = 0; i < sheet.length; i++) {
         let storeSelected = await allStore.find(store => store.store_code === sheet[i].storeCode)
         let entryFixComp, entryCorrectPOG, exitFixComp, exitCorrectPOG
-
+        // console.log(storeSelected)
         if (sheet[i].entryFixtureType === "Vertical Inline") {
           if (storeSelected.fixture_type_id_1 === 2 || storeSelected.fixture_type_id_1 === 3) { //DEFAULT VERTICAL INLINE
             entryFixComp = 1
@@ -501,8 +501,24 @@ class visit {
               entryCorrectPOG = 3
             }
           }
+        } else if (sheet[i].entryFixtureType === "No Fixture" || '' + sheet[i].entryFixtureType === '0') {
+          if (storeSelected.fixture_type_id_1 === 7 || storeSelected.fixture_type_id_1 === 8 || storeSelected.fixture_type_id_1 === 9) { //DEFAULT NO FIXTURE
+            entryFixComp = 1
+            entryCorrectPOG = null
+          } else { //BUKAN DEFAULT VERTICAL INLINE
+            if (storeSelected.retailer_id === 1) { //IDM
+              entryFixComp = 0
+              entryCorrectPOG = 7
+            } else if (storeSelected.retailer_id === 2) { //SAT
+              entryFixComp = 0
+              entryCorrectPOG = 8
+            } else {
+              entryFixComp = 0
+              entryCorrectPOG = 9
+            }
+          }
         } else {
-          let checkFixtureType = await allFixtureType.find(fixType => fixType.fixture_type.toLowerCase() === sheet[i].entryFixtureType.toLowerCase())
+          let checkFixtureType = await allFixtureType.find(fixType => fixType.fixture_type.toLowerCase() === '' + sheet[i].entryFixtureType.toLowerCase())
 
           if (storeSelected.fixture_type_id_1 === checkFixtureType.id) {
             entryFixComp = 1
@@ -524,6 +540,22 @@ class visit {
             } else {
               exitFixComp = 0
               exitCorrectPOG = 3
+            }
+          }
+        } else if (sheet[i].exitFixtureType === "No Fixture" || '' + sheet[i].exitFixtureType === '0') {
+          if (storeSelected.fixture_type_id_1 === 7 || storeSelected.fixture_type_id_1 === 8 || storeSelected.fixture_type_id_1 === 9) { //DEFAULT NO FIXTURE
+            exitFixComp = 1
+            exitCorrectPOG = null
+          } else { //BUKAN DEFAULT VERTICAL INLINE
+            if (storeSelected.retailer_id === 1) { //IDM
+              exitFixComp = 0
+              exitCorrectPOG = 7
+            } else if (storeSelected.retailer_id === 2) { //SAT
+              exitFixComp = 0
+              exitCorrectPOG = 8
+            } else {
+              exitFixComp = 0
+              exitCorrectPOG = 9
             }
           }
         } else {
@@ -551,33 +583,33 @@ class visit {
           entry_broken_hanger: sheet[i].entryBrokenPegs === 0 ? null : sheet[i].entryBrokenPegs,
           entry_pog_comp: sheet[i].entryCorrectPOG ? 0 : 1,
           entry_correct_pog: sheet[i].entryCorrectPOG || null,
-          entry_pop_pic_1: sheet[i].entryPOPPic1 === "Yes" ? 1 : 0,
-          entry_pop_pic_2: sheet[i].entryPOPPic2 === "Yes" ? 1 : 0,
-          entry_google50k: sheet[i].entryGoogle50k === "Over 15" ? 15 : sheet[i].entryGoogle50k,
-          entry_google100k: sheet[i].entryGoogle100k === "Over 15" ? 15 : sheet[i].entryGoogle100k,
-          entry_google150k: sheet[i].entryGoogle150k === "Over 10" ? 10 : sheet[i].entryGoogle150k,
-          entry_google300k: sheet[i].entryGoogle300k === "Over 10" ? 10 : sheet[i].entryGoogle300k,
-          entry_google500k: sheet[i].entryGoogle500k === "Over 10" ? 10 : sheet[i].entryGoogle500k,
-          entry_spotify1M: sheet[i].entrySpotify1m === "Yes" ? 15 : sheet[i].entrySpotify1m,
-          entry_spotify3M: sheet[i].entrySpotify3m === "Yes" ? 15 : sheet[i].entrySpotify3m,
+          entry_pop_pic_1: sheet[i].entryPOPPic1 === "Yes" || sheet[i].entryPOPPic1 === "yes"? 1 : 0,
+          entry_pop_pic_2: sheet[i].entryPOPPic2 === "Yes" || sheet[i].entryPOPPic2 === "yes"? 1 : 0,
+          entry_google50k: sheet[i].entryGoogle50k === "Over 15" || sheet[i].entryGoogle50k === "over 15" ? 15 : sheet[i].entryGoogle50k,
+          entry_google100k: sheet[i].entryGoogle100k === "Over 15" || sheet[i].entryGoogle100k === "over 15" ? 15 : sheet[i].entryGoogle100k,
+          entry_google150k: sheet[i].entryGoogle150k === "Over 10" || sheet[i].entryGoogle150k === "over 10" ? 10 : sheet[i].entryGoogle150k,
+          entry_google300k: sheet[i].entryGoogle300k === "Over 10" || sheet[i].entryGoogle300k === "over 10" ? 10 : sheet[i].entryGoogle300k,
+          entry_google500k: sheet[i].entryGoogle500k === "Over 10" || sheet[i].entryGoogle500k === "over 10" ? 10 : sheet[i].entryGoogle500k,
+          entry_spotify1M: sheet[i].entrySpotify1m === "Yes" || sheet[i].entrySpotify1m === "yes" ? 15 : sheet[i].entrySpotify1m,
+          entry_spotify3M: sheet[i].entrySpotify3m === "Yes" || sheet[i].entrySpotify3m === "yes" ? 15 : sheet[i].entrySpotify3m,
           exit_fixture_comp: exitFixComp,
           exit_correct_fixture: exitCorrectPOG,
           exit_peg_comp: sheet[i].exitBrokenPegs === 0 ? 1 : 0,
           exit_broken_hanger: sheet[i].exitBrokenPegs === 0 ? null : sheet[i].exitBrokenPegs,
           exit_pog_comp: sheet[i].exitCorrectPOG ? 0 : 1,
           exit_correct_pog: sheet[i].exitCorrectPOG || null,
-          exit_pop_pic_1: sheet[i].exitPOPPic1 === "Yes" ? 1 : 0,
-          exit_pop_pic_2: sheet[i].exitPOPPic2 === "Yes" ? 1 : 0,
-          exit_google50k: sheet[i].exitGoogle50k === "Over 15" ? 15 : sheet[i].exitGoogle50k,
-          exit_google100k: sheet[i].exitGoogle100k === "Over 15" ? 15 : sheet[i].exitGoogle100k,
-          exit_google150k: sheet[i].exitGoogle150k === "Over 10" ? 10 : sheet[i].exitGoogle150k,
-          exit_google300k: sheet[i].exitGoogle300k === "Over 10" ? 10 : sheet[i].exitGoogle300k,
-          exit_google500k: sheet[i].exitGoogle500k === "Over 10" ? 10 : sheet[i].exitGoogle500k,
-          exit_spotify1M: sheet[i].exitSpotify1m === "Yes" ? 15 : sheet[i].exitSpotify1m,
-          exit_spotify3M: sheet[i].exitSpotify3m === "Yes" ? 15 : sheet[i].exitSpotify3m,
-          q1: sheet[i].activeGift === "Yes" ? 1 : 0,
-          q2: sheet[i].activePOR === "Yes" ? 1 : 0,
-          q3: sheet[i].redemption === "Yes" ? 1 : 0,
+          exit_pop_pic_1: sheet[i].exitPOPPic1 === "Yes" || sheet[i].exitPOPPic1 === "yes" ? 1 : 0,
+          exit_pop_pic_2: sheet[i].exitPOPPic2 === "Yes" || sheet[i].exitPOPPic2 === "yes" ? 1 : 0,
+          exit_google50k: sheet[i].exitGoogle50k === "Over 15" || sheet[i].exitGoogle50k === "over 15" ? 15 : sheet[i].exitGoogle50k,
+          exit_google100k: sheet[i].exitGoogle100k === "Over 15" || sheet[i].exitGoogle100k === "over 15" ? 15 : sheet[i].exitGoogle100k,
+          exit_google150k: sheet[i].exitGoogle150k === "Over 10" || sheet[i].exitGoogle150k === "over 10" ? 10 : sheet[i].exitGoogle150k,
+          exit_google300k: sheet[i].exitGoogle300k === "Over 10" || sheet[i].exitGoogle300k === "over 10" ? 10 : sheet[i].exitGoogle300k,
+          exit_google500k: sheet[i].exitGoogle500k === "Over 10" || sheet[i].exitGoogle500k === "over 10" ? 10 : sheet[i].exitGoogle500k,
+          exit_spotify1M: sheet[i].exitSpotify1m === "Yes" || sheet[i].exitSpotify1m === "yes" ? 15 : sheet[i].exitSpotify1m,
+          exit_spotify3M: sheet[i].exitSpotify3m === "Yes" || sheet[i].exitSpotify3m === "yes" ? 15 : sheet[i].exitSpotify3m,
+          q1: sheet[i].activeGift === "Yes" || sheet[i].activeGift === "yes" ? 1 : 0,
+          q2: sheet[i].activePOR === "Yes" || sheet[i].activePOR === "yes" ? 1 : 0,
+          q3: sheet[i].redemption === "Yes" || sheet[i].redemption === "yes" ? 1 : 0,
           entryGoogle50KSpacing: sheet[i].entry50kFacing,
           entryGoogle100KSpacing: sheet[i].entry100kFacing,
           entryGoogle150KSpacing: sheet[i].entry150kFacing,
@@ -589,10 +621,10 @@ class visit {
           exitGoogle300KSpacing: sheet[i].exit300kFacing,
           exitGoogle500KSpacing: sheet[i].exit500kFacing,
         }
-
+        // console.log(newData)
         await tbl_visits.create(newData)
           .then(response => { })
-          .catch(err => { })
+          .catch(err => { console.log(err) })
       }
       console.log("FINISH IMPORT VISIT", createDateAsUTC(new Date()))
 
