@@ -11,12 +11,14 @@ class visit {
 
     try {
       if (hasVisited) {
-        res.status(200).json({ message: "Store has visited" })
+        res.status(200).json({ message: "Store has visited", store_code: req.body.store_code })
 
         req.files && req.files.forEach(el => {
           fs.unlinkSync(`./${el.path}`)
         })
       } else {
+        let createVisit = await tbl_visits.create({ store_code: req.body.store_code, visit_date: createDateAsUTC(new Date(req.body.visit_date)) })
+
         let img_store, img_fixture_in, img_fixture_out
         console.log("start progress add visit", new Date())
         if (req.body.store_name || req.body.dc_id || req.body.city || req.body.address) {
@@ -36,12 +38,11 @@ class visit {
         }
 
         let newData = {
+          store_open: req.body.store_open,
           img_store: img_store ? img_store.path : ((req.files && req.files[0]) ? req.files[0].path : ""),
           img_fixture_in: img_fixture_in ? img_fixture_in.path : ((req.files && req.files[1]) ? req.files[1].path : ""),
           img_fixture_out: img_fixture_out ? img_fixture_out.path : ((req.files && req.files[2]) ? req.files[2].path : ""),
-          visit_date: createDateAsUTC(new Date(req.body.visit_date)),
           user_id: req.user_id,
-          store_code: req.body.store_code,
           entry_fixture_comp: req.body.entry_fixture_comp,
           entry_correct_fixture: req.body.entry_correct_fixture || null,
           entry_peg_comp: req.body.entry_peg_comp,
@@ -88,7 +89,7 @@ class visit {
           exitGoogle300KSpacing: req.body.exitGoogle300KSpacing,
           exitGoogle500KSpacing: req.body.exitGoogle500KSpacing,
         }
-        let createVisit = await tbl_visits.create(newData)
+        await tbl_visits.update(newData, { where: { id_visit: createVisit.null } })
 
         let dataReturn = await tbl_visits.findOne({
           where: { id_visit: createVisit.null },
@@ -143,8 +144,8 @@ class visit {
       }
     } catch (err) {
       console.log(err)
-      if (err === "bad request") res.status(400).json({ message: "Bad request" })
-      else res.status(500).json({ message: "Error", err })
+      if (err === "bad request") res.status(400).json({ message: "Bad request", store_code: req.body.store_code })
+      else res.status(500).json({ message: "Error", store_code: req.body.store_code, err })
     }
   }
 
@@ -289,6 +290,7 @@ class visit {
       }
 
       let newData = {
+        store_open: req.body.store_open,
         img_store: img_store ? img_store.path : (req.files[0] ? req.files[0].path : ""),
         img_fixture_in: img_fixture_in ? img_fixture_in.path : (req.files[1] ? req.files[1].path : ""),
         img_fixture_out: img_fixture_out ? img_fixture_out.path : (req.files[2] ? req.files[2].path : ""),
@@ -407,7 +409,6 @@ class visit {
 
   static async import(req, res) {
     try {
-      console.log("MASUK")
       let result = excelToJson({
         sourceFile: req.file.path,
         header: {
@@ -467,7 +468,8 @@ class visit {
           AY: 'exitSpotify3m',
           AZ: 'exitPOPPic1',
           BA: 'exitPOPPic2',
-          BB: 'md'
+          BB: 'md',
+          BC: 'storeOpen'
         }
       })
       res.status(200).json({ message: "Success" })
@@ -485,14 +487,20 @@ class visit {
       console.log("LENGTH OF DATA", sheet.length)
       console.log("START IMPORT VISIT", createDateAsUTC(new Date()))
       for (let i = 0; i < sheet.length; i++) {
-        let storeSelected = await allStore.find(store => store.store_code === sheet[i].storeCode)
-        let entryFixComp, entryCorrectPOG, exitFixComp, exitCorrectPOG
-
-        if (storeSelected) {
+        if (sheet[1].storeCode !== "Store Code") {
           let hasVisited = await checkHasVisited(sheet[i].storeCode, sheet[i].dateOfVisit)
 
           if (!hasVisited) {
-            if (sheet[i].entryFixtureType === "Vertical Inline" || sheet[i].entryFixtureType === "vertical inline") {
+            let id_visit
+            await tbl_visits.create({ store_code: sheet[i].storeCode, visit_date: createDateAsUTC(new Date(sheet[i].dateOfVisit)) })
+              .then(data => { id_visit = data.null })
+              .catch(err => { console.log("atas", err) })
+
+
+            let storeSelected = await allStore.find(store => store.store_code === sheet[i].storeCode)
+            let entryFixComp, entryCorrectPOG, exitFixComp, exitCorrectPOG
+            // console.log(storeSelected)
+            if (sheet[i].entryFixtureType === "Vertical Inline") {
               if (storeSelected.fixture_type_id_1 === 2 || storeSelected.fixture_type_id_1 === 3) { //DEFAULT VERTICAL INLINE
                 entryFixComp = 1
                 entryCorrectPOG = null
@@ -505,8 +513,8 @@ class visit {
                   entryCorrectPOG = 3
                 }
               }
-            } else if (sheet[i].entryFixtureType === "Tidak Ada Sarana" || sheet[i].entryFixtureType === "Tidak Ada Sarana (IDM)" || sheet[i].entryFixtureType === "Tidak Ada Sarana (SAT)" || sheet[i].entryFixtureType === "Tidak Ada Sarana (MIDI)" || sheet[i].entryFixtureType === "tidak ada sarana" || sheet[i].entryFixtureType === "tidak ada sarana (IDM)" || sheet[i].entryFixtureType === "tidak ada sarana (SAT)" || sheet[i].entryFixtureType === "tidak ada sarana (MIDI)" || sheet[i].entryFixtureType === "tidak ada sarana (idm)" || sheet[i].entryFixtureType === "tidak ada sarana (sat)" || sheet[i].entryFixtureType === "tidak ada sarana (midi)" || '' + sheet[i].entryFixtureType === '0' || '' + sheet[i].entryFixtureType === '-') {
-              if (storeSelected.fixture_type_id_1 === 7 || storeSelected.fixture_type_id_1 === 8 || storeSelected.fixture_type_id_1 === 9) { //DEFAULT Tidak Ada Sarana
+            } else if (sheet[i].entryFixtureType === "No Fixture" || '' + sheet[i].entryFixtureType === '0') {
+              if (storeSelected.fixture_type_id_1 === 7 || storeSelected.fixture_type_id_1 === 8 || storeSelected.fixture_type_id_1 === 9) { //DEFAULT NO FIXTURE
                 entryFixComp = 1
                 entryCorrectPOG = null
               } else { //BUKAN DEFAULT VERTICAL INLINE
@@ -533,7 +541,7 @@ class visit {
               }
             }
 
-            if (sheet[i].exitFixtureType === "Vertical Inline" || sheet[i].exitFixtureType === "vertical inline") {
+            if (sheet[i].exitFixtureType === "Vertical Inline") {
               if (storeSelected.fixture_type_id_1 === 2 || storeSelected.fixture_type_id_1 === 3) { //DEFAULT VERTICAL INLINE
                 exitFixComp = 1
                 exitCorrectPOG = null
@@ -546,8 +554,8 @@ class visit {
                   exitCorrectPOG = 3
                 }
               }
-            } else if (sheet[i].exitFixtureType === "Tidak Ada Sarana" || sheet[i].exitFixtureType === "Tidak Ada Sarana (IDM)" || sheet[i].exitFixtureType === "Tidak Ada Sarana (SAT)" || sheet[i].exitFixtureType === "Tidak Ada Sarana (MIDI)" || sheet[i].exitFixtureType === "tidak ada sarana" || sheet[i].exitFixtureType === "tidak ada sarana (IDM)" || sheet[i].exitFixtureType === "tidak ada sarana (SAT)" || sheet[i].exitFixtureType === "tidak ada sarana (MIDI)" || sheet[i].exitFixtureType === "tidak ada sarana (idm)" || sheet[i].exitFixtureType === "tidak ada sarana (sat)" || sheet[i].exitFixtureType === "tidak ada sarana (midi)" || '' + sheet[i].exitFixtureType === '0' || '' + sheet[i].exitFixtureType === '-') {
-              if (storeSelected.fixture_type_id_1 === 7 || storeSelected.fixture_type_id_1 === 8 || storeSelected.fixture_type_id_1 === 9) { //DEFAULT Tidak Ada Sarana
+            } else if (sheet[i].exitFixtureType === "No Fixture" || '' + sheet[i].exitFixtureType === '0') {
+              if (storeSelected.fixture_type_id_1 === 7 || storeSelected.fixture_type_id_1 === 8 || storeSelected.fixture_type_id_1 === 9) { //DEFAULT NO FIXTURE
                 exitFixComp = 1
                 exitCorrectPOG = null
               } else { //BUKAN DEFAULT VERTICAL INLINE
@@ -578,9 +586,7 @@ class visit {
               img_store: visited[0].img_store,
               img_fixture_in: visited[0].img_fixture_in,
               img_fixture_out: visited[0].img_fixture_out,
-              visit_date: sheet[i].dateOfVisit,
               user_id: allMD.find(md => md.nik === sheet[i].md || md.name === sheet[i].md).id,
-              store_code: sheet[i].storeCode,
               entry_fixture_comp: entryFixComp,
               entry_correct_fixture: entryCorrectPOG,
               entry_peg_comp: sheet[i].entryBrokenPegs === 0 ? 1 : 0,
@@ -624,20 +630,19 @@ class visit {
               exitGoogle150KSpacing: sheet[i].exit150kFacing,
               exitGoogle300KSpacing: sheet[i].exit300kFacing,
               exitGoogle500KSpacing: sheet[i].exit500kFacing,
+              store_open: sheet[i].storeOpen
             }
             // console.log(newData)
-            await tbl_visits.create(newData)
+            await tbl_visits.update(newData, { where: { id_visit } })
               .then(response => { })
-              .catch(err => { console.log(err) })
+              .catch(err => { console.log("bawah", err) })
           }
-        } else {
-          console.log("STORE TIDAK ADA", sheet[i].storeCode)
         }
       }
       console.log("FINISH IMPORT VISIT", createDateAsUTC(new Date()))
 
     } catch (err) {
-      console.log(err)
+      console.log("3", err)
       res.status(500).json({ message: "Error", err })
     }
   }

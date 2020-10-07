@@ -56,6 +56,7 @@ module.exports = (sequelize, DataTypes) => {
     exitGoogle150KSpacing: DataTypes.INTEGER,
     exitGoogle300KSpacing: DataTypes.INTEGER,
     exitGoogle500KSpacing: DataTypes.INTEGER,
+    store_open: DataTypes.BOOLEAN
   }, {});
   tbl_visits.removeAttribute('id');
 

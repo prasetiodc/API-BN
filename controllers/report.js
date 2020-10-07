@@ -102,6 +102,7 @@ class report {
             Address: visit.tbl_store.address,
             "District": visit.tbl_store.district,
             "City": visit.tbl_store.city,
+            "Store is Open": visit.store_open ? "Yes" : "No",
             "Does the staff know how to activate Gift cards?": Number(visit.q1) === 1 ? "Yes" : "No",
             "Does the staff know how to activate POR?": Number(visit.q2) === 1 ? "Yes" : "No",
             "Does the staff know how to handle customer complaints about Gift card redemption?": Number(visit.q3) === 1 ? "Yes" : "No",
@@ -113,14 +114,10 @@ class report {
             "Fixture type (Entry)": Number(visit.entry_fixture_comp) === 1
               ? visit.tbl_store.fixtureType1.id === 2 || visit.tbl_store.fixtureType1.id === 3
                 ? "Vertical Inline"
-                : visit.tbl_store.fixtureType1.id === 7 || visit.tbl_store.fixtureType1.id === 8 || visit.tbl_store.fixtureType1.id === 9
-                  ? "-"
-                  : visit.tbl_store.fixtureType1.fixture_type
+                : visit.tbl_store.fixtureType1.fixture_type
               : visit.entry_correct_fixture_id.id === 2 || visit.entry_correct_fixture_id.id === 3
                 ? "Vertical Inline"
-                : visit.entry_correct_fixture_id.id === 7 || visit.entry_correct_fixture_id.id === 8 || visit.entry_correct_fixture_id.id === 9
-                  ? "-"
-                  : visit.entry_correct_fixture_id.fixture_type,
+                : visit.entry_correct_fixture_id.fixture_type,
             "Broken Pegs (Entry)": visit.entry_broken_hanger ? visit.entry_broken_hanger : 0,
             "Is the planogram displayed correctly (Entry)": Number(visit.entry_pog_comp) === 1 ? "Yes" : "No",
             "Reason if Not (Entry)": Number(visit.entry_pog_comp) === 1
@@ -149,14 +146,10 @@ class report {
             "Fixture type (Exit)": Number(visit.exit_fixture_comp) === 1
               ? visit.tbl_store.fixtureType1.id === 2 || visit.tbl_store.fixtureType1.id === 3
                 ? "Vertical Inline"
-                : visit.tbl_store.fixtureType1.id === 7 || visit.tbl_store.fixtureType1.id === 8 || visit.tbl_store.fixtureType1.id === 9
-                  ? "-"
-                  : visit.tbl_store.fixtureType1.fixture_type
+                : visit.tbl_store.fixtureType1.fixture_type
               : visit.exit_correct_fixture_id.id === 2 || visit.exit_correct_fixture_id.id === 3
                 ? "Vertical Inline"
-                : visit.exit_correct_fixture_id.id === 7 || visit.exit_correct_fixture_id.id === 8 || visit.exit_correct_fixture_id.id === 9
-                  ? "-"
-                  : visit.exit_correct_fixture_id.fixture_type,
+                : visit.exit_correct_fixture_id.fixture_type,
             "Broken Pegs (Exit)": visit.exit_broken_hanger ? visit.exit_broken_hanger : 0,
             "Is the planogram displayed correctly (Exit)": Number(visit.exit_pog_comp) === 1 ? "Yes" : "No",
             "Reason if Not (Exit)": Number(visit.exit_pog_comp) === 1
