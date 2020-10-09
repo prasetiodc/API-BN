@@ -10,8 +10,8 @@ class galery {
 
         if (req.query.month) conditionInTblVisit.visit_date = {
           [Op.and]: {
-            [Op.gte]: new Date(`${new Date().getFullYear()}-${req.query.month}-01`),
-            [Op.lte]: new Date(`${new Date().getFullYear()}-${Number(req.query.month) + 1}-01`)
+            [Op.gte]: new Date(`${new Date().getFullYear()}-${Number(req.query.month) < 10 ? `0${Number(req.query.month)}` : Number(req.query.month)}-01`),
+            [Op.lte]: new Date(`${new Date().getFullYear()}-${Number(req.query.month) + 1 < 10 ? `0${Number(req.query.month) + 1}` : Number(req.query.month) + 1}-01`)
           }
         }
         if (req.query.brand) {
@@ -63,7 +63,7 @@ class galery {
             attributes: ['id', 'name']
           }, {
             model: tbl_stores,
-            where: conditionInTblStore,
+            where: { ...conditionInTblStore, ...conditionInTblFixtureType },
             attributes: ['store_code', 'store_name', 'city'],
             include: [{
               model: tbl_dcs,
@@ -90,7 +90,10 @@ class galery {
                 exclude: ['createdAt', 'updatedAt']
               },
             }]
-          }]
+          }],
+          order: [
+            ['visit_date', 'DESC']
+          ]
         })
       } else {
         allDataVisit = await tbl_visits.findAll({
@@ -124,11 +127,27 @@ class galery {
                 exclude: ['createdAt', 'updatedAt']
               },
             }]
-          }]
+          }],
+          order: [
+            ['visit_date', 'DESC']
+          ]
         })
       }
 
-      res.status(200).json({ message: "Success", total_data: allDataVisit.length, data: allDataVisit })
+      if (req.query.page) {
+        let dataSelected
+        if (req.query.page === 1) dataSelected = allDataVisit.slice(0, 10)
+        else dataSelected = allDataVisit.slice(((req.query.page - 1) * 10), (req.query.page * 10))
+
+        res.status(200).json({
+          message: "Success",
+          total_data: allDataVisit.length,
+          curr_page: +req.query.page,
+          data: dataSelected
+        })
+      } else {
+        res.status(200).json({ message: "Success", total_data: allDataVisit.length, data: allDataVisit })
+      }
     } catch (err) {
       console.log(err)
       res.status(500).json({ message: "Error", err })

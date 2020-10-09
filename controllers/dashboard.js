@@ -10,8 +10,8 @@ class dashboard {
 
         if (req.query.month) conditionInTblVisit.visit_date = {
           [Op.and]: {
-            [Op.gte]: new Date(`${new Date().getFullYear()}-${req.query.month}-01`),
-            [Op.lte]: new Date(`${new Date().getFullYear()}-${Number(req.query.month) + 1}-01`)
+            [Op.gte]: new Date(`${new Date().getFullYear()}-${Number(req.query.month) < 10 ? `0${Number(req.query.month)}` : Number(req.query.month)}-01`),
+            [Op.lte]: new Date(`${new Date().getFullYear()}-${Number(req.query.month) + 1 < 10 ? `0${Number(req.query.month) + 1}` : Number(req.query.month) + 1}-01`)
           }
         }
        
@@ -42,7 +42,7 @@ class dashboard {
             attributes: ['id', 'name']
           }, {
             model: tbl_stores,
-            where: conditionInTblStore,
+            where: { ...conditionInTblStore, ...conditionInTblFixtureType },
             attributes: ['store_code', 'store_name'],
             include: [{
               model: tbl_dcs,
