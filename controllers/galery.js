@@ -42,59 +42,145 @@ class galery {
         if (req.query.store) conditionInTblStore.store_code = req.query.store
         if (req.query.md) conditionInTblUser.id = Number(req.query.md)
         if (req.query.dc) conditionInTblDC.id = Number(req.query.dc)
-        if (req.query.fixture) {
-          conditionInTblFixtureType = {
-            [Op.or]: [
-              { fixture_type_id_1: Number(req.query.fixture) },
-              { fixture_type_id_2: Number(req.query.fixture) },
-            ]
-          }
-        }
 
-        allDataVisit = await tbl_visits.findAll({
-          where: conditionInTblVisit,
-          attributes: ['id_visit', 'img_store', 'img_fixture_in', 'img_fixture_out', 'visit_date'],
-          order: [
-            ['visit_date', 'ASC'],
-          ],
-          include: [{
-            model: tbl_users,
-            where: conditionInTblUser,
-            attributes: ['id', 'name']
-          }, {
-            model: tbl_stores,
-            where: { ...conditionInTblStore, ...conditionInTblFixtureType },
-            attributes: ['store_code', 'store_name', 'city'],
+        if (req.query.fixture) {
+          // DATA FIXTURE BENAR
+          let data1 = await tbl_visits.findAll({
+            where: { ...conditionInTblVisit, entry_fixture_comp: 1 },
+            attributes: ['id_visit', 'img_store', 'img_fixture_in', 'img_fixture_out', 'visit_date'],
+            order: [
+              ['visit_date', 'ASC'],
+            ],
             include: [{
-              model: tbl_dcs,
-              where: conditionInTblDC,
-              attributes: {
-                exclude: ['createdAt', 'updatedAt']
-              },
+              model: tbl_users,
+              where: conditionInTblUser,
+              attributes: ['id', 'name']
             }, {
-              model: tbl_retailers,
-              where: conditionInTblRetailer,
-              attributes: {
-                exclude: ['createdAt', 'updatedAt']
-              },
+              model: tbl_stores,
+              where: { ...conditionInTblStore, fixture_type_id_1: Number(req.query.fixture) },
+              attributes: ['store_code', 'store_name', 'city'],
+              include: [{
+                model: tbl_dcs,
+                where: conditionInTblDC,
+                attributes: {
+                  exclude: ['createdAt', 'updatedAt']
+                },
+              }, {
+                model: tbl_retailers,
+                where: conditionInTblRetailer,
+                attributes: {
+                  exclude: ['createdAt', 'updatedAt']
+                },
+              }, {
+                model: tbl_fixture_types,
+                as: "fixtureType1",
+                attributes: {
+                  exclude: ['createdAt', 'updatedAt']
+                },
+              }, {
+                model: tbl_fixture_types,
+                as: "fixtureType2",
+                attributes: {
+                  exclude: ['createdAt', 'updatedAt']
+                },
+              }]
+            }],
+            order: [
+              ['visit_date', 'DESC']
+            ]
+          })
+          let data2 = await tbl_visits.findAll({
+            where: { ...conditionInTblVisit, entry_fixture_comp: 0, entry_correct_fixture: Number(req.query.fixture) },
+            attributes: ['id_visit', 'img_store', 'img_fixture_in', 'img_fixture_out', 'visit_date'],
+            order: [
+              ['visit_date', 'ASC'],
+            ],
+            include: [{
+              model: tbl_users,
+              where: conditionInTblUser,
+              attributes: ['id', 'name']
             }, {
-              model: tbl_fixture_types,
-              as: "fixtureType1",
-              attributes: {
-                exclude: ['createdAt', 'updatedAt']
-              },
+              model: tbl_stores,
+              where: conditionInTblStore,
+              attributes: ['store_code', 'store_name', 'city'],
+              include: [{
+                model: tbl_dcs,
+                where: conditionInTblDC,
+                attributes: {
+                  exclude: ['createdAt', 'updatedAt']
+                },
+              }, {
+                model: tbl_retailers,
+                where: conditionInTblRetailer,
+                attributes: {
+                  exclude: ['createdAt', 'updatedAt']
+                },
+              }, {
+                model: tbl_fixture_types,
+                as: "fixtureType1",
+                attributes: {
+                  exclude: ['createdAt', 'updatedAt']
+                },
+              }, {
+                model: tbl_fixture_types,
+                as: "fixtureType2",
+                attributes: {
+                  exclude: ['createdAt', 'updatedAt']
+                },
+              }]
+            }],
+            order: [
+              ['visit_date', 'DESC']
+            ]
+          })
+
+          allDataVisit = [...data1, ...data2]
+        } else {
+          allDataVisit = await tbl_visits.findAll({
+            where: conditionInTblVisit,
+            attributes: ['id_visit', 'img_store', 'img_fixture_in', 'img_fixture_out', 'visit_date'],
+            order: [
+              ['visit_date', 'ASC'],
+            ],
+            include: [{
+              model: tbl_users,
+              where: conditionInTblUser,
+              attributes: ['id', 'name']
             }, {
-              model: tbl_fixture_types,
-              as: "fixtureType2",
-              attributes: {
-                exclude: ['createdAt', 'updatedAt']
-              },
-            }]
-          }],
-          order: [
-            ['visit_date', 'DESC']
-          ]
-        })
+              model: tbl_stores,
+              where: conditionInTblStore,
+              attributes: ['store_code', 'store_name', 'city'],
+              include: [{
+                model: tbl_dcs,
+                where: conditionInTblDC,
+                attributes: {
+                  exclude: ['createdAt', 'updatedAt']
+                },
+              }, {
+                model: tbl_retailers,
+                where: conditionInTblRetailer,
+                attributes: {
+                  exclude: ['createdAt', 'updatedAt']
+                },
+              }, {
+                model: tbl_fixture_types,
+                as: "fixtureType1",
+                attributes: {
+                  exclude: ['createdAt', 'updatedAt']
+                },
+              }, {
+                model: tbl_fixture_types,
+                as: "fixtureType2",
+                attributes: {
+                  exclude: ['createdAt', 'updatedAt']
+                },
+              }]
+            }],
+            order: [
+              ['visit_date', 'DESC']
+            ]
+          })
+        }
       } else {
         allDataVisit = await tbl_visits.findAll({
           attributes: ['id_visit', 'img_store', 'img_fixture_in', 'img_fixture_out', 'visit_date'],
