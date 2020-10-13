@@ -24,11 +24,25 @@ class dc {
 
   static async findAll(req, res) {
     try {
-      let allDC = await tbl_dcs.findAll({
-        attributes: {
-          exclude: ['createdAt', 'updatedAt']
-        }
-      })
+      let allDC
+      if (req.query.forOption === 'true') {
+        allDC = await tbl_dcs.findAll({
+          attributes: ['id', 'DC_name']
+        })
+
+        let tempDC = []
+        await allDC.forEach(async dc => {
+          tempDC.push({ id: dc.id, text: dc.DC_name })
+        });
+
+        allDC = tempDC
+      } else {
+        allDC = await tbl_dcs.findAll({
+          attributes: {
+            exclude: ['createdAt', 'updatedAt']
+          }
+        })
+      }
 
       res.status(200).json({ message: "Success", total_data: allDC.length, data: allDC })
     } catch (err) {
@@ -55,7 +69,7 @@ class dc {
 
   static async update(req, res) {
     try {
-      await tbl_dcs.update({DC_name: req.body.DC_name}, { where: { id: req.params.id } })
+      await tbl_dcs.update({ DC_name: req.body.DC_name }, { where: { id: req.params.id } })
 
       let dataReturn = await tbl_dcs.findByPk(req.params.id, {
         attributes: {

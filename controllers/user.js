@@ -1,6 +1,7 @@
 const { tbl_users, tbl_roles } = require('../models')
 const { compare, hash } = require('../helpers/bcrypt')
 const { sign } = require('../helpers/jwt')
+const Op = require('sequelize').Op
 
 class user {
   static async signup(req, res) {
@@ -67,17 +68,34 @@ class user {
 
   static async findAll(req, res) {
     try {
-      let allUsers = await tbl_users.findAll({
-        include: [{
-          model: tbl_roles,
+      let allUsers
+      if (req.query.forOption === 'true') {
+        allUsers = await tbl_users.findAll({
+          where: {
+            nik: { [Op.not]: '00000' }
+          },
+          attributes: ['id', 'nik']
+        })
+
+        let tempUser = []
+        await allUsers.forEach(async user => {
+          tempUser.push({ id: user.id, text: user.nik })
+        });
+
+        allUsers = tempUser
+      } else {
+        allUsers = await tbl_users.findAll({
+          include: [{
+            model: tbl_roles,
+            attributes: {
+              exclude: ['createdAt', 'updatedAt']
+            }
+          }],
           attributes: {
-            exclude: ['createdAt', 'updatedAt']
+            exclude: ['password', 'createdAt', 'updatedAt']
           }
-        }],
-        attributes: {
-          exclude: ['password', 'createdAt', 'updatedAt']
-        }
-      })
+        })
+      }
 
       res.status(200).json({ message: "Success", total_data: allUsers.length, data: allUsers })
     } catch (err) {

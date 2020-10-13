@@ -27,11 +27,25 @@ class retailer {
 
   static async findAll(req, res) {
     try {
-      let allRetailer = await tbl_retailers.findAll({
-        attributes: {
-          exclude: ['createdAt', 'updatedAt']
-        }
-      })
+      let allRetailer
+      if (req.query.forOption === 'true') {
+        allRetailer = await tbl_retailers.findAll({
+          attributes: ['id', 'retailer_name']
+        })
+
+        let tempRetailer = []
+        await allRetailer.forEach(async retailer => {
+          tempRetailer.push({ id: retailer.id, text: retailer.retailer_name })
+        });
+
+        allRetailer = tempRetailer
+      } else {
+        allRetailer = await tbl_retailers.findAll({
+          attributes: {
+            exclude: ['createdAt', 'updatedAt']
+          }
+        })
+      }
 
       res.status(200).json({ message: "Success", total_data: allRetailer.length, data: allRetailer })
     } catch (err) {

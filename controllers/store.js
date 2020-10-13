@@ -150,6 +150,18 @@ class store {
 
         allStore = tempStore
 
+      } else if (req.query.forOption === 'true') {
+        allStore = await tbl_stores.findAll({
+          attributes: ['store_code', 'store_name']
+        })
+
+        let tempStore = []
+        await allStore.forEach(async store => {
+          tempStore.push({ id: store.store_code, text: store.store_name })
+        });
+
+        allStore = tempStore
+
       } else {
         allStore = await tbl_stores.findAll({
           include: [{
@@ -185,7 +197,7 @@ class store {
           }
         })
       }
-      
+
       res.status(200).json({ message: "Success", total_data: allStore.length, data: allStore })
     } catch (err) {
       console.log(err)

@@ -38,19 +38,35 @@ class fixtureType {
 
   static async findAll(req, res) {
     try {
-      let allFixtureType = await tbl_fixture_types.findAll({
-        include: [{
-          model: tbl_retailers, attributes: {
+      let allFixtureType
+
+      if (req.query.forOption === 'true') {
+        allFixtureType = await tbl_fixture_types.findAll({
+          attributes: ['id', 'fixture_type']
+        })
+
+        let tempFixtureType = []
+        await allFixtureType.forEach(async fixtureType => {
+          tempFixtureType.push({ id: fixtureType.id, text: fixtureType.fixture_type })
+        });
+
+        allFixtureType = tempFixtureType
+      } else {
+        allFixtureType = await tbl_fixture_types.findAll({
+          include: [{
+            model: tbl_retailers, attributes: {
+              exclude: ['createdAt', 'updatedAt']
+            }
+          }],
+          attributes: {
             exclude: ['createdAt', 'updatedAt']
           }
-        }],
-        attributes: {
-          exclude: ['createdAt', 'updatedAt']
-        }
-      })
+        })
+      }
 
       res.status(200).json({ message: "Success", total_data: allFixtureType.length, data: allFixtureType })
     } catch (err) {
+      console.log(err)
       res.status(500).json({ message: "Error", err })
     }
   }
