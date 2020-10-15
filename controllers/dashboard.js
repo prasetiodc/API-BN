@@ -436,7 +436,9 @@ class dashboard {
         persen: (allDataVisit.length / totalAllStore) * 100
       }
       if (req.query.diagram === "visit-compliance") {
-        visitCompliance.allDataVisit = allDataVisit
+        let temp = []
+        if (allDataVisit.length > 0) temp.push(allDataVisit[0])
+        visitCompliance.allDataVisit = temp
         dataDetail = visitCompliance
       }
 
@@ -446,7 +448,9 @@ class dashboard {
         exit: (dataFixComp.length > 0 || !req.query.diagram) ? ((counterExitFixComp / allDataVisit.length) * 100) : 0
       }
       if (req.query.diagram === "fixture-compliance") {
-        fixtureCompliance.dataFixComp = dataFixComp
+        let temp = []
+        if (dataFixComp.length > 0) temp.push(dataFixComp[0])
+        fixtureCompliance.dataFixComp = temp
         dataDetail = fixtureCompliance
       }
 
@@ -456,7 +460,9 @@ class dashboard {
         exit: (dataPOGComp.length > 0 || !req.query.diagram) ? ((counterExitPOGComp / allDataVisit.length) * 100) : 0
       }
       if (req.query.diagram && req.query.diagram.toLowerCase() === "pog-compliance") {
-        POGCompliance.dataPOGComp = dataPOGComp
+        let temp = []
+        if (dataPOGComp.length > 0) temp.push(dataPOGComp[0])
+        POGCompliance.dataPOGComp = temp
         dataDetail = POGCompliance
       }
 
@@ -466,7 +472,9 @@ class dashboard {
         exit: (dataPODCompliance.length > 0 || !req.query.diagram) ? ((counterExitPODCompliance / allDataVisit.length) * 100) : 0,
       }
       if (req.query.diagram && req.query.diagram.toLowerCase() === "pod-compliance") {
-        PODCompliance.dataPODCompliance = dataPODCompliance
+        let temp = []
+        if (dataPODCompliance.length > 0) temp.push(dataPODCompliance[0])
+        PODCompliance.dataPODCompliance = temp
         dataDetail = PODCompliance
       }
 
@@ -476,7 +484,9 @@ class dashboard {
         exit: (dataPOPCompliance.length > 0 || !req.query.diagram) ? ((counterExitPOPCompliance / allDataVisit.length) * 100) : 0,
       }
       if (req.query.diagram && req.query.diagram.toLowerCase() === "pop-compliance") {
-        POPCompliance.dataPOPCompliance = dataPOPCompliance
+        let temp = []
+        if (dataPOPCompliance.length > 0) temp.push(dataPOPCompliance[0])
+        POPCompliance.dataPOPCompliance = temp
         dataDetail = POPCompliance
       }
 
@@ -501,7 +511,9 @@ class dashboard {
         }
       }
       if (req.query.diagram === "stock-compliance") {
-        instockCompliance.dataInstockCompliance = dataInstockCompliance
+        let temp = []
+        if (dataInstockCompliance.length > 0) temp.push(dataInstockCompliance[0])
+        instockCompliance.dataInstockCompliance = temp
         dataDetail = instockCompliance
       }
 
@@ -510,7 +522,9 @@ class dashboard {
         persen: (dataActivationKnowHow.length > 0 || !req.query.diagram) ? ((counterActivationKnowHow / allDataVisit.length) * 100) : 0,
       }
       if (req.query.diagram === "activation-know-how") {
-        activationKnowHow.dataActivationKnowHow = dataActivationKnowHow
+        let temp = []
+        if (dataActivationKnowHow.length > 0) temp.push(dataActivationKnowHow[0])
+        activationKnowHow.dataActivationKnowHow = temp
         dataDetail = activationKnowHow
       }
 
@@ -519,7 +533,9 @@ class dashboard {
         persen: (dataPromotionAwareness.length > 0 || !req.query.diagram) ? ((counterPromotionAwareness / allDataVisit.length) * 100) : 0,
       }
       if (req.query.diagram === "promotion-awareness") {
-        promotionAwareness.dataPromotionAwareness = dataPromotionAwareness
+        let temp = []
+        if (dataPromotionAwareness.length > 0) temp.push(dataPromotionAwareness[0])
+        promotionAwareness.dataPromotionAwareness = temp
         dataDetail = promotionAwareness
       }
 
@@ -528,7 +544,9 @@ class dashboard {
         persen: (dataComplaintHandling.length > 0 || !req.query.diagram) ? ((counterComplaintHandling / allDataVisit.length) * 100) : 0,
       }
       if (req.query.diagram === "complain-handling") {
-        complaintHandling.dataComplaintHandling = allDataVisit
+        let temp = []
+        if (allDataVisit.length > 0) temp.push(allDataVisit[0])
+        complaintHandling.dataComplaintHandling = temp
         dataDetail = complaintHandling
       }
 
