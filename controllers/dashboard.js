@@ -20,6 +20,8 @@ class dashboard {
         if (req.query.md) conditionInTblUser.id = Number(req.query.md)
         if (req.query.dc) conditionInTblDC.id = Number(req.query.dc)
 
+
+
         if (req.query.fixture) {
           let data1 = await tbl_visits.findAll({
             where: { ...conditionInTblVisit, entry_fixture_comp: 1 },
@@ -436,9 +438,7 @@ class dashboard {
         persen: (allDataVisit.length / totalAllStore) * 100
       }
       if (req.query.diagram === "visit-compliance") {
-        let temp = []
-        if (allDataVisit.length > 0) temp.push(allDataVisit[0])
-        visitCompliance.allDataVisit = temp
+        visitCompliance.allDataVisit = allDataVisit
         dataDetail = visitCompliance
       }
 
@@ -448,9 +448,7 @@ class dashboard {
         exit: (dataFixComp.length > 0 || !req.query.diagram) ? ((counterExitFixComp / allDataVisit.length) * 100) : 0
       }
       if (req.query.diagram === "fixture-compliance") {
-        let temp = []
-        if (dataFixComp.length > 0) temp.push(dataFixComp[0])
-        fixtureCompliance.dataFixComp = temp
+        fixtureCompliance.dataFixComp = dataFixComp
         dataDetail = fixtureCompliance
       }
 
@@ -460,9 +458,7 @@ class dashboard {
         exit: (dataPOGComp.length > 0 || !req.query.diagram) ? ((counterExitPOGComp / allDataVisit.length) * 100) : 0
       }
       if (req.query.diagram && req.query.diagram.toLowerCase() === "pog-compliance") {
-        let temp = []
-        if (dataPOGComp.length > 0) temp.push(dataPOGComp[0])
-        POGCompliance.dataPOGComp = temp
+        POGCompliance.dataPOGComp = dataPOGComp
         dataDetail = POGCompliance
       }
 
@@ -472,9 +468,7 @@ class dashboard {
         exit: (dataPODCompliance.length > 0 || !req.query.diagram) ? ((counterExitPODCompliance / allDataVisit.length) * 100) : 0,
       }
       if (req.query.diagram && req.query.diagram.toLowerCase() === "pod-compliance") {
-        let temp = []
-        if (dataPODCompliance.length > 0) temp.push(dataPODCompliance[0])
-        PODCompliance.dataPODCompliance = temp
+        PODCompliance.dataPODCompliance = dataPODCompliance
         dataDetail = PODCompliance
       }
 
@@ -484,9 +478,7 @@ class dashboard {
         exit: (dataPOPCompliance.length > 0 || !req.query.diagram) ? ((counterExitPOPCompliance / allDataVisit.length) * 100) : 0,
       }
       if (req.query.diagram && req.query.diagram.toLowerCase() === "pop-compliance") {
-        let temp = []
-        if (dataPOPCompliance.length > 0) temp.push(dataPOPCompliance[0])
-        POPCompliance.dataPOPCompliance = temp
+        POPCompliance.dataPOPCompliance = dataPOPCompliance
         dataDetail = POPCompliance
       }
 
@@ -511,9 +503,7 @@ class dashboard {
         }
       }
       if (req.query.diagram === "stock-compliance") {
-        let temp = []
-        if (dataInstockCompliance.length > 0) temp.push(dataInstockCompliance[0])
-        instockCompliance.dataInstockCompliance = temp
+        instockCompliance.dataInstockCompliance = dataInstockCompliance
         dataDetail = instockCompliance
       }
 
@@ -522,9 +512,7 @@ class dashboard {
         persen: (dataActivationKnowHow.length > 0 || !req.query.diagram) ? ((counterActivationKnowHow / allDataVisit.length) * 100) : 0,
       }
       if (req.query.diagram === "activation-know-how") {
-        let temp = []
-        if (dataActivationKnowHow.length > 0) temp.push(dataActivationKnowHow[0])
-        activationKnowHow.dataActivationKnowHow = temp
+        activationKnowHow.dataActivationKnowHow = dataActivationKnowHow
         dataDetail = activationKnowHow
       }
 
@@ -533,9 +521,7 @@ class dashboard {
         persen: (dataPromotionAwareness.length > 0 || !req.query.diagram) ? ((counterPromotionAwareness / allDataVisit.length) * 100) : 0,
       }
       if (req.query.diagram === "promotion-awareness") {
-        let temp = []
-        if (dataPromotionAwareness.length > 0) temp.push(dataPromotionAwareness[0])
-        promotionAwareness.dataPromotionAwareness = temp
+        promotionAwareness.dataPromotionAwareness = dataPromotionAwareness
         dataDetail = promotionAwareness
       }
 
@@ -544,9 +530,7 @@ class dashboard {
         persen: (dataComplaintHandling.length > 0 || !req.query.diagram) ? ((counterComplaintHandling / allDataVisit.length) * 100) : 0,
       }
       if (req.query.diagram === "complain-handling") {
-        let temp = []
-        if (allDataVisit.length > 0) temp.push(allDataVisit[0])
-        complaintHandling.dataComplaintHandling = temp
+        complaintHandling.dataComplaintHandling = allDataVisit
         dataDetail = complaintHandling
       }
 
